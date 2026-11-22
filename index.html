@@ -29,7 +29,18 @@ nav{display:flex;border-top:1px solid var(--line);background:#000}
 #stage{position:fixed;inset:0;background:var(--bg);z-index:5;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 #stage[hidden]{display:none}
 #stage header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-weight:600}
-#stage .body{flex:1;padding:10px 18px 24px;max-width:520px;width:100%;margin:0 auto;overflow:auto}
+#stage .body{flex:1;min-height:0;padding:10px 18px 24px;max-width:520px;width:100%;margin:0 auto;overflow:auto}
+.sw{flex:1;display:flex;flex-direction:column;min-height:0}
+.plan{flex:none;background:#000;border-bottom:1px solid var(--line);padding:10px 18px;font-size:12.5px;max-height:55vh;overflow:auto}
+.pl-seg{display:flex;gap:3px;margin-bottom:8px}.pl-seg i{flex:1;height:5px;background:var(--line)}.pl-seg i.done{background:var(--c)}.pl-seg i.now{background:var(--ink)}
+.pl-mini{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.pl-mini p{margin:0}.pl-mini b{color:var(--ink)}.pl-mini .mut{font-size:12px}
+.pl-tg{font:inherit;font-size:12px;background:none;border:1px solid var(--line);color:var(--mut);padding:4px 8px;cursor:pointer;white-space:nowrap}
+.pl-list{list-style:none;padding:0;margin:10px 0 0;display:none}.plan.open .pl-list{display:block}
+.pl-list li{display:flex;gap:10px;align-items:baseline;padding:7px 0 7px 10px;margin:0 0 3px;border-left:3px solid var(--line);color:var(--mut)}
+.pl-list li span{min-width:16px;font-weight:800}.pl-list li b{display:block;font-weight:600}.pl-list li small{font-size:11px}
+.pl-list li.pl-done{border-left-color:var(--c)}.pl-list li.pl-done b{text-decoration:line-through;text-decoration-color:var(--mut)}
+.pl-list li.pl-now{border-left-color:var(--c);background:var(--card);color:var(--ink)}.pl-list li.pl-now small{color:var(--c)}
+@media(min-width:860px){.sw{flex-direction:row}.plan{width:270px;max-height:none;border-bottom:0;border-right:1px solid var(--line);padding:16px 18px}.pl-tg{display:none}.pl-list{display:block}}
 .quit{background:none;border:0;color:var(--mut);font:inherit;padding:6px 10px}
 .big{font-size:96px;font-weight:800;text-align:center;margin:60px 0;min-height:110px;line-height:1}
 .cdn{width:120px;height:120px;border-radius:50%;border:3px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:800;margin:50px auto}
@@ -98,16 +109,27 @@ spa:"You will see an example of turned versus flipped patterns first. Then eight
 lan:"Sixteen questions in four parts: word meanings, sentences in context, analogies, and reading passages. They get harder as you go."};
 function stage(html,noctl){const s=$("#stage");s.hidden=false;
  const ctl=stepFn&&!noctl?`<button class="quit" id="pz">Pause</button><button class="quit" id="rs">Restart</button>`:"";
- s.innerHTML=`<header><span>${curName}${part?", "+part:""}</span><span>${ctl}<button class="quit" id="quit">Quit</button></span></header><div class="body">${html}</div>`;
- $("#quit").onclick=()=>{gen++;stepFn=null;s.hidden=true;render()};
+ s.innerHTML=`<header><span>${curName}${part?", "+part:""}</span><span>${ctl}<button class="quit" id="quit">Quit</button></span></header><div class="sw">${planHTML()}<div class="body">${html}</div></div>`;
+ const tg=$("#pltg");if(tg)tg.onclick=()=>{plOpen=!plOpen;$(".plan").classList.toggle("open",plOpen);tg.textContent=plOpen?"Hide":"All sections";tg.setAttribute("aria-expanded",plOpen)};
+ $("#quit").onclick=()=>{gen++;stepFn=null;bl=null;s.hidden=true;render()};
  if(ctl){$("#pz").onclick=pause;$("#rs").onclick=restart}}
-let curName="",part="",stepFn=null,gen=0,curRun=null;
+let curName="",part="",stepFn=null,gen=0,curRun=null,bl=null,plOpen=false;
+const MIN=k=>+((META[k].match(/about (\d+) minute/)||[0,0])[1]);
+const totMin=()=>KEYS.reduce((a,k)=>a+MIN(k),0);
+function planHTML(){if(!bl)return"";
+ const st=k=>S.pre[k]!=null?"done":k===bl?"now":"next",now=KEYS.find(k=>st(k)==="now"),nxt=KEYS.find(k=>st(k)==="next"),left=KEYS.filter(k=>st(k)!=="done").reduce((a,k)=>a+MIN(k),0),nd=KEYS.filter(k=>st(k)==="done").length;
+ const seg=`<div class="pl-seg" aria-hidden="true">${KEYS.map(k=>`<i class="${st(k)}" style="--c:${CATS[k].c}"></i>`).join("")}</div>`;
+ const l1=now?`<p>Now: <b>${CATS[now].n}</b> · about ${MIN(now)} min</p>`:`<p>Finished: <b>${CATS[bl].n}</b> · ${S.pre[bl]} / 100</p>`;
+ const l2=nxt?`<p class="mut">Next: ${CATS[nxt].n} · about ${MIN(nxt)} min</p>`:`<p class="mut">${now?"Last section":"All sections done"}</p>`;
+ const l3=`<p class="mut">${nd} of ${KEYS.length} done${left?` · about ${left} min left`:""}</p>`;
+ const li=KEYS.map((k,i)=>{const s=st(k);return`<li class="pl-${s}" style="--c:${CATS[k].c}"${s==="now"?' aria-current="step"':""}><span>${i+1}</span><div><b>${CATS[k].n}</b><small>${s==="done"?`Done · ${S.pre[k]} / 100`:s==="now"?`In progress · about ${MIN(k)} min`:`About ${MIN(k)} min`}</small></div></li>`}).join("");
+ return`<aside class="plan${plOpen?" open":""}" aria-label="Baseline sections">${seg}<div class="pl-mini"><div>${l1}${l2}${l3}</div><button class="pl-tg" id="pltg" aria-expanded="${plOpen}">${plOpen?"Hide":"All sections"}</button></div><ol class="pl-list">${li}</ol></aside>`}
 const later=(f,ms)=>{const g=gen;setTimeout(()=>{if(g===gen)f()},ms)};
 const pause=()=>{gen++;stage(`<h2>Paused</h2><p>Your place in this task is held. Resuming replays the current step.</p><button class="btn" id="rz">Resume</button><button class="btn alt" id="rs2">Restart this task</button>`,true);$("#rz").onclick=()=>stepFn&&stepFn();$("#rs2").onclick=restart};
 const restart=()=>{gen++;stepFn=null;if(curRun)EX[curRun.c](curRun.cb)};
 function cd(pre,fn,n=3){stepFn=()=>cd(pre,fn,n);const tick=k=>{stage(pre+`<div class="cdn" role="timer">${k}</div>`);later(k>1?()=>tick(k-1):fn,1000)};tick(n)}
 const prog=(d,n,t)=>`<div class="bar" role="progressbar" aria-valuenow="${d}" aria-valuemax="${n}"><i style="width:${Math.round(d/n*100)}%"></i></div><p class="mut">${t}</p>`;
-const close=()=>{part="";$("#stage").hidden=true;render()};
+const close=()=>{part="";bl=null;$("#stage").hidden=true;render()};
 
 /* exercises */
 const band=s=>s>=80?"Strong":s>=60?"Solid":s>=40?"Developing":"Early";
@@ -336,19 +358,19 @@ function exCbl(cb){const SY=[650,450],CO=[800,600,450],TS=[3,5,8],res=[[],[],[]]
 function run(c,cb){curRun={c,cb};gen++;stepFn=null;curName=CATS[c].n;stage(`<h2>${CATS[c].n}</h2><p class="mut">${META[c]}</p><p>${INTRO[c]}</p><p class="mut">Scoring: ${SCORING[c]}</p><button class="btn" id="go">Start</button>`);
  $("#go").onclick=()=>EX[c](cb)}
 
-function train(c){part="";run(c,(s,det)=>{stepFn=null;const prev=cur(c);S.hist.push({d:today(),c,s});save();
+function train(c){part="";bl=null;run(c,(s,det)=>{stepFn=null;const prev=cur(c);S.hist.push({d:today(),c,s});save();
  const msg=prev==null?"First score recorded.":s>prev?`Up ${s-prev} from your recent average.`:s<prev?`Down ${prev-s} from your recent average. Scores shift with sleep and mood.`:"Matches your recent average.";
  stage(resHTML(c,s,det,msg)+`<button class="btn" id="fin">Save and continue</button>`);
  $("#fin").onclick=close})}
 
-function fin(){S.base={...S.pre,d:today()};KEYS.forEach(k=>S.hist.push({d:today(),c:k,s:S.pre[k]}));S.pre={};delete S.note;save();
+function fin(){bl=null;S.base={...S.pre,d:today()};KEYS.forEach(k=>S.hist.push({d:today(),c:k,s:S.pre[k]}));S.pre={};delete S.note;save();
  stage(`<h2>Baseline saved</h2>`+KEYS.map(k=>`<p><b>${CATS[k].n}:</b> ${S.base[k]} / 100, ${band(S.base[k])}</p>`).join("")+`<p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. These are your starting scores for you to beat, not a comparison with other people. Train daily and watch the trend.</p><button class="btn" id="fin">See my brain</button>`);
  $("#fin").onclick=close}
 function afterPre(c,s,det){stepFn=null;S.pre[c]=s;save();
  if(KEYS.every(k=>S.pre[k]!=null))return fin();
  stage(resHTML(c,s,det,`${KEYS.filter(k=>S.pre[k]!=null).length} of ${KEYS.length} sections tested.`)+`<button class="btn" id="fin">Back to the brain</button>`);$("#fin").onclick=close}
-function preTest(c){part="";run(c,(s,d)=>afterPre(c,s,d))}
-function baseline(){const todo=KEYS.filter(k=>S.pre[k]==null),go=i=>{const c=todo[i];part=`Part ${KEYS.indexOf(c)+1} of ${KEYS.length}`;run(c,(s,det)=>{if(i+1<todo.length){stepFn=null;S.pre[c]=s;save();stage(resHTML(c,s,det,"")+`<button class="btn" id="fin">Next: ${CATS[todo[i+1]].n}</button>`);$("#fin").onclick=()=>go(i+1);return}afterPre(c,s,det)})};if(todo.length)go(0)}
+function preTest(c){part="";bl=null;run(c,(s,d)=>afterPre(c,s,d))}
+function baseline(){const todo=KEYS.filter(k=>S.pre[k]==null),go=i=>{const c=todo[i];part=`Part ${KEYS.indexOf(c)+1} of ${KEYS.length}`;bl=c;run(c,(s,det)=>{if(i+1<todo.length){stepFn=null;S.pre[c]=s;save();stage(resHTML(c,s,det,"")+`<button class="btn" id="fin">Next: ${CATS[todo[i+1]].n}</button>`);$("#fin").onclick=()=>go(i+1);return}afterPre(c,s,det)})};if(todo.length)go(0)}
 
 /* views */
 function spark(c){const v=S.hist.filter(x=>x.c===c).map(x=>x.s);
@@ -468,7 +490,7 @@ function summary(){const o=overall(),bo=avg(KEYS.map(k=>S.base[k])),dl=o-bo,orde
  const row=k=>{const c=cur(k),b0=S.base[k],d=c-b0;return`<button class="srow" data-r="${k}" style="--c:${CATS[k].c}"><span class="sn"><b>${ANAT[k]}</b><small>${CATS[k].n}</small></span><span class="sb" role="img" aria-label="${ANAT[k]} score ${c}, baseline ${b0}"><i style="width:${c}%"></i><u style="left:${b0}%"></u></span><span class="sv">${c}<small>${d>=0?"+":""}${d}</small></span></button>`};
  return`<h2 style="margin-top:26px">Brain summary</h2><button class="ov${selC==null?" on":""}" data-r="all" style="display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);cursor:pointer"><div class="ovh"><span>Overall brain progress</span><b>${o}</b></div><div class="obar"><i style="width:${o}%"></i></div><p class="mut" style="margin-top:8px">Baseline ${bo}, now ${o} (${dl>=0?"+":""}${dl}). ${S.hist.length} sessions, trained on ${dd} of the last 7 days.</p><p class="mut">Tap to show the entire brain in the visual.</p></button>${KEYS.map(row).join("")}<p class="mut" style="margin-top:10px">Strongest: ${ANAT[order[0]]}. Needs the most work: ${ANAT[order[order.length-1]]}. The white tick on each bar marks your baseline. Brain regions work together as networks, and each task here mainly leans on one region, so treat this mapping as a simplified guide.</p>`}
 function vBrain(){const cv=`<div class="cortex"><span class="ctag">cortex /cortx · scan</span><canvas id="bc" role="img" aria-label="Rotatable 3D brain with frontal, parietal, temporal, occipital lobes and cerebellum. Each is a region you are tested on."></canvas></div><div style="display:flex;gap:8px;margin:8px 0 12px"><button class="btn alt sm" id="bz">Reset view</button><button class="btn alt sm" id="bs">Stop spin</button></div>`;
- if(!S.base){const n=KEYS.filter(k=>S.pre[k]!=null).length;return`<h1>Your brain</h1>${S.note?`<p class="mut">CortX now tests more brain regions, so your baseline needs a retake.</p>`:""}<p>${KEYS.length} brain regions, each with its own test. Take the full baseline (about 12 minutes), or tap a region to test just that one.</p>${cv}<div id="pn" class="blk">${selC?panel(selC):`<p class="mut">Tap a region of the brain.</p>`}</div><button class="btn" id="base"${selC?" hidden":""}>${n?`Continue baseline (${n} of ${KEYS.length} done)`:"Start baseline test"}</button>`}
+ if(!S.base){const n=KEYS.filter(k=>S.pre[k]!=null).length;return`<h1>Your brain</h1>${S.note?`<p class="mut">CortX now tests more brain regions, so your baseline needs a retake.</p>`:""}<p>${KEYS.length} brain regions, each with its own test. Take the full baseline (about ${totMin()} minutes), or tap a region to test just that one.</p>${cv}<div id="pn" class="blk">${selC?panel(selC):`<p class="mut">Tap a region of the brain.</p>`}</div><button class="btn" id="base"${selC?" hidden":""}>${n?`Continue baseline (${n} of ${KEYS.length} done)`:"Start baseline test"}</button>`}
  const lg=S.hist.slice(-4).reverse().map(h=>`&gt; <em>${h.d}</em> ${SLUG[h.c]} <b>${h.s}</b>`).join("<br>");
  return`<h2>Your brain</h2><p class="mut">Drag to rotate, pinch or scroll to zoom, tap a lobe to see what it does. More colored dots mean a higher score, and the weakest region pulses.</p>${cv}<div id="ch">${chips()}</div><div id="pn" class="blk">${panel(selC)}</div>${summary()}<div class="log"><b>session.log</b><br>${lg}</div>`}
 

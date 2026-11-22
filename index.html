@@ -47,7 +47,7 @@ nav{display:flex;border-top:1px solid var(--line);background:#000}
 .chip{font:inherit;display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:0;padding:6px 10px;font-size:12px;margin:0 6px 6px 0;cursor:pointer}.chip i{width:10px;height:10px;border-radius:50%;background:var(--c)}.chip.on{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
 .q{font-size:20px;font-weight:600;margin-bottom:14px}
 .inp{font:inherit;font-size:28px;width:100%;padding:12px;border:1px solid var(--line);border-radius:0;background:var(--card);color:var(--ink);text-align:center;letter-spacing:.2em}
-.pad{height:260px;border-radius:0;background:var(--card);border:1px solid var(--line);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:14px;user-select:none;touch-action:manipulation}.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin:6px 0 0}.pass{display:block;font-weight:400;font-size:15px;color:var(--mut);border-left:3px solid var(--line);padding-left:10px;margin-bottom:12px}.dot{width:22px;height:22px;border-radius:50%;margin:0 auto 14px;background:#1c2519}.dot.hi{background:#3b4a33}
+.pad{text-align:center;padding:0 16px;height:260px;border-radius:0;background:var(--card);border:1px solid var(--line);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:14px;user-select:none;touch-action:manipulation}.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin:6px 0 0}.pass{display:block;font-weight:400;font-size:15px;color:var(--mut);border-left:3px solid var(--line);padding-left:10px;margin-bottom:12px}.dot{width:22px;height:22px;border-radius:50%;margin:0 auto 14px;background:#1c2519}.dot.hi{background:#3b4a33}
 .opts4{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
 .mg{display:inline-grid;grid-template-columns:repeat(var(--n,4),var(--s,18px));gap:2px;padding:4px;background:#000;margin:2px}.mg i{width:var(--s,18px);height:var(--s,18px);background:var(--line)}.mg i.on{background:var(--acc)}
 .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.cell{font:inherit;font-size:26px;font-weight:600;background:var(--card);color:var(--ink);border:1px solid var(--line);aspect-ratio:1;padding:0;cursor:pointer}
@@ -66,6 +66,22 @@ label{display:block;margin:12px 0 4px;font-weight:600}
 @media(hover:hover){.srow:hover{background:var(--line)}}
 .log{border:1px solid var(--line);padding:9px 12px;font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.7}.log b{color:var(--acc)}.log em{font-style:normal;color:var(--ink)}
 ul{padding-left:20px;margin:0 0 10px}li{margin-bottom:6px}
+button{-webkit-tap-highlight-color:transparent}
+#stage [data-j].btn.alt:hover{background:var(--card);color:var(--ink);border-color:var(--line)}
+#stage [data-j].btn.alt:active,.cell:active{background:var(--line)}
+.cell:focus{outline:none}.cell:focus-visible{outline:2px solid var(--acc)}
+.cell.hit{box-shadow:inset 0 0 0 3px var(--exe)}.cell.miss{box-shadow:inset 0 0 0 3px var(--mot)}
+.fb{min-height:24px;margin:10px 0 0;font-weight:600;text-align:center}.fb.ok{color:var(--exe)}.fb.no{color:var(--mot)}
+.reg{border-left:4px solid var(--c);background:var(--card);padding:10px 12px;margin:0 0 12px}.reg small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.reg b{display:block;color:var(--c);font-size:16px}.reg span{display:block;font-size:13.5px;color:var(--mut);margin-top:2px}
+.ex{border:1px dashed var(--mut);padding:10px 12px;margin:0 0 12px}.ex>small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.exs{text-align:center;margin:8px 0}.ex p:last-child{margin:0;font-size:13.5px}.ex li{font-size:13.5px}.ex2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tsb{display:flex;align-items:center;justify-content:center;width:180px;height:180px;border-radius:50%;margin:26px auto 12px;font:inherit;font-size:26px;font-weight:800;background:var(--card);color:var(--acc);border:3px solid var(--acc);cursor:pointer;touch-action:manipulation;user-select:none}.tsb.run{color:var(--mot);border-color:var(--mot);background:#1a0c0c}
+.rv{border:1px solid var(--line);border-left:4px solid var(--c2);padding:10px 12px;margin-bottom:10px}.rv.ok{--c2:var(--exe)}.rv.no{--c2:var(--mot)}
+.rvh{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--c2);margin-bottom:6px}.rvq{font-weight:600}
+.rvo{list-style:none;padding:0;margin:0}.rvo li{padding:8px 0;margin:0;border-top:1px solid var(--line);font-size:13.5px;color:var(--mut)}.rvo li b{font-weight:600;color:var(--ink)}.rvo li.a b{color:var(--exe)}.rvo li.u:not(.a) b{color:var(--mot)}
+.rvo li small{font-size:10px;text-transform:uppercase;letter-spacing:.06em;border:1px solid currentColor;padding:0 4px;margin-left:6px;white-space:nowrap}.rvo li.a small{color:var(--exe)}.rvo li.u:not(.a) small{color:var(--mot)}.rvo li span{display:block;margin-top:3px}
+.rsum{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 0 10px 12px;border-left:4px solid var(--c);border-bottom:1px solid var(--line)}.rsum small{display:block;color:var(--mut);font-size:11px}.rsv{font-size:20px;font-weight:800;color:var(--c);text-align:right}.rsv small{font-weight:400}
+.pl-redo{margin-left:auto;align-self:center;font:inherit;font-size:11px;background:none;border:1px solid var(--line);color:var(--mut);padding:3px 8px;cursor:pointer}@media(hover:hover){.pl-redo:hover{color:var(--ink);border-color:var(--mut)}}
+.pl-list li small.rg{display:block;font-size:10.5px;opacity:.8}
 </style></head>
 <body>
 <main id="main"></main>
@@ -100,29 +116,31 @@ lan:["Learn three new words a day and use each in a sentence.","Read something a
 const INTRO={
 mem:"Digits flash one at a time. Type them back in order. Eight rounds, from 3 digits up to 7. You press Show for each round.",
 rea:"Eight pattern questions that get harder: number rules first, then growing and mixed rules, then letters. Pick what comes next.",
-cri:"Ten logic and evidence questions in four levels, from basic logic to hard reasoning like base rates and weakening an argument.",
-occ:"Twelve grids in three phases: spot the odd symbol, find an exact shape and color, then find a mirrored letter. Grids get bigger. Faster and correct scores best.",
-cbl:"Three parts. Tap with a beat, keep a beat going after it stops, then judge short stretches of time. This is how the cerebellum handles timing.",
+cri:"Ten questions in four levels that get much harder: basic logic, flawed arguments, evidence and data, then hard reasoning like base rates, hidden selection effects and logic puzzles. Afterward you see every question with why each answer is right or wrong.",
+occ:"Twelve grids in three phases: spot the odd symbol, find an exact shape and color, then find a mirrored letter. Grids get bigger. Each grid is timed from when it appears. After each tap you see whether you were right, then the next grid follows.",
+cbl:"Three parts. Tap with a beat, keep a beat going after it stops, then judge short stretches of time with a Start and Stop button. You press Start for every trial.",
 exe:"Three stages: name the ink color of a word, pick the direction of a middle arrow, then switch between an INK rule and a WORD rule. Thirty trials.",
-mot:"Tap the pad as fast as you can for 10 seconds with each hand. Your dominant hand goes first. The timer starts at your first tap. No flashing.",
+mot:"Tap a pad as fast as you can for 10 seconds with each hand, using one index finger. Your dominant hand goes first. The timer starts at your first tap.",
 spa:"You will see an example of turned versus flipped patterns first. Then eight questions on bigger and bigger grids. No timer.",
 lan:"Sixteen questions in four parts: word meanings, sentences in context, analogies, and reading passages. They get harder as you go."};
 function stage(html,noctl){const s=$("#stage");s.hidden=false;
  const ctl=stepFn&&!noctl?`<button class="quit" id="pz">Pause</button><button class="quit" id="rs">Restart</button>`:"";
- s.innerHTML=`<header><span>${curName}${part?", "+part:""}</span><span>${ctl}<button class="quit" id="quit">Quit</button></span></header><div class="sw">${planHTML()}<div class="body">${html}</div></div>`;
+ s.innerHTML=`<header><span>${curName}${part&&!bl?", "+part:""}</span><span>${ctl}<button class="quit" id="quit">Quit</button></span></header><div class="sw">${planHTML()}<div class="body">${html}</div></div>`;
  const tg=$("#pltg");if(tg)tg.onclick=()=>{plOpen=!plOpen;$(".plan").classList.toggle("open",plOpen);tg.textContent=plOpen?"Hide":"All sections";tg.setAttribute("aria-expanded",plOpen)};
  $("#quit").onclick=()=>{gen++;stepFn=null;bl=null;s.hidden=true;render()};
+ s.querySelectorAll("[data-redo]").forEach(b=>b.onclick=()=>{gen++;stepFn=null;bRun(b.dataset.redo)});
+ const ae=document.activeElement;if(ae&&ae!==document.body&&!s.contains(ae))ae.blur();s.querySelector(".body").scrollTop=0;
  if(ctl){$("#pz").onclick=pause;$("#rs").onclick=restart}}
-let curName="",part="",stepFn=null,gen=0,curRun=null,bl=null,plOpen=false;
+let curName="",part="",stepFn=null,gen=0,curRun=null,bl=null,plOpen=false,blRun=false;
 const MIN=k=>+((META[k].match(/about (\d+) minute/)||[0,0])[1]);
 const totMin=()=>KEYS.reduce((a,k)=>a+MIN(k),0);
 function planHTML(){if(!bl)return"";
- const st=k=>S.pre[k]!=null?"done":k===bl?"now":"next",now=KEYS.find(k=>st(k)==="now"),nxt=KEYS.find(k=>st(k)==="next"),left=KEYS.filter(k=>st(k)!=="done").reduce((a,k)=>a+MIN(k),0),nd=KEYS.filter(k=>st(k)==="done").length;
+ const st=k=>k===bl&&blRun?"now":S.pre[k]!=null?"done":"next",now=KEYS.find(k=>st(k)==="now"),nxt=KEYS.find(k=>st(k)==="next"),left=KEYS.filter(k=>st(k)!=="done").reduce((a,k)=>a+MIN(k),0),nd=KEYS.filter(k=>st(k)==="done").length;
  const seg=`<div class="pl-seg" aria-hidden="true">${KEYS.map(k=>`<i class="${st(k)}" style="--c:${CATS[k].c}"></i>`).join("")}</div>`;
- const l1=now?`<p>Now: <b>${CATS[now].n}</b> · about ${MIN(now)} min</p>`:`<p>Finished: <b>${CATS[bl].n}</b> · ${S.pre[bl]} / 100</p>`;
- const l2=nxt?`<p class="mut">Next: ${CATS[nxt].n} · about ${MIN(nxt)} min</p>`:`<p class="mut">${now?"Last section":"All sections done"}</p>`;
+ const l1=!now&&nd===KEYS.length?`<p><b>All ${KEYS.length} sections done</b></p>`:now?`<p>Now: <b>${CATS[now].n}</b> · about ${MIN(now)} min</p>`:`<p>Finished: <b>${CATS[bl].n}</b> · ${S.pre[bl]} / 100</p>`;
+ const l2=!now&&nd===KEYS.length?`<p class="mut">Redo any section, then save your baseline.</p>`:nxt?`<p class="mut">Next: ${CATS[nxt].n} · about ${MIN(nxt)} min</p>`:`<p class="mut">${now?"Last section":"All sections done"}</p>`;
  const l3=`<p class="mut">${nd} of ${KEYS.length} done${left?` · about ${left} min left`:""}</p>`;
- const li=KEYS.map((k,i)=>{const s=st(k);return`<li class="pl-${s}" style="--c:${CATS[k].c}"${s==="now"?' aria-current="step"':""}><span>${i+1}</span><div><b>${CATS[k].n}</b><small>${s==="done"?`Done · ${S.pre[k]} / 100`:s==="now"?`In progress · about ${MIN(k)} min`:`About ${MIN(k)} min`}</small></div></li>`}).join("");
+ const li=KEYS.map((k,i)=>{const s=st(k);return`<li class="pl-${s}" style="--c:${CATS[k].c}"${s==="now"?' aria-current="step"':""}><span>${i+1}</span><div><b>${CATS[k].n}</b><small class="rg">${ANAT[k]}</small><small>${s==="done"?`Done · ${S.pre[k]} / 100`:s==="now"?`In progress · about ${MIN(k)} min`:`About ${MIN(k)} min`}</small></div>${s==="done"?`<button class="pl-redo" data-redo="${k}" aria-label="Redo ${CATS[k].n}">Redo</button>`:""}</li>`}).join("");
  return`<aside class="plan${plOpen?" open":""}" aria-label="Baseline sections">${seg}<div class="pl-mini"><div>${l1}${l2}${l3}</div><button class="pl-tg" id="pltg" aria-expanded="${plOpen}">${plOpen?"Hide":"All sections"}</button></div><ol class="pl-list">${li}</ol></aside>`}
 const later=(f,ms)=>{const g=gen;setTimeout(()=>{if(g===gen)f()},ms)};
 const pause=()=>{gen++;stage(`<h2>Paused</h2><p>Your place in this task is held. Resuming replays the current step.</p><button class="btn" id="rz">Resume</button><button class="btn alt" id="rs2">Restart this task</button>`,true);$("#rz").onclick=()=>stepFn&&stepFn();$("#rs2").onclick=restart};
@@ -133,20 +151,24 @@ const close=()=>{part="";bl=null;$("#stage").hidden=true;render()};
 
 /* exercises */
 const band=s=>s>=80?"Strong":s>=60?"Solid":s>=40?"Developing":"Early";
-const BANDTXT={Strong:"Most answers or timings landed near the top of this test's scale, including on the hard items.",Solid:"A good, steady result with clear room to climb.",Developing:"A mixed result. This is the kind of area where training helps most.",Early:"An early starting point. First tries often land here, and this is where practice shows up fastest."};
+const STRONG={mem:"You recalled nearly every digit, including on the longest strings.",rea:"You got most questions right, including the hardest ones.",cri:"You got most questions right, including the hardest ones.",spa:"You got most questions right, including the biggest grids.",lan:"You got most questions right, including the hardest ones.",occ:"You found most targets correctly and quickly.",exe:"You answered most trials correctly and quickly.",cbl:"Your timing stayed close to the beat and the target times.",mot:"Your tapping rate was near the top of this test's scale."};
+const WHY={cri:"Weighing arguments and evidence is planning-and-judgment work led by the prefrontal cortex.",exe:"Holding back an automatic response and switching rules draws on the frontal lobe's executive control.",mot:"Fast, precise finger movement is driven by the motor cortex, the strip that sends movement commands.",rea:"Spotting number and letter patterns leans on the parietal lobe, which handles quantities and relationships.",spa:"Turning a shape in your head uses the superior parietal cortex, which builds your sense of space.",mem:"Holding a string of digits draws on the temporal lobe and the memory systems around the hippocampus.",lan:"Linking words to their meaning is the job of Wernicke's area, where the temporal and parietal lobes meet.",occ:"Picking out shapes, colors and mirror images starts in the occipital lobe, the brain's visual center.",cbl:"Keeping a rhythm and judging stretches of time relies on the cerebellum's timing control."};
+const regBox=c=>`<div class="reg" style="--c:${CATS[c].c}"><small>Brain region tested</small><b>${ANAT[c]}</b><span>${WHY[c]}</span></div>`;
+let lastReview="";
+const BANDTXT={Solid:"A good, steady result with clear room to climb.",Developing:"A mixed result. This is the kind of area where training helps most.",Early:"An early starting point. First tries often land here, and this is where practice shows up fastest."};
 const SCORING={
 mem:"Score = digits recalled in the right position, out of all 40 digits across the 8 rounds. 100 means every digit correct.",
 rea:"Score = points earned out of the points available. Harder questions are worth more (1 to 1.75 points each). 100 means all correct.",
-cri:"Score = points earned out of the points available. Harder questions are worth more (1 to 2 points each). 100 means all correct.",
+cri:"Score = points earned out of the points available. Harder levels are worth more (1, 1.25, 1.75 and 2.25 points). 100 means all correct.",
 occ:"Each of 12 rounds scores 0 if wrong. If right, 100 for a very fast find down to 20 for a slow one. Your score is the average. Harder rounds allow more time.",
 cbl:"Three parts averaged. Tapping with the beat and keeping a beat score 100 minus your average timing error. Time sense scores by how close you stop to the target. 100 means near-perfect timing.",
 exe:"30 trials in 3 stages. Each is 0 if wrong. If right, 100 for a fast answer down to 30 for a slow one. Your score is the average of all trials.",
 mot:"Each hand scores (taps in 10 s minus 20) divided by 40, as a percent. 20 taps scores 0, 60 taps scores 100. Your score is the average of both hands.",
 spa:"Score = points earned out of the points available. Bigger patterns are worth more (1 to 2 points each). 100 means all correct.",
 lan:"Score = points earned out of the points available over 16 questions in 4 parts. Harder questions are worth more. 100 means all correct."};
-const META={mem:"8 rounds · about 3 minutes",rea:"8 questions · about 3 minutes",cri:"10 questions · about 4 minutes",occ:"12 rounds · about 3 minutes",cbl:"8 trials in 3 parts · about 4 minutes",exe:"30 trials in 3 stages · about 4 minutes",mot:"2 hands, 10 seconds each · about 1 minute",spa:"Example, then 8 questions · about 4 minutes",lan:"16 questions in 4 parts · about 5 minutes"};
+const META={mem:"8 rounds · about 3 minutes",rea:"8 questions · about 3 minutes",cri:"10 questions · about 6 minutes",occ:"12 rounds · about 3 minutes",cbl:"8 trials in 3 parts · about 4 minutes",exe:"30 trials in 3 stages · about 4 minutes",mot:"2 hands, 10 seconds each · about 1 minute",spa:"Example, then 8 questions · about 4 minutes",lan:"16 questions in 4 parts · about 5 minutes"};
 function resHTML(c,s,det,msg){const b=band(s);
- return`<p class="mut">${CATS[c].n} result</p><h1>${s}<span class="mut" style="font-size:18px;font-weight:600"> / 100</span></h1><p><b>${b}.</b> ${BANDTXT[b]}</p>${det?`<p>${det}</p>`:""}${msg?`<p>${msg}</p>`:""}<p class="mut"><b>How it is scored:</b> ${SCORING[c]}</p><p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. They compare you with your own future scores, not with other people. This is not an IQ or clinical test.</p>`}
+ return`<p class="mut">${CATS[c].n} result · ${ANAT[c]}</p><h1>${s}<span class="mut" style="font-size:18px;font-weight:600"> / 100</span></h1><p><b>${b}.</b> ${b==="Strong"?STRONG[c]:BANDTXT[b]}</p>${det?`<p>${det}</p>`:""}${msg?`<p>${msg}</p>`:""}<p class="mut"><b>How it is scored:</b> ${SCORING[c]}</p><p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. They compare you with your own future scores, not with other people. This is not an IQ or clinical test.</p>${lastReview}`}
 const lin=(rt,f,s)=>Math.round(100-(Math.max(f,Math.min(s,rt))-f)/(s-f)*80);
 const med=a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[s.length>>1]:0};
 let AC=null;
@@ -168,16 +190,18 @@ function exMem(cb){const L=[3,4,4,5,5,6,6,7],TOT=L.reduce((a,b)=>a+b,0);let r=0,
  rd()}
 
 /* multiple choice with weights, no countdown */
-function mc(items,cb){let i=0,ok=0,W=0,G=0;const tot=items.reduce((a,x)=>a+x.w,0),top=Math.max(...items.map(x=>x.t||0)),pp={},hard=[0,0];
+function mc(items,cb){let i=0,ok=0,W=0,G=0;const ans=[],tot=items.reduce((a,x)=>a+x.w,0),top=Math.max(...items.map(x=>x.t||0)),pp={},hard=[0,0];
  const q=()=>{stepFn=q;const it=items[i];
   stage(prog(i,items.length,`Question ${i+1} of ${items.length}. ${i+1<items.length?(items.length-i-1)+" to go":"Last question"}.`)+(it.p?`<p class="tag">${it.p}</p>`:"")+`<p class="q">${it.q}</p>`+(it.g?`<div class="opts4">`:"")+it.o.map((o,j)=>`<button class="btn alt" data-j="${j}">${o}</button>`).join("")+(it.g?`</div>`:""));
-  document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{const good=+b.dataset.j===it.a;if(good){G+=it.w;ok++}
+  document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{const good=+b.dataset.j===it.a;ans.push({it,j:+b.dataset.j});if(good){G+=it.w;ok++}
    if(it.p){const k=it.p.split("· ").pop();pp[k]=pp[k]||[0,0];pp[k][1]++;if(good)pp[k][0]++}
    if((it.t||0)===top){hard[1]++;if(good)hard[0]++}
-   i++;if(i<items.length)q();else{const pt=Object.keys(pp).length?" "+Object.entries(pp).map(([k,v])=>`${k} ${v[0]}/${v[1]}`).join(", ")+".":"";
+   i++;if(i<items.length)q();else{if(items.some(x=>x.x))lastReview=reviewHTML(ans);const pt=Object.keys(pp).length?" "+Object.entries(pp).map(([k,v])=>`${k} ${v[0]}/${v[1]}`).join(", ")+".":"";
     cb(Math.round(G/tot*100),`${ok} of ${items.length} correct. Hardest questions: ${hard[0]} of ${hard[1]}.${pt}`)}})};
  q()}
-const prep=(x,t,w,p,g)=>{const c=x.o[x.a],o=shuffle(x.o);return{q:x.q,o,a:o.indexOf(c),t,w,p,g}};
+const prep=(x,t,w,p,g)=>{const ix=shuffle(x.o.map((_,i)=>i));return{q:x.q,o:ix.map(i=>x.o[i]),x:x.x&&ix.map(i=>x.x[i]),a:ix.indexOf(x.a),t,w,p,g}};
+const reviewHTML=A=>`<h2 style="margin-top:24px">Question by question</h2><p class="mut">${A.filter(r=>r.j===r.it.a).length} of ${A.length} right. Every answer choice is explained.</p>`+A.map((r,n)=>{const it=r.it,ok=r.j===it.a;
+ return`<div class="rv ${ok?"ok":"no"}"><p class="rvh"><b>${ok?"✓ Right":"✗ Wrong"}</b> · Question ${n+1}${it.p?" · "+it.p:""}</p><p class="rvq">${it.q}</p><ul class="rvo">${it.o.map((o,j)=>`<li class="${j===it.a?"a":""}${j===r.j?" u":""}"><b>${j===it.a?"✓":j===r.j?"✗":"·"} ${o}</b>${j===it.a?"<small>Correct answer</small>":""}${j===r.j?"<small>Your answer</small>":""}<span>${it.x?it.x[j]:""}</span></li>`).join("")}</ul></div>`}).join("");
 const pickT=(bank,counts,W,p)=>counts.flatMap((n,t)=>shuffle(bank[t]).slice(0,n).map(x=>prep(x,t,W[t],p)));
 
 /* reasoning: progressive levels */
@@ -205,29 +229,57 @@ function exRea(cb){const LV=[0,1,2,3,4,5,6,7],W=[1,1,1.25,1.25,1.5,1.5,1.75,1.75
 
 /* critical thinking: 4 tiers, harder as you go */
 const CB=[
-[{q:"All bloops are razzies. All razzies are lazzies. Which must be true?",o:["All bloops are lazzies","All lazzies are bloops","Some lazzies aren’t razzies"],a:0},
-{q:"No cats are dogs, and Rex is a dog. Rex is…",o:["Not a cat","A cat","Possibly a cat"],a:0},
-{q:"Which is the strongest evidence?",o:["A randomized controlled trial","A single testimonial","A popular opinion"],a:0},
-{q:"“Ignore her argument; she’s only a student.” This attacks…",o:["The person, not the argument","The evidence","The logic of the conclusion"],a:0},
-{q:"All birds have feathers. Penguins are birds. So…",o:["Penguins have feathers","Penguins can fly","Some birds lack feathers"],a:0}],
-[{q:"Ice cream sales and drownings both rise in summer. Best explanation?",o:["Hot weather drives both","Ice cream causes drowning","Drowning boosts ice cream demand"],a:0},
-{q:"“Everyone I know loves this app, so it’s the best one.” What’s the flaw?",o:["Small, biased sample","Too many facts","Circular wording"],a:0},
-{q:"“If we allow this, soon everything will be allowed.” This is a…",o:["Slippery slope argument","Valid deduction","Appeal to evidence"],a:0},
-{q:"Prices rose after the new mayor took office, so the mayor caused it. The flaw?",o:["Coming after is not the same as causing","Prices never rise","The mayor is new"],a:0},
-{q:"If it rains, the street is wet. The street is wet. What follows?",o:["It may or may not have rained","It rained","It didn’t rain"],a:0},
-{q:"A study of 10 people found a supplement works. What is the main limit?",o:["Too small to generalize","Too many people","The supplement is natural"],a:0}],
-[{q:"A drug cuts heart attack risk by 50%. In the trial, risk fell from 2 in 1000 to 1 in 1000. Most accurate summary?",o:["Absolute risk fell by 0.1 percentage points","Half of all patients were saved","Risk fell by 50 percentage points"],a:0},
-{q:"Crime fell the year after a city installed cameras. What would best show the cameras caused it?",o:["Crime change in similar cities without cameras","The cost of the cameras","The mayor’s opinion of them"],a:0},
-{q:"Readers of a fitness magazine report that 90% exercise weekly. What can you conclude about all adults?",o:["Nothing reliable, the sample leans toward fitness fans","90% of adults exercise","Magazines cause exercise"],a:0},
-{q:"A firm’s average salary is $90k but the median is $55k. Best explanation?",o:["A few very high salaries pull the average up","Most people earn $90k","The median is miscalculated"],a:0},
-{q:"Students who eat breakfast score higher. Which alternative explanation is most plausible?",o:["Families with more resources may supply both breakfast and study support","Breakfast makes the test easier","Scores cause breakfast"],a:0}],
-[{q:"If the alarm is armed, the door beeps. The door did not beep. What follows?",o:["The alarm is not armed","The door is broken","The alarm is armed but faulty"],a:0},
-{q:"A disease affects 1 in 1000 people. A test catches every case but also flags 1% of healthy people. You test positive. Roughly how likely is it you have the disease?",o:["About 9%","About 99%","About 50%"],a:0},
-{q:"A bat and ball cost $1.10 together. The bat costs $1.00 more than the ball. How much is the ball?",o:["5¢","10¢","15¢"],a:0},
-{q:"Tutoring “raised scores”: students who joined improved by 12 points. Which fact most weakens this?",o:["Students joined after a bad test, and low scores tend to rebound on their own","The tutors were friendly","The scores were measured in May"],a:0},
-{q:"All A are B. Some B are C. Which must be true?",o:["Neither “some A are C” nor “no A are C” is guaranteed","Some A are C","No A are C"],a:0},
-{q:"Five machines make five widgets in five minutes. How long do 100 machines take to make 100 widgets?",o:["5 minutes","100 minutes","20 minutes"],a:0}]];
-const exCri=cb=>mc(pickT(CB,[2,3,3,2],[1,1.25,1.5,2],null).map((x,i)=>({...x,p:["Level 1: basic logic","Level 2: spotting flawed arguments","Level 3: evidence and data","Level 4: hard reasoning"][x.t]})),cb);
+[{q:"All bloops are razzies. All razzies are lazzies. Which must be true?",o:["All bloops are lazzies","All lazzies are bloops","Some lazzies aren’t razzies"],a:0,
+ x:["Every bloop is a razzie, and every razzie is a lazzie, so every bloop is a lazzie. The chain carries all the way through.","This runs the chain backward. Lazzies are the biggest group; there could be lazzies that are not bloops.","This could be true, but nothing says it must be. Every lazzie might happen to be a razzie."]},
+{q:"Some doctors are runners. All runners are early risers. Which must be true?",o:["Some doctors are early risers","All doctors are early risers","Some early risers are not doctors"],a:0,
+ x:["The doctors who run are runners, and all runners are early risers, so at least those doctors are early risers.","Only the running doctors are covered. Doctors who don’t run could sleep late.","Possible, but not required. Every early riser might be a doctor for all we know."]},
+{q:"Every member of the chess club passed the exam. Sam did not pass. What follows?",o:["Sam is not in the chess club","Sam is in the chess club but had a bad day","Nothing can be concluded about Sam"],a:0,
+ x:["If Sam were a member, Sam would have passed. Sam didn’t pass, so Sam can’t be a member. This is called the contrapositive.","This contradicts the first statement. Every member passed, so no member failed.","Something does follow. Failing the exam rules Sam out of the club."]},
+{q:"No cats are dogs, and Rex is a dog. Rex is…",o:["Not a cat","A cat","Possibly a cat"],a:0,
+ x:["No dog is a cat, and Rex is a dog, so Rex is not a cat.","That would make Rex both a dog and a cat, which the first statement rules out.","There is no room for “possibly”. The statement rules out every dog being a cat."]}],
+[{q:"Ice cream sales and drownings both rise in summer. What is the best explanation?",o:["Hot weather drives both","Ice cream causes drowning","Drowning increases ice cream demand"],a:0,
+ x:["A third factor, hot weather, sends more people to buy ice cream and to swim. Both rise together without one causing the other.","Rising together is not proof that one causes the other. There is no reasonable way ice cream causes drowning.","This flips the cause the other way, and it is just as unsupported. Neither causes the other."]},
+{q:"“Everyone I know loves this app, so it’s the best one.” What is the flaw?",o:["The sample is small and biased","It uses too many facts","The wording is circular"],a:0,
+ x:["The people you know are a small group, and they likely share your tastes. They don’t represent all users or all apps.","The argument offers no real facts at all, just one opinion stretched too far.","Circular means the conclusion is assumed in the premise. Here the problem is the weak evidence, not circularity."]},
+{q:"Prices rose after the new mayor took office, so the mayor caused it. What is the flaw?",o:["Coming after something is not the same as being caused by it","Prices can never rise because of a mayor","It relies too much on an expert’s opinion"],a:0,
+ x:["Prices may have risen for other reasons, like national inflation. Coming after something doesn’t show it caused the change.","Too strong. A mayor’s policies could affect prices. The problem is that the argument gives no evidence that they did.","No expert is quoted. The argument rests only on timing."]},
+{q:"If it rains, the street gets wet. The street is wet. What follows?",o:["It may or may not have rained","It rained","It didn’t rain"],a:0,
+ x:["Rain is one way to wet the street, but a sprinkler or a street cleaner could too. A wet street doesn’t prove it rained.","This mistake is called affirming the consequent. The rule says rain leads to a wet street, not that a wet street means rain.","Nothing points to this. Rain is still a perfectly possible cause."]},
+{q:"A poll on a gaming website finds that 80% of respondents think video games should be taught in schools. What is the main problem with concluding most people agree?",o:["The respondents were likely to favor games already","80% is too high to be believable","Polls can never be trusted"],a:0,
+ x:["People on a gaming site are not a fair cross-section of the public. The sample leans toward people who like games.","High numbers can be real. The issue is who was asked, not how big the number is.","This overcorrects. Well-designed polls with fair samples can be quite reliable."]},
+{q:"“My opponent wants to trim the military budget by 2%. So he wants to leave the country defenseless.” What is wrong with this?",o:["It distorts the opponent’s position into an extreme one","Nothing, it follows logically","It relies on an appeal to authority"],a:0,
+ x:["A 2% trim is nowhere near leaving the country defenseless. Attacking an exaggerated version of a view is called a straw man.","A small cut does not imply having no defense at all, so it does not follow.","No authority is cited. The trick here is exaggeration, not borrowed credibility."]}],
+[{q:"A drug “cuts heart attack risk by 50%.” In the trial, risk fell from 2 in 1,000 people to 1 in 1,000. About how many people must take the drug for one of them to avoid a heart attack?",o:["1,000","2","500","50"],a:0,
+ x:["Risk drops by 1 person per 1,000 (2 down to 1). So about 1,000 people must take it for one to benefit. “50%” sounds big only because the starting risk was tiny.","This treats “50%” as if every second person benefits. The real drop is 1 in 1,000.","500 uses the starting risk of 2 in 1,000, but only 1 of those 2 heart attacks is prevented.","No step in the numbers gives 50. It mixes up the percentage with the count."]},
+{q:"Crime fell 15% the year after a city put up cameras. Which finding would best show that the cameras caused the drop?",o:["Similar nearby cities without cameras saw no drop that year","Crime also fell 15% in parts of the city with no cameras","Residents say they feel safer","The cameras cost $2 million"],a:0,
+ x:["Comparable cities act as a control group. If they stayed flat while this city dropped, the cameras become the likely reason.","This actually weakens the claim. If crime fell just as much where there were no cameras, something else caused the drop.","Feeling safer is about perception, not actual crime. It doesn’t show the cameras changed anything.","Cost has nothing to do with whether the cameras worked."]},
+{q:"At one company, the average (mean) salary is $90,000, but the median is $55,000. What best explains this?",o:["A few very high salaries pull the average up","Most employees earn about $90,000","One of the figures must be miscalculated","Most employees earn under $45,000"],a:0,
+ x:["A few big salaries raise the mean but barely move the median, which is the middle value. A wide gap like this points to a few very high earners.","The median means half of employees earn $55,000 or less, so most can’t be near $90,000.","Both can be correct. With uneven pay, the mean and median often differ a lot.","The median only says half earn $55,000 or less. It tells you nothing about how many earn under $45,000."]},
+{q:"Hospital A has a higher overall survival rate than Hospital B. Yet among mild cases B does better, and among severe cases B also does better. How can that be?",o:["A treats a much larger share of mild cases, which survive more often anyway","One of the numbers must be wrong","B is only better at mild cases","The overall rate is what counts, so the breakdown is misleading"],a:0,
+ x:["If most of A’s patients have mild cases, A’s overall rate looks high even though B does better within each group. This is called Simpson’s paradox.","No error is needed. Combining groups of very different sizes can reverse a comparison.","The question says B also does better with severe cases.","The breakdown is more informative here. The overall rate mixes together very different patient groups."]},
+{q:"Bombers returning from missions had many bullet holes in the wings and few in the engines. Where should extra armor go?",o:["The engines","The wings, where most holes are","Spread evenly over the plane","Nowhere, the data is too limited"],a:0,
+ x:["You only see planes that made it back. Planes hit in the engines probably didn’t return, so the engines are the weak spot. This is called survivorship bias.","Wing holes show where a plane can be hit and still make it home. Those spots need armor least.","This ignores what the pattern tells you about where hits are fatal.","The missing planes are themselves the evidence. The pattern of what survived is very informative."]},
+{q:"Students who took a test-prep course averaged 80. Students who didn’t averaged 70. Which fact most weakens the claim that the course raised scores by 10 points?",o:["Students who chose the course already had higher grades beforehand","The course was expensive","Scores in both groups varied widely","The course lasted six weeks"],a:0,
+ x:["If stronger students chose the course, they may have scored higher anyway. The groups weren’t equal to begin with, which is called selection bias.","Price doesn’t say anything about whether the course worked.","Spread within each group doesn’t explain why one group averaged higher than the other.","Length doesn’t challenge the claim either way."]},
+{q:"Students who eat breakfast score higher on tests. What is the most plausible alternative explanation?",o:["Families with more resources may provide both breakfast and study support","Breakfast makes the test questions easier","High test scores cause students to eat breakfast","The difference must be random chance"],a:0,
+ x:["A hidden factor, family resources, could drive both breakfast and higher scores. This is a common confounder.","The test is the same for everyone. Food can’t change the questions.","Breakfast comes before the test, so the test score can’t cause it.","You can’t assume chance without the data. A confounder is a more plausible and testable explanation."]}],
+[{q:"A disease affects 1 in 1,000 people. A test catches every case, but it also wrongly flags 1% of healthy people. You test positive. Roughly how likely is it that you have the disease?",o:["About 9%","About 99%","About 50%","About 1%"],a:0,
+ x:["Picture 100,000 people. 100 are sick and all test positive. Of the 99,900 healthy people, 1% (about 999) also test positive. So only 100 of about 1,099 positives are sick, roughly 9%.","This mixes up how accurate the test is with what a positive result means. Because the disease is rare, false positives far outnumber real cases.","There’s no reason for an even split. The rarity of the disease drives the answer.","This is the false-positive rate, not the chance that a positive person is sick."]},
+{q:"A shirt’s price is raised 25%. Later, the new price is cut by 20%. Compared with the original price, the final price is…",o:["Exactly the same","5% higher","5% lower","4% higher"],a:0,
+ x:["Multiply the changes: 1.25 × 0.80 = 1.00. The 20% cut is taken from a bigger number, so it cancels the 25% rise exactly.","This just subtracts 20 from 25. Percent changes multiply; they don’t add.","Neither the subtraction nor the multiplication gives a 5% drop.","1.25 × 0.80 is exactly 1, not 1.04."]},
+{q:"Tutoring “raised scores”: students who joined improved by 12 points on their next test. Which fact most weakens this claim?",o:["Students joined right after an unusually bad test, and low scores tend to rebound on their own","The tutors were friendly","Scores were measured in May","Sessions lasted an hour"],a:0,
+ x:["An unusually low score tends to be followed by a more normal one, even with no help. This is called regression to the mean, and it could explain the 12 points.","Being friendly doesn’t tell you whether the gain was caused by tutoring.","The month alone says nothing about cause.","Session length doesn’t test whether tutoring caused the improvement."]},
+{q:"All A are B. Some B are C. Which must be true?",o:["Neither “some A are C” nor “no A are C” is guaranteed","Some A are C","No A are C","Some C are A"],a:0,
+ x:["The B’s that are C might or might not include any A’s. Both outcomes fit the statements, so neither is guaranteed.","The B’s that are C could all be non-A’s, so this isn’t guaranteed.","The B’s that are C could include A’s, so this isn’t guaranteed either.","This is the same as “some A are C”, just reversed, so it isn’t guaranteed."]},
+{q:"Each card has a letter on one side and a number on the other. Rule: “If a card has a vowel on one side, it has an even number on the other.” The cards show E, K, 4, 7. Which cards must you turn over to test the rule?",o:["E and 7","E and 4","E only","E, 4, and 7"],a:0,
+ x:["E could have an odd number on the back, and 7 could have a vowel on the back. Either would break the rule. K and 4 can’t break it.","4 can’t break the rule. The rule doesn’t say even numbers need vowels. Meanwhile 7 could hide a vowel.","This misses 7. A vowel behind 7 would break the rule.","4 is unnecessary. Whatever is behind it, the rule holds."]},
+{q:"Linda is 31, outspoken, studied philosophy, and was active in social justice causes. Which is more probable?",o:["Linda is a bank teller","Linda is a bank teller and active in the feminist movement","Both are equally likely","They can’t be compared without more data"],a:0,
+ x:["Every feminist bank teller is also a bank teller, so “bank teller” can never be less likely. Adding details can only lower the chance. This is called the conjunction fallacy.","The description makes this feel right, but it adds a second condition. Two things both being true is never more likely than one of them.","They’re only equal if every bank teller like Linda is a feminist, which nothing says.","No data is needed. The comparison follows from logic alone."]},
+{q:"Passing the exam is required to get a license. Mia has a license. Jo passed the exam. What follows?",o:["Mia passed the exam; Jo may or may not have a license","Both have licenses","Jo has a license; Mia may not have passed","Nothing follows"],a:0,
+ x:["A license requires passing, so Mia passed. Passing is required but not enough, so Jo’s license isn’t certain.","Passing doesn’t guarantee a license, so Jo might not have one.","This gets both backward. Passing is required for, not a guarantee of, a license.","Mia having a license does tell us she passed."]},
+{q:"After a town built bike lanes, cycling injuries dropped 30%. Officials say the lanes made cycling safer. Which fact most weakens this?",o:["Over the same period, the number of people cycling fell by 40%","The lanes were painted green","Some drivers complained about the lanes","Neighboring towns had similar weather"],a:0,
+ x:["With 40% fewer cyclists, a 30% drop in injuries means the injury rate per cyclist actually rose. Counts can mislead when the base changes.","Paint color isn’t evidence about safety.","Complaints don’t show whether cyclists were safer or less safe.","Similar weather nearby doesn’t explain this town’s change."]}]];
+const exCri=cb=>mc(pickT(CB,[2,2,3,3],[1,1.25,1.75,2.25],null).map(x=>({...x,p:["Level 1: basic logic","Level 2: spotting flawed arguments","Level 3: evidence and data","Level 4: hard reasoning"][x.t]})),cb);
 
 /* visual search: 3 phases, 4 rounds each */
 const PAIRS=[["O","Q"],["E","F"],["b","d"],["M","N"],["P","R"],["C","G"],["p","q"],["S","5"],["Z","2"],["h","n"]];
@@ -239,18 +291,23 @@ function exOcc(cb){const ROWS=[4,5,6,7],TH=[[1500,5000],[2500,8000],[3500,10000]
   else if(ph==1){const ts=rnd(4),tc=rnd(4);cells=Array.from({length:N},(_,j)=>{if(j===odd)return[1,SHP[ts],COL[tc][1]];let s,c;do{s=rnd(4);c=rnd(4)}while(s===ts&&c===tc);return[0,SHP[s],COL[c][1]]});head=`Find: <b style="color:${COL[tc][1]};font-size:22px">${SHP[ts]}</b> the ${COL[tc][0]} shape.`}
   else{const l=LET[rnd(LET.length)];cells=Array.from({length:N},(_,j)=>[j===odd,l,`transform:${j===odd?"scaleX(-1) ":""}rotate(${rnd(4)*90}deg)`]);head="Tap the mirrored letter."}
   stepFn=round;
-  stage(prog(i,12,`Round ${i+1} of 12. ${NM[ph]}. ${head}`)+`<div class="grid g6">${cells.map(([o,t,s],j)=>`<button class="cell" data-o="${o?1:0}" aria-label="symbol" style="${ph==1?"color:"+s:s}"><span style="${ph==2?s:""}">${t}</span></button>`).join("")}</div>`);
+  stage(prog(i,12,`Round ${i+1} of 12. ${NM[ph]}.`)+`<p style="font-weight:600">${head}</p><div class="grid g6">${cells.map(([o,t,s],j)=>`<button class="cell" data-o="${o?1:0}" aria-label="symbol" style="${ph==1?"color:"+s:s}"><span style="${ph==2?s:""}">${t}</span></button>`).join("")}</div><p class="fb" id="fb" aria-live="polite"></p>`);
   const t0=performance.now();
   document.querySelectorAll(".cell").forEach(b=>b.onclick=()=>{const rt=performance.now()-t0;document.querySelectorAll(".cell").forEach(x=>x.disabled=true);
    const good=b.dataset.o==="1";if(good)rts.push(rt);const p=good?lin(rt,TH[ph][0],TH[ph][1]):0;pts.push(p);ps[ph].push(p);i++;
-   if(i<12)(i%4==0?later(next,150):cd(prog(i,12,`${i} of 12 done. Next grid in:`),next,2));else cb(Math.round(avg(pts)),`${pts.filter(x=>x>0).length} of 12 correct. Median find time ${(med(rts)/1000).toFixed(1)} s. ${NM.map((n,k)=>`${n} ${Math.round(avg(ps[k]))}`).join(", ")}.`)})};
+   b.classList.add(good?"hit":"miss");if(!good)document.querySelector('.cell[data-o="1"]').classList.add("hit");
+   const fb=$("#fb");fb.className="fb "+(good?"ok":"no");fb.textContent=good?`✓ Found in ${(rt/1000).toFixed(1)} s`:"✗ Not that one. The target is outlined in green.";
+   const wait=good?700:1500;if(i<12)later(next,wait);else later(()=>cb(Math.round(avg(pts)),`${pts.filter(x=>x>0).length} of 12 correct. Median find time ${(med(rts)/1000).toFixed(1)} s. ${NM.map((n,k)=>`${n} ${Math.round(avg(ps[k]))}`).join(", ")}.`),wait)})};
  const next=()=>{const ph=Math.floor(i/4);if(i%4==0)ready(NM[ph],INTRO3[ph]+`<p class="mut">Speed counts here, so each grid is timed from when it appears.</p>`,"Start phase",round);else round()};
  next()}
 
 /* focus: Stroop, flanker, rule switch */
 const SC=[["RED","255,77,77"],["GREEN","61,220,132"],["BLUE","91,140,255"],["YELLOW","255,210,61"]];
 function exExe(cb){const ST=[{n:"Ink color",k:8,th:[600,1650]},{n:"Arrows",k:10,th:[450,1400]},{n:"Rule switch",k:12,th:[800,2200]}],TOT=30,res=[[],[],[]];let s=0,t=0,tot=0,lastRule=null;
- const INT=["<p>Stage 1 of 3: <b>ink color</b>. A color word appears in colored ink. Tap the button for the <b>ink color</b>, not the word.</p>","<p>Stage 2 of 3: <b>arrows</b>. Five arrows appear. Tap the direction the <b>middle</b> arrow points, ignoring the ones around it.</p>","<p>Stage 3 of 3: <b>rule switch</b>. A cue says INK or WORD. On INK, tap the ink color. On WORD, tap what the word says. The cue changes from trial to trial.</p>"];
+ const EXW=(w,c)=>`<span style="color:rgb(${SC[c][1]});font-weight:800;font-size:30px">${SC[w][0]}</span>`;
+ const INT=[`<p>Stage 1 of 3: <b>ink color</b>. A color word appears in colored ink. Tap the button for the <b>ink color</b>, not the word.</p><div class="ex"><small>Example</small><p class="exs">${EXW(2,0)}</p><p>The word says BLUE, but the ink is red. Tap <b>RED</b>.</p></div>`,
+ `<p>Stage 2 of 3: <b>arrows</b>. Five arrows appear. Tap the direction the <b>middle</b> arrow points, and ignore the ones around it.</p><div class="ex"><small>Example</small><p class="exs" style="font-size:30px;letter-spacing:.1em">←←→←←</p><p>The middle arrow points right. Tap <b>Right ▶</b>, even though the others point left.</p></div>`,
+ `<p>Stage 3 of 3: <b>rule switch</b>. A cue above the word says INK or WORD. On INK, tap the ink color. On WORD, tap what the word says. The cue changes from trial to trial.</p><div class="ex2"><div class="ex"><small>Example 1</small><p class="tag">RULE: INK</p><p class="exs">${EXW(1,3)}</p><p>Tap <b>YELLOW</b>, the ink.</p></div><div class="ex"><small>Example 2</small><p class="tag">RULE: WORD</p><p class="exs">${EXW(1,3)}</p><p>Tap <b>GREEN</b>, the word.</p></div></div>`];
  const intro=()=>ready(ST[s].n,INT[s]+`<p class="mut">${ST[s].k} quick trials. Speed and accuracy both count.</p>`,"Start stage",trial);
  const trial=()=>{stepFn=trial;const w=rnd(4),c=Math.random()<.7?(w+1+rnd(3))%4:w,P=prog(tot,TOT,`Trial ${tot+1} of ${TOT}. Stage ${s+1}: ${ST[s].n}.`);let body,ans,btn;
   if(s==0){body=`<p class="big" style="color:rgb(${SC[c][1]});font-size:60px;min-height:80px;margin:34px 0">${SC[w][0]}</p>`;ans=c;btn=SC.map(o=>o[0])}
@@ -265,22 +322,23 @@ function exExe(cb){const ST=[{n:"Ink color",k:8,th:[600,1650]},{n:"Arrows",k:10,
  intro()}
 
 /* motor: dominant hand first, no flashing */
-function exMot(cb){const sc=[],tp=[];let order,hs;
+function exMot(cb){const sc=[],tp=[],ig=[0,0];let order,hs;
  const setup=()=>{order=S.hand==="left"?["LEFT","RIGHT"]:["RIGHT","LEFT"];hs=[`${order[0]} hand (dominant)`,`${order[1]} hand (non-dominant)`];trial(0)};
  const ask=()=>{stepFn=null;stage(`<h2>Which hand do you write with?</h2><p>This sets which hand goes first. Your dominant hand goes first, then the other.</p><button class="btn" data-j="0">Right hand</button><button class="btn" data-j="1">Left hand</button>`);
   document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{S.hand=+b.dataset.j?"left":"right";save();setup()})};
  const trial=i=>{stepFn=()=>trial(i);
   const prev=i?`<p class="mut">${hs[0]}: ${tp[0]} taps (${(tp[0]/10).toFixed(1)} per second).</p>`:"";
-  stage(prog(i,2,`Round ${i+1} of 2.`)+`<h2>${i+1}. Use your ${hs[i]}</h2>${prev}<p>${i?"Now the other hand.":"Your dominant hand goes first."} Tap the pad with one finger as fast as you can for 10 seconds. The timer starts at your first tap. Press Ready, then tap.</p><button class="btn" id="go">Ready</button><button class="btn alt sm" id="chg">Wrong hand? Change dominant hand</button>`);
+  stage(prog(i,2,`Round ${i+1} of 2.`)+`<h2>${i+1}. Use your ${hs[i]}</h2>${prev}<p>${i?"Now switch to your other hand.":"Your dominant hand goes first."} Press Ready and a pad appears. Tap it as fast as you can for 10 seconds. The timer starts at your first tap.</p><div class="ex"><small>How to tap</small><ul style="margin:6px 0 0"><li>Put your phone flat on a table, or hold it in your other hand.</li><li>Tap with the <b>index finger of your ${order[i].toLowerCase()} hand only</b>. Lift it fully off the screen between taps.</li><li>One finger at a time. A tap that lands while another finger is still touching the pad is not counted, so drumming with several fingers won't help.</li><li>On a computer, click with the mouse or press the space bar.</li></ul></div><button class="btn" id="go">Ready</button><button class="btn alt sm" id="chg">Wrong hand? Change dominant hand</button>`);
   $("#go").onclick=()=>pad(i);$("#chg").onclick=ask};
  const pad=i=>{stepFn=()=>trial(i);
-  stage(prog(i,2,`${hs[i]}. Tap as fast as you can.`)+`<div id="pad" class="pad">Tap to start</div><div class="bar"><i id="tb" style="width:0%"></i></div><p class="mut" id="tl">10.0 s</p>`);
-  const p=$("#pad");let n=0,t0=0,done=0;
+  stage(prog(i,2,`${hs[i]}. Index finger only. Tap as fast as you can.`)+`<div id="pad" class="pad">Tap here to start</div><div class="bar"><i id="tb" style="width:0%"></i></div><p class="mut" id="tl">10.0 s</p>`);
+  const p=$("#pad"),act=new Set();let n=0,t0=0,done=0,ign=0;
   const tick=()=>{const el=(performance.now()-t0)/1000,left=10-el;
-   if(left<=0){done=1;p.onpointerdown=null;tp[i]=n;sc.push(Math.max(0,Math.min(100,(n-20)/40*100)));$("#tb").style.width="100%";
-    later(()=>{if(i+1<2)trial(i+1);else{const d=`${hs[0]}: ${tp[0]} taps (${(tp[0]/10).toFixed(1)}/s). ${hs[1]}: ${tp[1]} taps (${(tp[1]/10).toFixed(1)}/s). `+(tp[0]>tp[1]?"Your dominant hand was faster, which is typical.":tp[0]<tp[1]?"Your non-dominant hand was faster. That happens, and it is fine.":"Both hands matched.");cb(Math.round(avg(sc)),d)}},600);return}
+   if(left<=0){done=1;p.onpointerdown=null;tp[i]=n;ig[i]=ign;sc.push(Math.max(0,Math.min(100,(n-20)/40*100)));$("#tb").style.width="100%";
+    later(()=>{if(i+1<2)trial(i+1);else{const d=`${hs[0]}: ${tp[0]} taps (${(tp[0]/10).toFixed(1)}/s). ${hs[1]}: ${tp[1]} taps (${(tp[1]/10).toFixed(1)}/s). `+(tp[0]>tp[1]?"Your dominant hand was faster, which is typical.":tp[0]<tp[1]?"Your non-dominant hand was faster. That happens, and it is fine.":"Both hands matched.")+(ig[0]||ig[1]?` Taps not counted because another finger was touching: ${ig[0]} and ${ig[1]}.`:"");cb(Math.round(avg(sc)),d)}},600);return}
    $("#tl").textContent=`${left.toFixed(1)} s`;$("#tb").style.width=(el*10)+"%";later(tick,100)};
-  p.onpointerdown=()=>{if(done)return;if(!t0){t0=performance.now();tick()}n++;p.textContent=String(n)}};
+  p.onpointerdown=e=>{if(done)return;const id=e.pointerId;if(id!=null){if(act.size){act.add(id);ign++;return}act.add(id)}if(!t0){t0=performance.now();tick()}n++;p.textContent=String(n)};
+  p.onpointerup=p.onpointercancel=p.onpointerleave=e=>act.delete(e.pointerId)};
  S.hand?setup():ask()}
 
 /* spatial: tutorial, then turned vs flipped */
@@ -339,23 +397,24 @@ function exCbl(cb){const SY=[650,450],CO=[800,600,450],TS=[3,5,8],res=[[],[],[]]
  const trial=()=>{stepFn=trial;const ph=i<2?0:i<5?1:2,P=prog(i,tot,`Trial ${i+1} of ${tot}. ${["Tap with the beat","Keep the beat","Time sense"][ph]}.`);
   if(ph==2)return ts(P,TS[i-5]);
   const iv=ph==0?SY[i]:CO[i-2],nb=ph==0?10:5,need=ph==0?10:8;
-  stage(P+`<div id="pad" class="pad">${ph==0?"Get ready. Tap with each beat.":"Listen to the beat."}</div>`+dot);
-  const p=$("#pad"),B=[],T=[];let n=0,end=false,start=performance.now()+900;
+  stage(P+`<div id="pad" class="pad">${ph==0?"Press Start. Then tap here with each beat.":"Press Start. Listen, then keep the beat going here."}</div>`+dot+`<button class="btn" id="go">Start</button>`);
+  const p=$("#pad"),B=[],T=[];let n=0,end=false,start=0;
   const fire=()=>{if(n>=nb){if(ph==0)later(finish,iv*.8);else{p.textContent=`Keep the beat. Tap ${need} times.`;listen=true}return}n++;B.push(performance.now());pulse();if(ph==1)p.textContent=`Beat ${n} of ${nb}`;later(fire,Math.max(10,start+n*iv-performance.now()))};
-  let listen=ph==0;
+  let listen=false;
   p.onpointerdown=()=>{if(!listen||end)return;T.push(performance.now());if(ph==1){p.textContent=`Tap ${T.length} of ${need}`;if(T.length===need){end=true;finish()}}};
   const finish=()=>{end=true;p.onpointerdown=null;let sc,d;
    if(ph==0){const use=B.slice(2),er=use.map(b=>{let m=iv/2;T.forEach(t=>{m=Math.min(m,Math.abs(t-b))});return m}),e=avg(er);sc=Math.max(0,Math.min(100,100-e/2));d=`Beat ${i+1}: ${Math.round(e)} ms off on average.`}
    else{const g=T.slice(1).map((t,k)=>t-T[k]),e=g.length?avg(g.map(x=>Math.abs(x-iv))):iv,m=g.length?avg(g):0;sc=Math.max(0,Math.min(100,100-e/2.5));d=`Target ${iv} ms, yours ${Math.round(m)} ms.`}
    res[ph].push(sc);det.push(d);later(nextT,500)};
-  later(fire,900)};
- const ts=(P,sec)=>{stage(P+`<p>Target: <b>${sec} seconds</b>. Tap Start, wait, then tap Stop when you think ${sec} seconds have passed. Do not count out loud or tap.</p><button class="btn" id="go">Start</button>`);
-  $("#go").onclick=()=>{const t0=performance.now();stage(P+`<p>Timing… tap Stop at ${sec} seconds.</p><button class="btn" id="go">Stop</button>`);
-   $("#go").onclick=()=>{const el=(performance.now()-t0)/1000,pe=Math.abs(el-sec)/sec*100;res[2].push(Math.max(0,100-pe*2.5));det.push(`Target ${sec} s, you stopped at ${el.toFixed(1)} s.`);
+  $("#go").onclick=()=>{$("#go").remove();p.textContent=ph==0?"Get ready… tap with each beat.":"Listen…";listen=ph==0;start=performance.now()+900;later(fire,900)}};
+ const ts=(P,sec)=>{stage(P+`<p>Target: <b>${sec} seconds</b>.</p><p class="mut">Tap Start, then tap Stop when you think ${sec} seconds have passed. Don't count out loud or tap along.</p><button class="tsb" id="go" aria-label="Start timing">Start</button><p class="mut" id="tsst" style="text-align:center" aria-live="polite">Ready when you are.</p>`);
+  let t0=0;const bt=$("#go");
+  bt.onclick=()=>{const now=performance.now();if(!t0){t0=now;bt.textContent="Stop";bt.classList.add("run");bt.setAttribute("aria-label","Stop timing");$("#tsst").textContent=`Timing… tap Stop at ${sec} seconds.`;return}
+   if(now-t0<300)return;{const el=(now-t0)/1000,pe=Math.abs(el-sec)/sec*100;res[2].push(Math.max(0,100-pe*2.5));det.push(`Target ${sec} s, you stopped at ${el.toFixed(1)} s.`);
     stage(P+`<p>You stopped at <b>${el.toFixed(1)} s</b>. Target was ${sec} s (${pe.toFixed(0)}% off).</p><button class="btn" id="ok">Continue</button>`);$("#ok").onclick=nextT}}};
  intro(0)}
 
-function run(c,cb){curRun={c,cb};gen++;stepFn=null;curName=CATS[c].n;stage(`<h2>${CATS[c].n}</h2><p class="mut">${META[c]}</p><p>${INTRO[c]}</p><p class="mut">Scoring: ${SCORING[c]}</p><button class="btn" id="go">Start</button>`);
+function run(c,cb){curRun={c,cb};gen++;stepFn=null;lastReview="";curName=CATS[c].n;stage(`<h2>${CATS[c].n}</h2><p class="mut">${META[c]}</p>${regBox(c)}<p>${INTRO[c]}</p><p class="mut">Scoring: ${SCORING[c]}</p><button class="btn" id="go">Start</button>`);
  $("#go").onclick=()=>EX[c](cb)}
 
 function train(c){part="";bl=null;run(c,(s,det)=>{stepFn=null;const prev=cur(c);S.hist.push({d:today(),c,s});save();
@@ -367,10 +426,19 @@ function fin(){bl=null;S.base={...S.pre,d:today()};KEYS.forEach(k=>S.hist.push({
  stage(`<h2>Baseline saved</h2>`+KEYS.map(k=>`<p><b>${CATS[k].n}:</b> ${S.base[k]} / 100, ${band(S.base[k])}</p>`).join("")+`<p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. These are your starting scores for you to beat, not a comparison with other people. Train daily and watch the trend.</p><button class="btn" id="fin">See my brain</button>`);
  $("#fin").onclick=close}
 function afterPre(c,s,det){stepFn=null;S.pre[c]=s;save();
- if(KEYS.every(k=>S.pre[k]!=null))return fin();
- stage(resHTML(c,s,det,`${KEYS.filter(k=>S.pre[k]!=null).length} of ${KEYS.length} sections tested.`)+`<button class="btn" id="fin">Back to the brain</button>`);$("#fin").onclick=close}
+ if(KEYS.every(k=>S.pre[k]!=null)){bl=c;return lastDone(c,s,det)}
+ stage(resHTML(c,s,det,`${KEYS.filter(k=>S.pre[k]!=null).length} of ${KEYS.length} sections tested.`)+`<button class="btn" id="fin">Back to the brain</button><button class="btn alt" id="redo">Redo ${CATS[c].n}</button>`);$("#fin").onclick=close;$("#redo").onclick=()=>preTest(c)}
 function preTest(c){part="";bl=null;run(c,(s,d)=>afterPre(c,s,d))}
-function baseline(){const todo=KEYS.filter(k=>S.pre[k]==null),go=i=>{const c=todo[i];part=`Part ${KEYS.indexOf(c)+1} of ${KEYS.length}`;bl=c;run(c,(s,det)=>{if(i+1<todo.length){stepFn=null;S.pre[c]=s;save();stage(resHTML(c,s,det,"")+`<button class="btn" id="fin">Next: ${CATS[todo[i+1]].n}</button>`);$("#fin").onclick=()=>go(i+1);return}afterPre(c,s,det)})};if(todo.length)go(0)}
+function bRun(c){part=`Part ${KEYS.indexOf(c)+1} of ${KEYS.length}`;bl=c;blRun=true;run(c,(s,det)=>{stepFn=null;blRun=false;S.pre[c]=s;save();
+  if(KEYS.every(k=>S.pre[k]!=null))return lastDone(c,s,det);
+  const nx=KEYS.find(k=>S.pre[k]==null),nd=KEYS.filter(k=>S.pre[k]!=null).length;
+  stage(resHTML(c,s,det,`${nd} of ${KEYS.length} sections done.`)+`<button class="btn" id="fin">Next: ${CATS[nx].n} (about ${MIN(nx)} min)</button><button class="btn alt" id="redo">Redo ${CATS[c].n}</button><button class="btn alt" id="ltr">Stop here and finish later</button>`);
+  $("#fin").onclick=()=>bRun(nx);$("#redo").onclick=()=>bRun(c);$("#ltr").onclick=close})}
+function lastDone(c,s,det){stage(resHTML(c,s,det,`That was the last section.`)+`<button class="btn" id="fin">See baseline summary</button><button class="btn alt" id="redo">Redo ${CATS[c].n}</button>`);$("#fin").onclick=bSummary;$("#redo").onclick=()=>bRun(c)}
+function bSummary(){stepFn=null;blRun=false;lastReview="";curName="Baseline summary";part="";if(!bl)bl=KEYS[KEYS.length-1];
+ stage(`<h2>Baseline summary</h2><p>All ${KEYS.length} sections are done. Redo any section before you save. Your other scores stay as they are. Once you save, these become your starting scores.</p>`+KEYS.map(k=>`<div class="rsum" style="--c:${CATS[k].c}"><span><b>${CATS[k].n}</b><small>${ANAT[k]}</small></span><span class="rsv">${S.pre[k]}<small> ${band(S.pre[k])}</small></span><button class="btn alt sm" style="margin:0" data-redo="${k}">Redo</button></div>`).join("")+`<button class="btn" id="fin" style="margin-top:16px">Save baseline</button>`);
+ $("#fin").onclick=fin}
+function baseline(){const nx=KEYS.find(k=>S.pre[k]==null);if(nx)bRun(nx);else bSummary()}
 
 /* views */
 function spark(c){const v=S.hist.filter(x=>x.c===c).map(x=>x.s);
@@ -508,7 +576,7 @@ document.addEventListener("keydown",e=>{
  const st=$("#stage");
  if(!st.hidden){
   const p=$("#pad");
-  if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new Event("pointerdown"));return}
+  if(p&&(e.key===" "||(e.key==="Enter"&&!$("#go")))){e.preventDefault();p.dispatchEvent(new Event("pointerdown"));return}
   if(e.key==="Enter"){const b=$("#ok")||$("#go")||$("#fin")||$("#rz");if(b){e.preventDefault();b.click()}}
   else if(/^[1-4]$/.test(e.key)){const b=document.querySelector(`[data-j="${+e.key-1}"]`);if(b)b.click()}
  }else if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("f")){const b=$("#savelog");if(b)b.click()}

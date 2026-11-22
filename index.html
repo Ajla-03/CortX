@@ -106,6 +106,7 @@ details.lsec{border:1px solid var(--line);margin:0 0 8px;background:var(--card)}
 .fl{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;border:1px solid var(--line);padding:2px 2px 2px 8px;background:var(--bg)}.fl button{font:inherit;background:none;border:0;border-left:1px solid var(--line);color:var(--ink);width:30px;height:30px;cursor:pointer}
 #tip{position:fixed;z-index:20;max-width:280px;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.45;padding:9px 11px;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.5)}#tip b{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
 .bfn{font-size:12.5px;margin:8px 0 0;padding:8px 10px;border-left:3px solid var(--exe);background:var(--bg)}.bfn b{color:var(--ink)}
+.obspre{white-space:pre-wrap;word-break:break-word;font-size:11px;line-height:1.5;color:var(--mut);max-height:320px;overflow:auto;margin:8px 0 0}
 .pl-list li small.rg{display:block;font-size:10.5px;opacity:.8}
 </style></head>
 <body>
@@ -610,6 +611,7 @@ function vLog(){ld=ld||today();const e=LE(),c=e.cat||{},d=e.d||{},x=e.ex||{},sm=
   <details class="help"><summary>Adjust totals by hand</summary>${LDI.map(([k,n,s])=>frow(n,s,stp("d."+k,d[k]),"st")).join("")}</details>
   ${frow("Last caffeine at","Leave empty if none",`<input class="f" data-f="caffT" type="time" value="${e.caffT||""}" aria-label="Last caffeine time">`,"tm")}
  </div></details>
+ ${obsHTML()}
  <div id="wk">${weekHTML()}</div>
  <h2 style="margin-top:26px">How each habit shapes your brain</h2>${BRAINFX.map(([n,col,t],i)=>`<div class="card2" style="border-left:4px solid ${col}"><h3>${n}</h3><p class="mut" style="margin:0 0 6px">${t}</p><p style="margin:0;font-size:13px">Tests it can move: <b>${HREG[["sleep","move","diet","screen"][i]].map(k=>CATS[k].n).join(", ")}</b></p></div>`).join("")}
  <p class="mut">Habit scores are simple guides built from common health targets: 7 to 9 hours of sleep, 150 minutes of activity a week, plenty of plants and brain foods, and limited leisure screens. They are not medical advice.</p>`}
@@ -628,7 +630,7 @@ function setF(path,v){const e=S.log[ld]||(S.log[ld]={}),[a,b]=path.split(".");
  if(a==="bed"||a==="wake"){const h=e.bed&&e.wake?sleepH(e):null;const si=$("#slin");if(h!=null){e.sl=+h.toFixed(2);if(si){si.value=h.toFixed(2);si.disabled=true}}else if(si)si.disabled=false}
  if(!Object.keys(e).length)delete S.log[ld];save();refreshLog()}
 function refreshLog(){$("#rep").innerHTML=repHTML();$("#wk").innerHTML=weekHTML();const sm=sums();Object.keys(sm).forEach(k=>{const el=$("#sm-"+k);if(el)el.textContent=sm[k]});const r=$("#recon");if(r)r.textContent=recon()}
-function bindLog(){
+function bindLog(){bindObs();
  let lastPT="mouse";
  document.querySelectorAll("[data-fd]").forEach(b=>{b.onpointerdown=ev=>{lastPT=ev.pointerType};b.onclick=()=>{addFood(b.dataset.fd,1);const w=bfWhy(b.dataset.fd);if(w){const n=$("#bfnote");if(n)n.innerHTML=`<b>${w[0]}:</b> ${w[1]}`;if(lastPT!=="mouse")hideTip()}};
   if(bfWhy(b.dataset.fd)){b.onpointerenter=ev=>{if(ev.pointerType==="mouse")showTip(b)};b.onpointerleave=hideTip;b.onfocus=()=>{if(b.matches(":focus-visible"))showTip(b)};b.onblur=hideTip}});
@@ -638,6 +640,71 @@ function bindLog(){
  document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{const f=b.dataset.st,[a,k]=f.split("."),cur=+((LE()[a]||{})[k]||0),v=Math.max(0,cur+ +b.dataset.dl);setF(f,v||null);$("#o-"+a+"-"+k).textContent=v});
  document.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const v=+b.dataset.sq,nv=LE().sq===v?null:v;setF("sq",nv);document.querySelectorAll("[data-sq]").forEach(o=>{const on=+o.dataset.sq===nv;o.classList.toggle("on",on);o.setAttribute("aria-pressed",on)})});
  $("#dp").onclick=()=>{ld=dshift(ld,-1);render()};$("#dn").onclick=()=>{if(ld<today()){ld=dshift(ld,1);render()}}}
+
+/* obsidian: build a markdown note per day, send via obsidian:// link, export all as zip */
+const OBS=()=>Object.assign({vault:"",mode:"own",folder:"CortX",daily:"Daily/{date}"},S.obs||{});
+const yv=v=>typeof v==="string"?`"${v.replace(/"/g,'\\"')}"`:v;
+function obsNote(d){const keep=ld;ld=d;try{
+ const e=S.log[d]||{},c=e.cat||{},T=S.hist.filter(x=>x.d===d),tt={};T.forEach(x=>tt[x.c]=x.s);
+ const P={date:d,tags:"[cortx]",cortx_habits:habit(e),sleep_score:pSleep(e),movement_score:pMove(e),diet_score:pDiet(e),screen_score:pScreen(e),
+  sleep_hours:sleepH(e)!=null?+sleepH(e).toFixed(2):null,sleep_quality:e.sq??null,bedtime:e.bed||null,wake_time:e.wake||null,
+  movement_min:exMin(e),strength_min:e.ex&&e.ex.strength?+e.ex.strength:null,steps:e.steps??null,
+  screen_total_min:devMin(e)!=null?Math.round(devMin(e)):null,leisure_screen_min:leisMin(e)!=null?Math.round(leisMin(e)):null,short_form_min:c.short??null,social_min:c.social??null,pickups:e.pick??null,screens_before_bed_min:e.bedscr??null,
+  fruit_veg:has(e.d)?dget(e,"veg")+dget(e,"fruit"):null,brain_foods:has(e.d)?dget(e,"brain"):null,water:has(e.d)?dget(e,"water"):null,caffeine:has(e.d)?dget(e,"caff"):null,last_caffeine:e.caffT||null,sugar:has(e.d)?dget(e,"sugar"):null,processed_meals:has(e.d)?dget(e,"upf"):null,alcohol:has(e.d)?dget(e,"alc"):null};
+ KEYS.forEach(k=>{if(tt[k]!=null)P["test_"+SLUG[k]]=tt[k]});
+ if(d===today()&&S.base)P.cortx_overall=overall();
+ const fm="---\n"+Object.entries(P).filter(([,v])=>v!=null).map(([k,v])=>`${k}: ${k==="tags"?v:yv(v)}`).join("\n")+"\n---\n";
+ const L=[`# CortX · ${d}`,"","## Tests"];
+ if(T.length)KEYS.filter(k=>tt[k]!=null).forEach(k=>L.push(`- ${CATS[k].n} (${ANAT[k]}): **${tt[k]}** / 100, ${band(tt[k])}`));else L.push("- No tests this day.");
+ const hb=habit(e);L.push("","## Habits",hb==null?"Nothing logged.":`Brain habits score: **${hb}** (${band(hb)}). Sleep ${pSleep(e)??"–"} · Movement ${pMove(e)??"–"} · Diet ${pDiet(e)??"–"} · Screens ${pScreen(e)??"–"}`);
+ if(hb!=null){L.push("");sched(e).filter(x=>x.st!=="na").forEach(x=>L.push(`- [${x.st==="ok"?"x":" "}] ${x.l} (${x.det})`))}
+ if(devMin(e)!=null||has(e.cat)){L.push("","## Screen time");if(has(e.scr))L.push(`- Devices: ${LDEV.filter(([k])=>(e.scr||{})[k]).map(([k,n])=>`${n} ${fmtM(e.scr[k]*60)}`).join(", ")}`);LCAT.forEach(([k,n])=>{if(c[k])L.push(`- ${n}: ${fmtM(+c[k])}`)});if(e.pick!=null)L.push(`- Pickups: ${e.pick}`);if(e.bedscr!=null)L.push(`- Screens in the hour before bed: ${e.bedscr} min`)}
+ if(sleepH(e)!=null)L.push("","## Sleep",`- ${fmtM(sleepH(e)*60)}${e.bed&&e.wake?`, ${e.bed} to ${e.wake}`:""}${e.sq?`, quality: ${SQ[e.sq-1]}`:""}`);
+ if(exMin(e)!=null||e.steps){L.push("","## Movement");LEX.forEach(([k,n])=>{if(e.ex&&e.ex[k])L.push(`- ${n}: ${e.ex[k]} min`)});if(e.steps)L.push(`- Steps: ${e.steps}`)}
+ if(has(e.d)){L.push("","## Food");const f=e.foods||{};Object.keys(f).filter(k=>FD[k]).forEach(k=>L.push(`- ${FD[k][1]} ×${f[k]}${bfWhy(k)?" (brain food)":""}`));if(e.caffT)L.push(`- Last caffeine: ${e.caffT}`)}
+ L.push("","*Logged with CortX. Not medical advice.*");
+ return fm+L.join("\n")+"\n"}finally{ld=keep}}
+const obsPath=d=>{const o=OBS();return o.mode==="daily"?o.daily.replace(/\{date\}/g,d):`${(o.folder||"CortX").replace(/\/+$/,"")}/${d}`};
+function obsURL(d){const o=OBS(),q=[];if(o.vault)q.push("vault="+encodeURIComponent(o.vault));q.push("file="+encodeURIComponent(obsPath(d)));
+ if(o.mode==="daily"){const md=obsNote(d).replace(/^---[\s\S]*?---\n/,"").replace(/^# .*\n/,"");q.push("content="+encodeURIComponent("\n"+md.replace(/^## /gm,"### ").replace(/^/, "## CortX\n")),"append=true")}
+ else q.push("content="+encodeURIComponent(obsNote(d)),"overwrite=true");
+ return"obsidian://new?"+q.join("&")}
+const DASH=o=>`# CortX dashboard\n\nNeeds the free Dataview community plugin.\n\n\`\`\`dataview\nTABLE cortx_habits AS "Habits", sleep_hours AS "Sleep (h)", movement_min AS "Move (min)", short_form_min AS "Short-form (min)", brain_foods AS "Brain foods"\nFROM "${(o.folder||"CortX").replace(/\/+$/,"")}"\nWHERE date\nSORT date DESC\n\`\`\`\n`;
+function crc32(u){const t=crc32.t||(crc32.t=Array.from({length:256},(_,n)=>{let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;return c>>>0}));let c=-1;for(let i=0;i<u.length;i++)c=t[(c^u[i])&255]^(c>>>8);return(c^-1)>>>0}
+function makeZip(files){const enc=new TextEncoder(),parts=[],cd=[];let off=0;const now=new Date(),tm=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1),dt=((now.getFullYear()-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate();
+ files.forEach(({name,data})=>{const n=enc.encode(name),b=enc.encode(data),cr=crc32(b),h=new DataView(new ArrayBuffer(30));
+  [[0,0x04034b50,4],[4,20,2],[6,0x0800,2],[8,0,2],[10,tm,2],[12,dt,2],[14,cr,4],[18,b.length,4],[22,b.length,4],[26,n.length,2],[28,0,2]].forEach(([o,v,s])=>s===4?h.setUint32(o,v,true):h.setUint16(o,v,true));
+  parts.push(h,n,b);const ce=new DataView(new ArrayBuffer(46));
+  [[0,0x02014b50,4],[4,20,2],[6,20,2],[8,0x0800,2],[10,0,2],[12,tm,2],[14,dt,2],[16,cr,4],[20,b.length,4],[24,b.length,4],[28,n.length,2],[30,0,2],[32,0,2],[34,0,2],[36,0,2],[38,0,4],[42,off,4]].forEach(([o,v,s])=>s===4?ce.setUint32(o,v,true):ce.setUint16(o,v,true));
+  cd.push(ce,n);off+=30+n.length+b.length});
+ const cs=cd.reduce((a,x)=>a+x.byteLength,0),end=new DataView(new ArrayBuffer(22));
+ [[0,0x06054b50,4],[4,0,2],[6,0,2],[8,files.length,2],[10,files.length,2],[12,cs,4],[16,off,4],[20,0,2]].forEach(([o,v,s])=>s===4?end.setUint32(o,v,true):end.setUint16(o,v,true));
+ return new Blob([...parts,...cd,end],{type:"application/zip"})}
+function obsDays(){return[...new Set([...Object.keys(S.log),...S.hist.map(x=>x.d)])].sort()}
+function obsExport(){const o=OBS(),f=(o.folder||"CortX").replace(/\/+$/,""),days=obsDays();if(!days.length){obsMsg("Nothing to export yet.");return}
+ const z=makeZip([...days.map(d=>({name:`${f}/${d}.md`,data:obsNote(d)})),{name:`${f}/CortX dashboard.md`,data:DASH(o)}]);
+ const a=document.createElement("a");a.href=URL.createObjectURL(z);a.download=`cortx-obsidian-${today()}.zip`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+ obsMsg(`Exported ${days.length} ${days.length===1?"day":"days"}. Unzip it and drag the "${f}" folder into your vault.`)}
+function obsMsg(t){const m=$("#obsmsg");if(m)m.textContent=t}
+async function obsCopy(){const t=obsNote(ld);try{await navigator.clipboard.writeText(t);obsMsg("Note copied. Paste it into a new note in Obsidian.")}catch(err){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand("copy")}catch(x){}ta.remove();obsMsg(ok?"Note copied. Paste it into a new note in Obsidian.":"Copying is blocked here. Use the preview below and copy it by hand.")}}
+function obsHTML(){const o=OBS();
+ return`<div class="hb" id="obs"><h3>Obsidian</h3><p class="mut">Send ${ld===today()?"today":dlabel(ld)} to your Obsidian vault as a note, with your scores and habits as properties.</p>
+ <a class="btn" id="obssend" href="#" style="display:block;text-align:center;text-decoration:none">Send ${ld===today()?"today":dlabel(ld)} to Obsidian</a>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn alt sm" id="obscopy">Copy note</button><button class="btn alt sm" id="obsexp">Export all days (.zip)</button></div>
+ <p class="mut" id="obsmsg" aria-live="polite" style="margin:8px 0 0">${o.vault?`Vault: ${o.vault} · notes go to ${o.mode==="daily"?`your daily note (${o.daily})`:`${o.folder||"CortX"}/`}`:"Set your vault name below first."}</p>
+ <details class="help" style="margin-top:10px"${o.vault?"":" open"}><summary>Connection settings</summary>
+  <label for="obsv" style="font-size:14px">Vault name</label><input id="obsv" class="f" value="${(o.vault||"").replace(/"/g,"&quot;")}" placeholder="Exactly as Obsidian shows it" autocomplete="off">
+  <label style="font-size:14px">Where notes go</label><div class="qc"><button data-om="own" class="${o.mode==="own"?"on":""}" aria-pressed="${o.mode==="own"}">A CortX note per day</button><button data-om="daily" class="${o.mode==="daily"?"on":""}" aria-pressed="${o.mode==="daily"}">Add to my daily note</button></div>
+  <div id="obsown"${o.mode==="own"?"":" hidden"}><label for="obsf" style="font-size:14px">Folder</label><input id="obsf" class="f" value="${o.folder}" placeholder="CortX"><p class="mut" style="font-size:12px;margin:4px 0 0">Sending again replaces that day's CortX note with the latest numbers.</p></div>
+  <div id="obsdaily"${o.mode==="daily"?"":" hidden"}><label for="obsd" style="font-size:14px">Daily note path</label><input id="obsd" class="f" value="${o.daily}" placeholder="Daily/{date}"><p class="mut" style="font-size:12px;margin:4px 0 0">{date} becomes YYYY-MM-DD. A CortX section is added to the end of that note. Sending twice adds it twice.</p></div>
+ </details>
+ <details class="help"><summary>Preview the note</summary><pre class="obspre" id="obspre"></pre></details></div>`}
+function bindObs(){const sv=(k,v)=>{S.obs=Object.assign(OBS(),{[k]:v});save()};
+ $("#obssend").onclick=ev=>{const o=OBS();if(!o.vault){ev.preventDefault();obsMsg("Enter your vault name in Connection settings first.");const dt=$("#obs details");if(dt)dt.open=true;$("#obsv").focus();return}$("#obssend").href=obsURL(ld);obsMsg("Opening Obsidian… If nothing happens, check that Obsidian is installed and the vault name matches.")};
+ $("#obscopy").onclick=obsCopy;$("#obsexp").onclick=obsExport;
+ $("#obsv").oninput=ev=>sv("vault",ev.target.value.trim());$("#obsf").oninput=ev=>sv("folder",ev.target.value.trim()||"CortX");$("#obsd").oninput=ev=>sv("daily",ev.target.value.trim()||"Daily/{date}");
+ document.querySelectorAll("[data-om]").forEach(b=>b.onclick=()=>{sv("mode",b.dataset.om);document.querySelectorAll("[data-om]").forEach(x=>{x.classList.toggle("on",x===b);x.setAttribute("aria-pressed",x===b)});$("#obsown").hidden=b.dataset.om!=="own";$("#obsdaily").hidden=b.dataset.om!=="daily"});
+ const pv=$("#obs details:last-of-type");pv.ontoggle=()=>{if(pv.open)$("#obspre").textContent=obsNote(ld)}}
 
 /* realistic 3D brain */
 let raf=0,selC=null;

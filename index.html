@@ -681,10 +681,12 @@ function makeZip(files){const enc=new TextEncoder(),parts=[],cd=[];let off=0;con
  [[0,0x06054b50,4],[4,0,2],[6,0,2],[8,files.length,2],[10,files.length,2],[12,cs,4],[16,off,4],[20,0,2]].forEach(([o,v,s])=>s===4?end.setUint32(o,v,true):end.setUint16(o,v,true));
  return new Blob([...parts,...cd,end],{type:"application/zip"})}
 function obsDays(){return[...new Set([...Object.keys(S.log),...S.hist.map(x=>x.d)])].sort()}
-function obsExport(){const o=OBS(),f=(o.folder||"CortX").replace(/\/+$/,""),days=obsDays();if(!days.length){obsMsg("Nothing to export yet.");return}
- const z=makeZip([...days.map(d=>({name:`${f}/${d}.md`,data:obsNote(d)})),{name:`${f}/CortX dashboard.md`,data:DASH(o)}]);
- const a=document.createElement("a");a.href=URL.createObjectURL(z);a.download=`cortx-obsidian-${today()}.zip`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
- obsMsg(`Exported ${days.length} ${days.length===1?"day":"days"}. Unzip it and drag the "${f}" folder into your vault.`)}
+async function obsExport(){const o=OBS(),f=(o.folder||"CortX").replace(/\/+$/,""),days=obsDays();if(!days.length){obsMsg("Nothing to export yet.");return}
+ const z=makeZip([...days.map(d=>({name:`${f}/${d}.md`,data:obsNote(d)})),{name:`${f}/CortX dashboard.md`,data:DASH(o)}]),fn=`cortx-obsidian-${today()}.zip`,done=`Exported ${days.length} ${days.length===1?"day":"days"}. Unzip it and drag the "${f}" folder into your vault.`;
+ const dls=window.claude&&window.claude.use?await window.claude.use("downloads").catch(()=>null):null;
+ if(dls){obsMsg("Preparing your export…");try{await dls.save({filename:fn,data:z});obsMsg(done)}catch(err){obsMsg(err&&err.code==="declined"?"Export cancelled.":err&&err.code==="rate_limited"?"A save prompt is already open. Try again in a moment.":"Saving files isn't available here. Open index.html directly in Safari or Chrome to export.")}return}
+ const a=document.createElement("a");a.href=URL.createObjectURL(z);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+ obsMsg(done)}
 function obsMsg(t){const m=$("#obsmsg");if(m)m.textContent=t}
 async function obsCopy(){const t=obsNote(ld);try{await navigator.clipboard.writeText(t);obsMsg("Note copied. Paste it into a new note in Obsidian.")}catch(err){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand("copy")}catch(x){}ta.remove();obsMsg(ok?"Note copied. Paste it into a new note in Obsidian.":"Copying is blocked here. Use the preview below and copy it by hand.")}}
 function obsHTML(){const o=OBS();

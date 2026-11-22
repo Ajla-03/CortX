@@ -459,9 +459,9 @@ function bindPanel(){document.querySelectorAll("[data-r]").forEach(b=>b.onclick=
  document.querySelectorAll("[data-pre]").forEach(b=>b.onclick=()=>preTest(b.dataset.pre));
  document.querySelectorAll("[data-clr]").forEach(b=>b.onclick=()=>selectC("all"))}
 const bindSel=bindPanel;
-function selectC(k){selC=(k==="all"||!CATS[k])?null:k;const ch=$("#ch");if(ch)ch.innerHTML=chips();const pn=$("#pn");pn.innerHTML=panel(selC);
+function selectC(k,stay){selC=(k==="all"||!CATS[k])?null:k;const ch=$("#ch");if(ch)ch.innerHTML=chips();const pn=$("#pn");pn.innerHTML=panel(selC);
  document.querySelectorAll(".ov").forEach(o=>o.classList.toggle("on",selC==null));
- const bb=$("#base");if(bb)bb.hidden=selC!=null;bindPanel();if(selC)pn.scrollIntoView({block:"nearest"})}
+ const bb=$("#base");if(bb)bb.hidden=selC!=null;bindPanel();if(selC&&!stay)pn.scrollIntoView({block:"nearest"})}
 function summary(){const o=overall(),bo=avg(KEYS.map(k=>S.base[k])),dl=o-bo,order=[...KEYS].sort((a,b)=>cur(b)-cur(a)),w=new Date(Date.now()-6*864e5).toLocaleDateString("en-CA"),dd=new Set(S.hist.filter(x=>x.d>=w).map(x=>x.d)).size;
  const row=k=>{const c=cur(k),b0=S.base[k],d=c-b0;return`<button class="srow" data-r="${k}" style="--c:${CATS[k].c}"><span class="sn"><b>${ANAT[k]}</b><small>${CATS[k].n}</small></span><span class="sb" role="img" aria-label="${ANAT[k]} score ${c}, baseline ${b0}"><i style="width:${c}%"></i><u style="left:${b0}%"></u></span><span class="sv">${c}<small>${d>=0?"+":""}${d}</small></span></button>`};
  return`<h2 style="margin-top:26px">Brain summary</h2><button class="ov${selC==null?" on":""}" data-r="all" style="display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);cursor:pointer"><div class="ovh"><span>Overall brain progress</span><b>${o}</b></div><div class="obar"><i style="width:${o}%"></i></div><p class="mut" style="margin-top:8px">Baseline ${bo}, now ${o} (${dl>=0?"+":""}${dl}). ${S.hist.length} sessions, trained on ${dd} of the last 7 days.</p><p class="mut">Tap to show the entire brain in the visual.</p></button>${KEYS.map(row).join("")}<p class="mut" style="margin-top:10px">Strongest: ${ANAT[order[0]]}. Needs the most work: ${ANAT[order[order.length-1]]}. The white tick on each bar marks your baseline. Brain regions work together as networks, and each task here mainly leans on one region, so treat this mapping as a simplified guide.</p>`}
@@ -475,7 +475,7 @@ function render(){cancelAnimationFrame(raf);
  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
  const m=$("#main");m.innerHTML=tab=="prog"?vProg():tab=="log"?vLog():vBrain();m.scrollTop=0;
  const b1=$("#base");if(b1)b1.onclick=()=>baseline();
- const bc=$("#bc");if(bc){brain(bc,selectC,$("#bz"),$("#bs"));bindPanel()}
+ const bc=$("#bc");if(bc){brain(bc,k=>selectC(k,true),$("#bz"),$("#bs"));bindPanel()}
  const b2=$("#rebase");if(b2)b2.onclick=()=>{S.pre={};baseline()};
  const sv=$("#savelog");if(sv)sv.onclick=()=>{const g=i=>{const v=parseFloat($(i).value);return isNaN(v)?null:v};
   S.log[today()]={sl:g("#sl"),mv:g("#mv"),sc:g("#sc")};save();render()}}

@@ -81,6 +81,23 @@ button{-webkit-tap-highlight-color:transparent}
 .rvo li small{font-size:10px;text-transform:uppercase;letter-spacing:.06em;border:1px solid currentColor;padding:0 4px;margin-left:6px;white-space:nowrap}.rvo li.a small{color:var(--exe)}.rvo li.u:not(.a) small{color:var(--mot)}.rvo li span{display:block;margin-top:3px}
 .rsum{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 0 10px 12px;border-left:4px solid var(--c);border-bottom:1px solid var(--line)}.rsum small{display:block;color:var(--mut);font-size:11px}.rsv{font-size:20px;font-weight:800;color:var(--c);text-align:right}.rsv small{font-weight:400}
 .pl-redo{margin-left:auto;align-self:center;font:inherit;font-size:11px;background:none;border:1px solid var(--line);color:var(--mut);padding:3px 8px;cursor:pointer}@media(hover:hover){.pl-redo:hover{color:var(--ink);border-color:var(--mut)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dnav{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);margin:0 0 14px}.dnav button{font:inherit;font-size:22px;background:none;border:0;color:var(--ink);padding:6px 18px;cursor:pointer}.dnav button:disabled{color:var(--line);cursor:default}
+.hs{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px}.hs>b{font-size:40px;color:var(--acc);font-weight:800;line-height:1}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}.tiles div{padding:8px 9px;border-right:1px solid var(--line)}.tiles div:last-child{border:0}.tiles small{display:block;color:var(--mut);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase}.tiles b{font-size:22px;font-weight:800}
+.sch h4,.lsec h4{margin:14px 0 4px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.sci{display:grid;grid-template-columns:20px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.sci>i{font-style:normal;font-weight:800;text-align:center}.sci.ok>i{color:var(--exe)}.sci.no>i{color:var(--rea)}.sci.na{color:var(--mut)}.sci small{display:block;color:var(--mut);font-size:12px}
+details.lsec{border:1px solid var(--line);margin:0 0 8px;background:var(--card)}details.lsec>summary{padding:13px 12px;cursor:pointer;font-weight:600;display:flex;justify-content:space-between;gap:10px;list-style:none}details.lsec>summary::-webkit-details-marker{display:none}details.lsec>summary span{color:var(--mut);font-weight:400;font-size:12.5px;text-align:right}details.lsec>summary::before{content:"+";color:var(--acc);margin-right:-2px}details.lsec[open]>summary::before{content:"−"}details.lsec>summary{justify-content:flex-start}details.lsec>summary span{margin-left:auto}
+.lsec .in{padding:0 12px 12px}
+.help{border:1px dashed var(--line);padding:8px 10px;margin:0 0 6px;font-size:13px}.help summary{cursor:pointer;color:var(--acc);font-weight:600}.help ul{margin:8px 0}
+.fr{display:grid;grid-template-columns:1fr 96px;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}.fr label{margin:0;font-weight:600;font-size:14px}.fr label small{display:block;font-weight:400;color:var(--mut);font-size:11.5px}.fr .f{padding:8px;text-align:right}.fr .f:disabled{color:var(--mut)}.fr.st{grid-template-columns:1fr 116px}.fr.hi label{color:var(--occ)}.fr.tm{grid-template-columns:1fr 150px}
+.stp{display:flex;align-items:center;border:1px solid var(--line);background:var(--bg)}.stp button{font:inherit;width:36px;height:38px;background:none;border:0;color:var(--ink);font-size:18px;cursor:pointer}.stp output{flex:1;text-align:center;font-weight:800}
+.qc{display:flex;gap:4px;margin:4px 0 0}.qc button{flex:1;font:inherit;font-size:11.5px;background:var(--bg);border:1px solid var(--line);color:var(--mut);padding:9px 0;cursor:pointer}.qc button.on{border-color:var(--acc);color:var(--acc)}
+.hg{display:grid;grid-template-columns:76px repeat(7,1fr);gap:2px;font-size:12px;margin-bottom:12px}.hg span{padding:7px 0;text-align:center}.hg .hl{text-align:left;color:var(--mut)}.hg .hc{font-weight:800;background:var(--card)}
+.wst{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-bottom:12px}.wst div{padding:9px 10px;border-bottom:1px solid var(--line)}.wst div:nth-child(odd){border-right:1px solid var(--line)}.wst div:nth-last-child(-n+2){border-bottom:0}.wst small{display:block;color:var(--mut);font-size:10px;letter-spacing:.06em;text-transform:uppercase}.wst b{font-size:18px;font-weight:800}.wst span{display:block;color:var(--mut);font-size:11px}
+.cb{display:grid;grid-template-columns:minmax(0,1.3fr) 1fr 64px;gap:8px;align-items:center;font-size:12.5px;margin-bottom:6px}.cbt{height:10px;background:var(--line)}.cbt i{display:block;height:100%;background:var(--acc);border-radius:0 4px 4px 0;min-width:2px}.cb b{text-align:right;font-weight:600}
+.lvl{display:inline-block;font-size:11px;border:1px solid currentColor;padding:0 6px;margin-left:8px}.lvl.ok{color:var(--exe)}.lvl.no{color:var(--rea)}
+.card2{border:1px solid var(--line);padding:12px;margin:0 0 8px}.card2 h3{font-size:15px}
 .pl-list li small.rg{display:block;font-size:10.5px;opacity:.8}
 </style></head>
 <body>
@@ -453,19 +470,134 @@ function vProg(){
   return`<section class="blk"><h3 style="color:${CATS[c].c}">${CATS[c].n}</h3><p class="mut">Baseline ${S.base[c]}, now ${cur(c)} (${d>=0?"+":""}${d})</p>${spark(c)}</section>`}).join("")+
  `<button class="btn alt" id="rebase">Retake baseline test</button>`}
 
-function vLog(){
- const L=S.log[today()]||{},dates=Object.keys(S.log).sort().slice(-7),vals=k=>dates.map(d=>S.log[d][k]).filter(x=>x!=null&&!isNaN(x)),a=k=>{const v=vals(k);return v.length?+(v.reduce((x,y)=>x+y,0)/v.length).toFixed(1):null};
- const sl=a("sl"),mv=a("mv"),sc=a("sc"),adv=[];
- if(sl!=null)adv.push(sl<7?`Sleep averages ${sl} hours. Aim for 7 to 9; memory and focus suffer first.`:`Sleep averages ${sl} hours. Good range for memory and focus.`);
- if(mv!=null)adv.push(mv<30?`Activity averages ${mv} minutes a day. A 20 to 30 minute walk is a strong place to start.`:`Activity averages ${mv} minutes a day. Keep it up.`);
- if(sc!=null)adv.push(sc>5?`Screen time averages ${sc} hours. Try replacing one hour with reading, a walk, or a training session.`:`Screen time averages ${sc} hours.`);
- return`<h2>Daily log</h2><label for="sl">Sleep last night (hours)</label><input id="sl" class="f" type="number" step="0.5" inputmode="decimal" value="${L.sl??""}">
- <label for="mv">Active minutes (walk, workout)</label><input id="mv" class="f" type="number" inputmode="numeric" value="${L.mv??""}">
- <label for="sc">Screen time today (hours, all devices)</label><input id="sc" class="f" type="number" step="0.5" inputmode="decimal" value="${L.sc??""}">
- <p class="mut" style="margin-top:8px">Find your total in Settings, Screen Time. Automatic tracking needs a native app with Apple’s Screen Time access.</p>
- <button class="btn" id="savelog">Save today’s log</button>
- <h2 style="margin-top:26px">What your week says</h2>${adv.length?"<ul>"+adv.map(x=>`<li>${x}</li>`).join("")+"</ul>":`<p class="mut">Log a few days to see patterns.</p>`}
- <h3>Habits that help your brain</h3><ul><li>Walk 20 to 30 minutes, ideally daily</li><li>Aerobic exercise three times a week</li><li>Sleep 7 to 9 hours on a steady schedule</li><li>Learn something hard: a language, instrument, or skill</li><li>Spend time with people, and read something longer than a post</li></ul>`}
+/* daily habits: screen time, sleep, movement, diet */
+const LDEV=[["phone","iPhone"],["tablet","iPad"],["computer","Laptop or computer"]];
+const LCAT=[["short","Short-form video","TikTok, Instagram Reels, YouTube Shorts",1],["social","Social feeds","Instagram, X, Facebook, Snapchat (not Reels)",1],["video","Long-form video and TV","YouTube, Netflix, streaming",1],["games","Games","",1],["msg","Messaging and calls","Messages, WhatsApp, FaceTime",0],["learn","Reading and learning","Books, news, courses, language apps",0],["work","Work and school","Email, documents, coding, studying",0],["other","Everything else","Anything not listed above",1]];
+const LEX=[["walk","Walking",""],["cardio","Cardio","Running, cycling, swimming, sports"],["strength","Strength","Weights, bodyweight, climbing"],["flex","Yoga or stretching",""]];
+const LDI=[["veg","Vegetables","Servings, about a fist each"],["fruit","Fruit","Servings"],["brain","Brain foods","Oily fish, nuts, berries, leafy greens, beans, olive oil"],["water","Water","Glasses"],["caff","Caffeine","Coffee, tea, energy drinks"],["sugar","Sugary drinks or sweets","Servings"],["upf","Fast or ultra-processed meals","Fast food, packaged meals, chips"],["alc","Alcohol","Drinks"]];
+const SQ=["Very poor","Poor","Okay","Good","Great"];
+let ld=null;
+const LE=()=>S.log[ld]||{};
+const tm=t=>{if(!t)return null;const[h,m]=t.split(":").map(Number);return h*60+m};
+const fmtT=m=>`${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(Math.round(m%60)).padStart(2,"0")}`;
+const fmtM=m=>m==null?"–":m<60?`${Math.round(m)} min`:`${Math.floor(m/60)} h ${String(Math.round(m%60)).padStart(2,"0")} m`;
+const osum=o=>o?Object.values(o).reduce((a,v)=>a+(+v||0),0):0;
+const has=o=>!!o&&Object.values(o).some(v=>v!=null&&v!=="");
+const sleepH=e=>e.bed&&e.wake?((tm(e.wake)-tm(e.bed)+1440)%1440)/60:(e.sl??null);
+const devMin=e=>has(e.scr)?osum(e.scr)*60:(e.sc!=null?e.sc*60:null);
+const leisMin=e=>{const d=devMin(e);if(!has(e.cat))return d;const c=e.cat,as=osum(c),non=(+c.msg||0)+(+c.learn||0)+(+c.work||0);return as-non+(d!=null?Math.max(0,d-as):0)};
+const exMin=e=>has(e.ex)?osum(e.ex):(e.mv??null);
+const dget=(e,k)=>+((e.d||{})[k]||0);
+function pSleep(e){const h=sleepH(e);if(h==null)return null;const d=h>=7&&h<=9?100:h<7?Math.max(0,100-(7-h)*25):Math.max(40,100-(h-9)*20);return Math.round(e.sq?.7*d+.3*(e.sq-1)/4*100:d)}
+function pMove(e){const m=exMin(e),st=e.steps;if(m==null&&st==null)return null;let s=Math.min(100,(m||0)/30*100);if(st)s=Math.max(s,Math.min(100,st/8000*100));if(e.ex&&e.ex.strength>0)s=Math.min(100,s+10);return Math.round(s)}
+function pDiet(e){if(!has(e.d))return null;const d=k=>dget(e,k);const s=25+Math.min(5,d("veg")+d("fruit"))*8+Math.min(2,d("brain"))*10+Math.min(8,d("water"))/8*15-d("sugar")*8-d("upf")*8-(d("alc")>0?5:0)-Math.max(0,d("alc")-1)*10-Math.max(0,d("caff")-3)*5;return Math.round(Math.max(0,Math.min(100,s)))}
+function pScreen(e){if(devMin(e)==null&&!has(e.cat))return null;const L=leisMin(e)||0,sf=+((e.cat||{}).short||0);let s=100-Math.max(0,(L-120)/60*15)-Math.max(0,(sf-30)/30*12);if(e.bedscr!=null)s-=e.bedscr>=30?15:e.bedscr>=10?7:0;if(e.pick>100)s-=10;return Math.round(Math.max(0,Math.min(100,s)))}
+const PIL=[["sleep","Sleep",pSleep],["move","Movement",pMove],["diet","Diet",pDiet],["screen","Screens",pScreen]];
+const habit=e=>avg(PIL.map(p=>p[2](e)).filter(x=>x!=null));
+const dshift=(d,n)=>{const t=new Date(d+"T12:00");t.setDate(t.getDate()+n);return t.toLocaleDateString("en-CA")};
+const dlabel=d=>d===today()?"Today":d===dshift(today(),-1)?"Yesterday":new Date(d+"T12:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+const usualBed=()=>{const v=Object.keys(S.log).filter(d=>d<ld).sort().slice(-14).map(d=>tm(S.log[d].bed)).filter(x=>x!=null).map(m=>m<720?m+1440:m);return v.length<3?null:Math.round(v.reduce((a,b)=>a+b,0)/v.length)%1440};
+const sfLevel=m=>m<30?["Low","ok"]:m<60?["Moderate","ok"]:m<120?["High","no"]:["Very high","no"];
+
+function sched(e){const it=[],h=sleepH(e),ub=usualBed(),m=exMin(e),c=e.cat||{},L=leisMin(e),a=dget(e,"alc");
+ const add=(g,l,ok,det)=>it.push({g,l,st:ok==null?"na":ok?"ok":"no",det});
+ add("Night","Slept 7 to 9 hours",h==null?null:h>=7&&h<=9,h==null?"Log your sleep":`${fmtM(h*60)}`);
+ if(e.bed&&ub!=null){const df=Math.abs(((tm(e.bed)-ub+2160)%1440)-720);add("Night","Went to bed near your usual time",df<=60,`Bed ${e.bed}, usual ${fmtT(ub)}`)}else add("Night","Went to bed near your usual time",null,"Log bedtimes on 3 or more days to compare");
+ add("Day","Moved for 30 minutes or more",m==null&&!e.steps?null:(m||0)>=30||(e.steps||0)>=8000,m==null&&!e.steps?"Log your movement":`${fmtM(m||0)}${e.steps?`, ${e.steps.toLocaleString()} steps`:""}`);
+ add("Day","Ate 5 or more fruit and vegetable servings",has(e.d)?dget(e,"veg")+dget(e,"fruit")>=5:null,has(e.d)?`${dget(e,"veg")+dget(e,"fruit")} servings`:"Log your food");
+ add("Day","Had at least one brain food",has(e.d)?dget(e,"brain")>=1:null,has(e.d)?"Oily fish, nuts, berries, leafy greens, beans or olive oil":"Log your food");
+ const br=ub??tm(e.bed);if(e.caffT&&br!=null){const hb=((br-tm(e.caffT))+1440)%1440/60;add("Day","Last caffeine 8 or more hours before bed",hb>=8,`Last at ${e.caffT}, about ${hb.toFixed(1)} h before bed`)}else add("Day","Last caffeine 8 or more hours before bed",has(e.d)&&!dget(e,"caff")?true:null,has(e.d)&&!dget(e,"caff")?"No caffeine today":"Log your last caffeine and a bedtime");
+ add("Evening","Short-form video under 30 minutes",c.short==null?null:c.short<30,c.short==null?"Log your screen time":`${fmtM(+c.short)}`);
+ add("Evening","Leisure screen time under 2 hours",L==null?null:L<120,L==null?"Log your screen time":`${fmtM(L)}`);
+ add("Evening","No screens in the hour before bed",e.bedscr==null?null:e.bedscr<10,e.bedscr==null?"Log your screen time before bed":`${e.bedscr} min of screens`);
+ add("Evening","No more than one alcoholic drink",has(e.d)?a<=1:null,has(e.d)?`${a} drinks`:"Log your food");
+ return it}
+
+function repHTML(){const e=LE(),sc=PIL.map(p=>p[2](e)),hb=habit(e),it=sched(e),done=it.filter(x=>x.st==="ok").length,logged=it.filter(x=>x.st!=="na").length;
+ return`<div class="hs"><span><b class="mut" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Brain habits score</b><br><span class="mut">${hb==null?"Log something below to get a score.":`${band(hb)}. Average of the habits you logged.`}</span></span><b>${hb??"–"}</b></div>
+ <div class="tiles">${PIL.map((p,i)=>`<div><small>${p[1]}</small><b>${sc[i]??"–"}</b></div>`).join("")}</div>
+ <div class="sch"><p class="mut" style="margin:10px 0 0">Your day: ${done} of ${logged} logged habits on track.</p>${["Night","Day","Evening"].map(g=>`<h4>${g==="Night"?"Last night":g==="Day"?"During the day":"Evening"}</h4>`+it.filter(x=>x.g===g).map(x=>`<div class="sci ${x.st}"><i aria-hidden="true">${x.st==="ok"?"✓":x.st==="no"?"!":"·"}</i><span>${x.l} <span class="sr">${x.st==="ok"?"(on track)":x.st==="no"?"(off track)":"(not logged)"}</span><small>${x.det}</small></span></div>`).join("")).join("")}</div>`}
+
+const fnum=(f,v,step,ph)=>`<input class="f" data-f="${f}" type="number" min="0" step="${step}" inputmode="decimal" placeholder="${ph||0}" value="${v??""}" aria-label="${f}">`;
+const frow=(lab,sub,ctl,cls)=>`<div class="fr${cls?" "+cls:""}"><label>${lab}${sub?`<small>${sub}</small>`:""}</label>${ctl}</div>`;
+const stp=(f,v)=>`<div class="stp"><button data-st="${f}" data-dl="-1" aria-label="Less">−</button><output id="o-${f.replace(".","-")}">${v??0}</output><button data-st="${f}" data-dl="1" aria-label="More">+</button></div>`;
+function sums(){const e=LE(),c=e.cat||{};return{screen:devMin(e)==null&&!has(e.cat)?"Not logged":`${fmtM(devMin(e)??osum(c))}${c.short!=null?` · short-form ${fmtM(+c.short)}`:""}`,sleep:sleepH(e)==null?"Not logged":fmtM(sleepH(e)*60),move:exMin(e)==null&&!e.steps?"Not logged":fmtM(exMin(e)||0),diet:has(e.d)?`Score ${pDiet(e)}`:"Not logged"}}
+function recon(){const e=LE(),d=devMin(e),a=has(e.cat)?osum(e.cat):null;if(d==null||a==null)return"Enter device totals and categories. They don't have to match exactly.";
+ return a>d+5?`Your categories add up to ${fmtM(a)}, more than the ${fmtM(d)} device total. Check for double counting.`:a<d-5?`Categories cover ${fmtM(a)} of ${fmtM(d)}. The other ${fmtM(d-a)} counts as "Everything else".`:`Categories match your device total of ${fmtM(d)}.`}
+
+function weekHTML(){const days=[...Array(7)].map((_,i)=>dshift(ld,i-6)),E=days.map(d=>S.log[d]||{}),any=E.some(e=>Object.keys(e).length);
+ if(!any)return`<h2 style="margin-top:26px">Your week</h2><p class="mut">Log a few days to see your week.</p>`;
+ const cell=v=>{if(v==null)return`<span class="hc" style="color:var(--mut)">–</span>`;return`<span class="hc" style="background:rgba(198,255,61,${(.12+.8*v/100).toFixed(2)});color:${v>=55?"#06080a":"var(--ink)"}" title="${v}">${v}</span>`};
+ const grid=`<div class="hg" role="table" aria-label="Habit scores for the last 7 days"><span class="hl"></span>${days.map(d=>`<span class="hl" style="text-align:center">${new Date(d+"T12:00").toLocaleDateString(undefined,{weekday:"short"})}</span>`).join("")}${PIL.map(p=>`<span class="hl">${p[1]}</span>${E.map(e=>cell(p[2](e))).join("")}`).join("")}</div>`;
+ const av=f=>{const v=E.map(f).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null};
+ const sl=av(sleepH),mvT=E.map(exMin).filter(x=>x!=null).reduce((a,b)=>a+b,0),str=E.filter(e=>e.ex&&e.ex.strength>0).length,sf=av(e=>e.cat&&e.cat.short!=null?+e.cat.short:null),ls=av(leisMin);
+ const stat=(l,v,s)=>`<div><small>${l}</small><b>${v}</b><span>${s}</span></div>`;
+ const stats=`<div class="wst">${stat("Sleep",sl==null?"–":fmtM(sl*60),"average a night · aim 7 to 9 h")}${stat("Movement",fmtM(mvT),`this week · aim 150 min, ${str} of 2 strength days`)}${stat("Short-form",sf==null?"–":fmtM(sf),"average a day")}${stat("Leisure screens",ls==null?"–":fmtM(ls),"average a day · aim under 2 h")}</div>`;
+ const CE=E.filter(e=>has(e.cat)),cav=LCAT.map(([k,n])=>[k,n,CE.length?CE.reduce((a,e)=>a+(+e.cat[k]||0),0)/CE.length:0]).filter(x=>x[2]>0).sort((a,b)=>b[2]-a[2]),mx=Math.max(1,...cav.map(x=>x[2]));
+ const DE=E.filter(e=>has(e.scr)),dav=LDEV.map(([k,n])=>[n,DE.length?DE.reduce((a,e)=>a+(+e.scr[k]||0),0)/DE.length*60:0]).filter(x=>x[1]>0);
+ let sfTxt="";if(sf!=null){const[lv,cl]=sfLevel(sf),share=ls?Math.round(sf/ls*100):null;
+  sfTxt=`<p>Short-form video: <b>${fmtM(sf)}</b> a day<span class="lvl ${cl}">${cl==="ok"?"✓":"!"} ${lv}</span>${share!=null?` · ${share}% of your leisure screen time`:""}.</p><p class="mut">${sf>=60?"That is a lot of fast switching: a new clip every few seconds for an hour or more. Studies link heavy short-form use with weaker sustained attention, though they mostly show a link rather than proven cause. Try a daily app limit for a couple of weeks and watch whether your Focus score moves.":sf>=30?"A moderate amount. Keeping it under 30 minutes, and out of the hour before bed, protects focus and sleep.":"Low. That leaves more room for the long, effortful focus your brain builds on."}</p>`}
+ const bars=cav.length?`<h3 style="margin-top:16px">Where your screen time goes</h3><p class="mut">Average a day over ${CE.length} logged ${CE.length===1?"day":"days"}.</p>${cav.map(([k,n,v])=>`<div class="cb"><span>${n}</span><span class="cbt"><i style="width:${(v/mx*100).toFixed(1)}%"></i></span><b>${fmtM(v)}</b></div>`).join("")}`:"";
+ const devs=dav.length?`<p class="mut" style="margin-top:8px">By device: ${dav.map(([n,v])=>`${n} ${fmtM(v)}`).join(", ")} a day.</p>`:"";
+ return`<h2 style="margin-top:26px">Your week</h2><p class="mut">Habit scores for the 7 days ending ${dlabel(ld).toLowerCase()==="today"?"today":dlabel(ld)}. Brighter means better.</p>${grid}${stats}${sfTxt}${bars}${devs}${linksHTML()}`}
+
+function linksHTML(){const H=S.hist;if(H.length<4)return"";const cm={};KEYS.forEach(k=>{const v=H.filter(x=>x.c===k).map(x=>x.s);cm[k]=v.length?v.reduce((a,b)=>a+b,0)/v.length:0});
+ const dr={};H.forEach(x=>{(dr[x.d]=dr[x.d]||[]).push(x.s-cm[x.c])});const D=Object.keys(dr).filter(d=>S.log[d]);
+ const cmp=(lab,f,yes,no)=>{const a=[],b=[];D.forEach(d=>{const r=f(S.log[d]);if(r==null)return;(r?a:b).push(avg(dr[d]))});if(a.length<2||b.length<2)return null;const df=avg(a)-avg(b);return`<li>${df>=0?`Your scores averaged <b>${df} points higher</b>`:`Your scores averaged <b>${-df} points lower</b>`} ${yes} than ${no}. <span class="mut">(${a.length} vs ${b.length} days)</span></li>`};
+ const L=[cmp("sleep",e=>{const h=sleepH(e);return h==null?null:h>=7},"after 7+ hours of sleep","after shorter nights"),cmp("move",e=>{const m=exMin(e);return m==null?null:m>=30},"on days you moved 30+ minutes","on days you moved less"),cmp("sf",e=>e.cat&&e.cat.short!=null?e.cat.short<60:null,"on days with under an hour of short-form video","on heavier short-form days")].filter(Boolean);
+ return`<h3 style="margin-top:18px">How your habits line up with your scores</h3>`+(L.length?`<ul>${L.join("")}</ul><p class="mut">Each score is compared with your own average for that test. With only a few days this can be chance, so look for patterns that hold over weeks.</p>`:`<p class="mut">Log your habits on the days you train. With at least two days on each side, CortX compares your test scores after good and poor sleep, more and less movement, and lighter and heavier short-form days.</p>`)}
+
+const BRAINFX=[["Sleep","var(--mem)","During deep sleep the brain replays the day and moves new memories into long-term storage (hippocampus, temporal lobe). It also clears waste built up while you were awake. One short night lowers attention and working memory the next day.","Memory, Focus, Timing"],
+["Movement","var(--mot)","Aerobic exercise raises BDNF, a protein that helps brain cells grow and connect. Over months, regular exercise is linked to a larger hippocampus. A single workout can sharpen attention for an hour or two afterward.","Memory, Focus, Tapping speed"],
+["Diet","var(--rea)","Eating patterns rich in vegetables, berries, fish, nuts, beans and olive oil (like the MIND diet) are linked with slower cognitive aging. Sugar spikes and heavy processed meals are often followed by energy dips. Late caffeine delays and lightens sleep, and alcohol breaks it up.","Memory, Reasoning, Critical thinking"],
+["Screens","var(--occ)","Short-form feeds serve a new clip every few seconds with no effort needed, which rewards constant switching. Studies link heavy short-form use with weaker sustained attention and self-control, though most of this research shows a link rather than proven cause. Screens in the hour before bed push sleep later.","Focus, Visual search, Critical thinking"]];
+
+function vLog(){ld=ld||today();const e=LE(),c=e.cat||{},d=e.d||{},x=e.ex||{},sm=sums(),bh=e.bed&&e.wake;
+ return`<h2>Daily habits</h2><p class="mut">What you do each day shapes the brain your tests measure. Log screen time, sleep, movement and food to see how they add up.</p>
+ <div class="dnav"><button id="dp" aria-label="Previous day">‹</button><b>${dlabel(ld)}</b><button id="dn" aria-label="Next day"${ld>=today()?" disabled":""}>›</button></div>
+ <div id="rep">${repHTML()}</div>
+ <h2 style="margin-top:24px">Log ${ld===today()?"today":dlabel(ld)}</h2><p class="mut">Changes save as you type.</p>
+ <details class="lsec"><summary>Screen time <span id="sm-screen">${sm.screen}</span></summary><div class="in">
+  <details class="help"><summary>Where to find these numbers</summary><ul>
+   <li><b>iPhone and iPad:</b> Settings › Screen Time › See All App &amp; Website Activity. Pick Day. Scroll to see time per app, plus pickups and notifications.</li>
+   <li><b>Mac:</b> System Settings › Screen Time › App &amp; Website Activity.</li>
+   <li><b>Windows laptop:</b> Settings › System › Power &amp; battery › Battery usage, set to the last 24 hours.</li>
+   <li><b>Short-form video:</b> add TikTok to your best guess for Instagram Reels and YouTube Shorts.</li>
+   <li>If <b>Share Across Devices</b> is on, your iPhone total already includes your iPad and Mac. Enter it once, under iPhone, to avoid counting twice.</li>
+  </ul><p class="mut">A web app can't read Screen Time directly, so the numbers are entered by hand.</p></details>
+  <h4>Total by device (hours)</h4>${LDEV.map(([k,n])=>frow(n,"",fnum("scr."+k,(e.scr||{})[k],.25,"0"))).join("")}
+  <h4>By type of use (minutes, all devices)</h4>${LCAT.map(([k,n,s])=>frow(n,s,fnum("cat."+k,c[k],5,"0"),k==="short"?"hi":"")).join("")}
+  <p class="mut" id="recon" style="margin:8px 0">${recon()}</p>
+  <h4>Attention extras</h4>${frow("Phone pickups","Screen Time shows this",fnum("pick",e.pick,1,"0"))}${frow("Notifications","",fnum("notif",e.notif,1,"0"))}${frow("Screens in the last hour before bed","Minutes",fnum("bedscr",e.bedscr,5,"0"))}
+ </div></details>
+ <details class="lsec"><summary>Sleep <span id="sm-sleep">${sm.sleep}</span></summary><div class="in">
+  <p class="mut" style="margin:0 0 6px">The night that ended this morning.</p>
+  ${frow("Went to bed","",`<input class="f" data-f="bed" type="time" value="${e.bed||""}" aria-label="Bedtime">`,"tm")}${frow("Woke up","",`<input class="f" data-f="wake" type="time" value="${e.wake||""}" aria-label="Wake time">`,"tm")}
+  ${frow("Hours slept",bh?"Worked out from your times":"Or enter hours directly",`<input class="f" data-f="sl" id="slin" type="number" min="0" max="16" step=".25" inputmode="decimal" placeholder="0" value="${bh?sleepH(e).toFixed(2):e.sl??""}"${bh?" disabled":""} aria-label="Hours slept">`)}
+  <label style="font-size:14px">How well did you sleep?</label><div class="qc">${SQ.map((q,i)=>`<button data-sq="${i+1}" class="${e.sq===i+1?"on":""}" aria-pressed="${e.sq===i+1}">${q}</button>`).join("")}</div>
+ </div></details>
+ <details class="lsec"><summary>Movement <span id="sm-move">${sm.move}</span></summary><div class="in">
+  ${LEX.map(([k,n,s])=>frow(n,s?s+" · minutes":"Minutes",fnum("ex."+k,x[k],5,"0"))).join("")}${frow("Steps","From your phone or watch, if you track them",fnum("steps",e.steps,100,"0"))}
+ </div></details>
+ <details class="lsec"><summary>Diet <span id="sm-diet">${sm.diet}</span></summary><div class="in">
+  ${LDI.map(([k,n,s])=>frow(n,s,stp("d."+k,d[k]),"st")).join("")}${frow("Last caffeine at","Leave empty if none",`<input class="f" data-f="caffT" type="time" value="${e.caffT||""}" aria-label="Last caffeine time">`,"tm")}
+ </div></details>
+ <div id="wk">${weekHTML()}</div>
+ <h2 style="margin-top:26px">How each habit shapes your brain</h2>${BRAINFX.map(([n,col,t,ts])=>`<div class="card2" style="border-left:4px solid ${col}"><h3>${n}</h3><p class="mut" style="margin:0 0 6px">${t}</p><p style="margin:0;font-size:13px">Tests it can move: <b>${ts}</b></p></div>`).join("")}
+ <p class="mut">Habit scores are simple guides built from common health targets: 7 to 9 hours of sleep, 150 minutes of activity a week, plenty of plants and brain foods, and limited leisure screens. They are not medical advice.</p>`}
+
+function setF(path,v){const e=S.log[ld]||(S.log[ld]={}),[a,b]=path.split(".");
+ if(b){e[a]=e[a]||{};if(v==null)delete e[a][b];else e[a][b]=v;if(!Object.keys(e[a]).length)delete e[a]}else{if(v==null)delete e[a];else e[a]=v}
+ if(a==="ex"){const m=exMin(e);if(m==null)delete e.mv;else e.mv=m}
+ if(a==="scr"){if(has(e.scr))e.sc=osum(e.scr);else delete e.sc}
+ if(a==="bed"||a==="wake"){const h=e.bed&&e.wake?sleepH(e):null;const si=$("#slin");if(h!=null){e.sl=+h.toFixed(2);if(si){si.value=h.toFixed(2);si.disabled=true}}else if(si)si.disabled=false}
+ if(!Object.keys(e).length)delete S.log[ld];save();refreshLog()}
+function refreshLog(){$("#rep").innerHTML=repHTML();$("#wk").innerHTML=weekHTML();const sm=sums();Object.keys(sm).forEach(k=>{const el=$("#sm-"+k);if(el)el.textContent=sm[k]});const r=$("#recon");if(r)r.textContent=recon()}
+function bindLog(){
+ document.querySelectorAll("[data-f]").forEach(i=>i.oninput=()=>{const v=i.value;setF(i.dataset.f,i.type==="time"?(v||null):(v===""||isNaN(+v)?null:Math.max(0,+v)))});
+ document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{const f=b.dataset.st,[a,k]=f.split("."),cur=+((LE()[a]||{})[k]||0),v=Math.max(0,cur+ +b.dataset.dl);setF(f,v||null);$("#o-"+a+"-"+k).textContent=v});
+ document.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const v=+b.dataset.sq,nv=LE().sq===v?null:v;setF("sq",nv);document.querySelectorAll("[data-sq]").forEach(o=>{const on=+o.dataset.sq===nv;o.classList.toggle("on",on);o.setAttribute("aria-pressed",on)})});
+ $("#dp").onclick=()=>{ld=dshift(ld,-1);render()};$("#dn").onclick=()=>{if(ld<today()){ld=dshift(ld,1);render()}}}
 
 /* realistic 3D brain */
 let raf=0,selC=null;
@@ -563,14 +695,13 @@ function vBrain(){const cv=`<div class="cortex"><span class="ctag">cortex /cortx
  return`<h2>Your brain</h2><p class="mut">Drag to rotate, pinch or scroll to zoom, tap a lobe to see what it does. More colored dots mean a higher score, and the weakest region pulses.</p>${cv}<div id="ch">${chips()}</div><div id="pn" class="blk">${panel(selC)}</div>${summary()}<div class="log"><b>session.log</b><br>${lg}</div>`}
 
 function render(){cancelAnimationFrame(raf);
- $("#nav").innerHTML=[["brain","Brain"],["prog","Progress"],["log","Log"]].map(([k,n])=>`<button class="tab${tab==k?" on":""}" data-tab="${k}">${n}</button>`).join("");
+ $("#nav").innerHTML=[["brain","Brain"],["prog","Progress"],["log","Daily"]].map(([k,n])=>`<button class="tab${tab==k?" on":""}" data-tab="${k}">${n}</button>`).join("");
  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
  const m=$("#main");m.innerHTML=tab=="prog"?vProg():tab=="log"?vLog():vBrain();m.scrollTop=0;
  const b1=$("#base");if(b1)b1.onclick=()=>baseline();
  const bc=$("#bc");if(bc){brain(bc,selectC,$("#bz"),$("#bs"));bindPanel()}
  const b2=$("#rebase");if(b2)b2.onclick=()=>{S.pre={};baseline()};
- const sv=$("#savelog");if(sv)sv.onclick=()=>{const g=i=>{const v=parseFloat($(i).value);return isNaN(v)?null:v};
-  S.log[today()]={sl:g("#sl"),mv:g("#mv"),sc:g("#sc")};save();render()}}
+ if(tab=="log")bindLog()}
 document.addEventListener("keydown",e=>{
  if(e.repeat||e.target.tagName==="BUTTON")return;
  const st=$("#stage");
@@ -579,7 +710,7 @@ document.addEventListener("keydown",e=>{
   if(p&&(e.key===" "||(e.key==="Enter"&&!$("#go")))){e.preventDefault();p.dispatchEvent(new Event("pointerdown"));return}
   if(e.key==="Enter"){const b=$("#ok")||$("#go")||$("#fin")||$("#rz");if(b){e.preventDefault();b.click()}}
   else if(/^[1-4]$/.test(e.key)){const b=document.querySelector(`[data-j="${+e.key-1}"]`);if(b)b.click()}
- }else if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("f")){const b=$("#savelog");if(b)b.click()}
+ }else if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("f"))e.target.blur()
 });
 render();
 </script>

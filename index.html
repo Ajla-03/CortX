@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CortX">
+<title>CortX</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080a;--ink:#e8efe4;--mut:#8a9786;--card:#0d1210;--line:#222d1f;--acc:#c6ff3d;--mem:#35c8ff;--rea:#ff9f1a;--cri:#c6ff3d;--exe:#2fe6b4;--mot:#ff5a5a;--spa:#ffe94d;--lan:#7a7cff;--occ:#ff3d9a;--cbl:#d27bff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;display:flex;flex-direction:column}
+main{flex:1;overflow:auto;padding:20px 18px;max-width:520px;width:100%;margin:0 auto}
+h1{font-size:26px;line-height:1.15;font-weight:800;margin:6px 0 10px;letter-spacing:-.03em}
+h2{font-size:22px;margin:4px 0 14px}h3{margin:0 0 4px;font-size:18px}
+p{margin:0 0 10px}.mut{color:var(--mut);font-size:14px}
+.row{display:flex;gap:14px;justify-content:space-between;align-items:center;padding:14px 0 14px 14px;border-bottom:1px solid var(--line);border-left:6px solid var(--c)}
+.sc{text-align:center;min-width:88px}.sc b{display:block;font-size:30px;font-weight:800;color:var(--c);line-height:1.1}
+.btn{font:inherit;font-weight:600;background:var(--acc);color:#06080a;border:0;border-radius:0;padding:13px 18px;width:100%;margin-top:8px}
+.btn.sm{padding:8px 12px;font-size:14px;width:auto}
+.btn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line);text-align:left}
+.btn,.tab,.quit{transition:background .15s,color .15s,border-color .15s;cursor:pointer}
+.btn:active{opacity:.85}
+@media(hover:hover){.btn:hover{background:var(--mut);color:var(--bg)}.btn.alt:hover{background:var(--line);color:var(--ink);border-color:var(--mut)}.tab:hover,.quit:hover{background:var(--line);color:var(--ink)}}
+.btn:focus-visible,.f:focus-visible,.inp:focus-visible,.tab:focus-visible,.quit:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+nav{display:flex;border-top:1px solid var(--line);background:#000}
+.tab{flex:1;background:none;border:0;font:inherit;padding:14px 0;color:var(--mut);font-weight:600}
+.tab.on{color:var(--acc);box-shadow:inset 0 2px var(--acc)}
+#stage{position:fixed;inset:0;background:var(--bg);z-index:5;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#stage[hidden]{display:none}
+#stage header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-weight:600}
+#stage .body{flex:1;padding:10px 18px 24px;max-width:520px;width:100%;margin:0 auto;overflow:auto}
+.quit{background:none;border:0;color:var(--mut);font:inherit;padding:6px 10px}
+.big{font-size:96px;font-weight:800;text-align:center;margin:60px 0;min-height:110px;line-height:1}
+.cdn{width:120px;height:120px;border-radius:50%;border:3px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:800;margin:50px auto}
+.chip{font:inherit;display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:0;padding:6px 10px;font-size:12px;margin:0 6px 6px 0;cursor:pointer}.chip i{width:10px;height:10px;border-radius:50%;background:var(--c)}.chip.on{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.q{font-size:20px;font-weight:600;margin-bottom:14px}
+.inp{font:inherit;font-size:28px;width:100%;padding:12px;border:1px solid var(--line);border-radius:0;background:var(--card);color:var(--ink);text-align:center;letter-spacing:.2em}
+.pad{height:260px;border-radius:0;background:var(--card);border:1px solid var(--line);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:14px;user-select:none;touch-action:manipulation}.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin:6px 0 0}.pass{display:block;font-weight:400;font-size:15px;color:var(--mut);border-left:3px solid var(--line);padding-left:10px;margin-bottom:12px}.dot{width:22px;height:22px;border-radius:50%;margin:0 auto 14px;background:#1c2519}.dot.hi{background:#3b4a33}
+.opts4{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+.mg{display:inline-grid;grid-template-columns:repeat(var(--n,4),var(--s,18px));gap:2px;padding:4px;background:#000;margin:2px}.mg i{width:var(--s,18px);height:var(--s,18px);background:var(--line)}.mg i.on{background:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.cell{font:inherit;font-size:26px;font-weight:600;background:var(--card);color:var(--ink);border:1px solid var(--line);aspect-ratio:1;padding:0;cursor:pointer}
+.cell{-webkit-tap-highlight-color:transparent;user-select:none;touch-action:manipulation}.cell span{display:inline-block;line-height:1}.cell:disabled{opacity:1}.g6{grid-template-columns:repeat(6,1fr);gap:4px}.g6 .cell{font-size:22px}
+label{display:block;margin:12px 0 4px;font-weight:600}
+.f{font:inherit;width:100%;padding:12px;border:1px solid var(--line);border-radius:0;background:var(--card);color:var(--ink)}
+.blk{padding:14px 0;border-bottom:1px solid var(--line)}
+.bar{height:6px;background:var(--line);border-radius:0;margin:0 0 6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);margin-bottom:10px}.stats div{padding:7px 9px;border-right:1px solid var(--line)}.stats div:last-child{border:0}.stats small{display:block;color:var(--mut);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase}.stats b{font-size:19px;color:var(--acc);font-weight:800}
+.cortex{position:relative;border:1px solid var(--line);background:#000;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;background-position:-1px -1px}.cortex canvas{display:block;width:100%;aspect-ratio:5/4;touch-action:none;cursor:grab}
+.ctag{position:absolute;top:8px;left:8px;z-index:1;background:var(--acc);color:#06080a;font-size:10.5px;font-weight:800;padding:2px 7px;pointer-events:none}
+.ov.on{border-color:var(--acc)}.ov{border:1px solid var(--line);padding:12px;margin-bottom:8px}.ovh{display:flex;justify-content:space-between;align-items:baseline}.ovh b{font-size:34px;color:var(--acc);font-weight:800}.obar{height:10px;background:var(--line)}.obar i{display:block;height:100%;background:var(--acc)}
+.srow{display:grid;grid-template-columns:1.2fr 1fr auto;gap:12px;align-items:center;width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c);padding:10px 12px;margin-bottom:6px;text-align:left;cursor:pointer}
+.sn small{display:block;color:var(--mut);font-size:11px}.sb{position:relative;height:8px;background:var(--line)}.sb i{display:block;height:100%;background:var(--c)}.sb u{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff}
+.sv{font-size:18px;font-weight:800;color:var(--c);text-align:right}.sv small{display:block;font-size:11px;color:var(--mut);font-weight:400}
+@media(hover:hover){.srow:hover{background:var(--line)}}
+.log{border:1px solid var(--line);padding:9px 12px;font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.7}.log b{color:var(--acc)}.log em{font-style:normal;color:var(--ink)}
+ul{padding-left:20px;margin:0 0 10px}li{margin-bottom:6px}
+</style></head>
+<body>
+<main id="main"></main>
+<nav id="nav"></nav>
+<div id="stage" hidden></div>
+<script>
+const $=s=>document.querySelector(s);
+const CATS={cri:{n:"Critical thinking",c:"var(--cri)"},exe:{n:"Focus",c:"var(--exe)"},mot:{n:"Tapping speed",c:"var(--mot)"},rea:{n:"Reasoning",c:"var(--rea)"},spa:{n:"Mental rotation",c:"var(--spa)"},mem:{n:"Memory",c:"var(--mem)"},lan:{n:"Vocabulary",c:"var(--lan)"},occ:{n:"Visual search",c:"var(--occ)"},cbl:{n:"Timing",c:"var(--cbl)"}};
+const KEYS=Object.keys(CATS),K="braincamp.v1";
+let S={base:null,hist:[],log:{}},tab="brain",curCat="mem";
+try{const r=localStorage.getItem(K);if(r)S=JSON.parse(r)}catch(e){}
+if(S.base&&KEYS.some(k=>S.base[k]==null)){S.base=null;S.hist=[];S.pre={};S.note=1;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+S.pre=S.pre||{};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const today=()=>new Date().toLocaleDateString("en-CA");
+const rnd=n=>Math.floor(Math.random()*n);
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const avg=a=>a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null;
+const cur=c=>{const h=S.hist.filter(x=>x.c===c).slice(-3).map(x=>x.s);return avg(h)};
+const doneToday=c=>S.hist.some(x=>x.c===c&&x.d===today());
+const overall=()=>avg(KEYS.map(cur).filter(x=>x!=null));
+const TIPS={
+mem:["Retell what you just read in your own words, out loud.","Review new material after 1 day, 3 days, and 7 days.","Place facts along a mental walk through a familiar room."],
+rea:["Solve one puzzle a day and explain your steps before checking.","Before answering, write down what stays the same and what changes.","Practice estimating: guess a number, then check how close you were."],
+cri:["For any claim, ask what evidence would change your mind.","Look for a second explanation before accepting the first.","Read one opinion you disagree with and state its best point."],
+occ:["Scan a busy page for one detail, like a word or a color, and time yourself.","Look away from screens every 20 minutes and focus on something far away.","Do a spot-the-difference puzzle or a visual maze each day."],
+cbl:["Tap or clap along to a song, then try holding the beat when it stops.","Practice a balance move, like standing on one foot, for a minute a day.","Learn something hands-on, like juggling, drumming, or an instrument."],
+exe:["Work on one task for 25 minutes with notifications off, then take a short break.","Practice the color-word idea: name the ink color of words printed in a different color.","Take one breath before answering a tough message or decision."],
+mot:["Practice finger tapping or drumming on a table in short bursts.","Learn a hands-on skill like typing, piano, or knitting.","Do small everyday tasks with your other hand."],
+spa:["Try jigsaw or tangram puzzles, and mentally rotate objects around you.","Use a paper map instead of GPS now and then.","Sketch a familiar room from memory, then check it."],
+lan:["Learn three new words a day and use each in a sentence.","Read something a little above your level for 15 minutes.","Look up the words you skip over while reading."]};
+const INTRO={
+mem:"Digits flash one at a time. Type them back in order. Eight rounds, from 3 digits up to 7. You press Show for each round.",
+rea:"Eight pattern questions that get harder: number rules first, then growing and mixed rules, then letters. Pick what comes next.",
+cri:"Ten logic and evidence questions in four levels, from basic logic to hard reasoning like base rates and weakening an argument.",
+occ:"Twelve grids in three phases: spot the odd symbol, find an exact shape and color, then find a mirrored letter. Grids get bigger. Faster and correct scores best.",
+cbl:"Three parts. Tap with a beat, keep a beat going after it stops, then judge short stretches of time. This is how the cerebellum handles timing.",
+exe:"Three stages: name the ink color of a word, pick the direction of a middle arrow, then switch between an INK rule and a WORD rule. Thirty trials.",
+mot:"Tap the pad as fast as you can for 10 seconds with each hand. Your dominant hand goes first. The timer starts at your first tap. No flashing.",
+spa:"You will see an example of turned versus flipped patterns first. Then eight questions on bigger and bigger grids. No timer.",
+lan:"Sixteen questions in four parts: word meanings, sentences in context, analogies, and reading passages. They get harder as you go."};
+function stage(html,noctl){const s=$("#stage");s.hidden=false;
+ const ctl=stepFn&&!noctl?`<button class="quit" id="pz">Pause</button><button class="quit" id="rs">Restart</button>`:"";
+ s.innerHTML=`<header><span>${curName}${part?", "+part:""}</span><span>${ctl}<button class="quit" id="quit">Quit</button></span></header><div class="body">${html}</div>`;
+ $("#quit").onclick=()=>{gen++;stepFn=null;s.hidden=true;render()};
+ if(ctl){$("#pz").onclick=pause;$("#rs").onclick=restart}}
+let curName="",part="",stepFn=null,gen=0,curRun=null;
+const later=(f,ms)=>{const g=gen;setTimeout(()=>{if(g===gen)f()},ms)};
+const pause=()=>{gen++;stage(`<h2>Paused</h2><p>Your place in this task is held. Resuming replays the current step.</p><button class="btn" id="rz">Resume</button><button class="btn alt" id="rs2">Restart this task</button>`,true);$("#rz").onclick=()=>stepFn&&stepFn();$("#rs2").onclick=restart};
+const restart=()=>{gen++;stepFn=null;if(curRun)EX[curRun.c](curRun.cb)};
+function cd(pre,fn,n=3){stepFn=()=>cd(pre,fn,n);const tick=k=>{stage(pre+`<div class="cdn" role="timer">${k}</div>`);later(k>1?()=>tick(k-1):fn,1000)};tick(n)}
+const prog=(d,n,t)=>`<div class="bar" role="progressbar" aria-valuenow="${d}" aria-valuemax="${n}"><i style="width:${Math.round(d/n*100)}%"></i></div><p class="mut">${t}</p>`;
+const close=()=>{part="";$("#stage").hidden=true;render()};
+
+/* exercises */
+const band=s=>s>=80?"Strong":s>=60?"Solid":s>=40?"Developing":"Early";
+const BANDTXT={Strong:"Most answers or timings landed near the top of this test's scale, including on the hard items.",Solid:"A good, steady result with clear room to climb.",Developing:"A mixed result. This is the kind of area where training helps most.",Early:"An early starting point. First tries often land here, and this is where practice shows up fastest."};
+const SCORING={
+mem:"Score = digits recalled in the right position, out of all 40 digits across the 8 rounds. 100 means every digit correct.",
+rea:"Score = points earned out of the points available. Harder questions are worth more (1 to 1.75 points each). 100 means all correct.",
+cri:"Score = points earned out of the points available. Harder questions are worth more (1 to 2 points each). 100 means all correct.",
+occ:"Each of 12 rounds scores 0 if wrong. If right, 100 for a very fast find down to 20 for a slow one. Your score is the average. Harder rounds allow more time.",
+cbl:"Three parts averaged. Tapping with the beat and keeping a beat score 100 minus your average timing error. Time sense scores by how close you stop to the target. 100 means near-perfect timing.",
+exe:"30 trials in 3 stages. Each is 0 if wrong. If right, 100 for a fast answer down to 30 for a slow one. Your score is the average of all trials.",
+mot:"Each hand scores (taps in 10 s minus 20) divided by 40, as a percent. 20 taps scores 0, 60 taps scores 100. Your score is the average of both hands.",
+spa:"Score = points earned out of the points available. Bigger patterns are worth more (1 to 2 points each). 100 means all correct.",
+lan:"Score = points earned out of the points available over 16 questions in 4 parts. Harder questions are worth more. 100 means all correct."};
+const META={mem:"8 rounds · about 3 minutes",rea:"8 questions · about 3 minutes",cri:"10 questions · about 4 minutes",occ:"12 rounds · about 3 minutes",cbl:"8 trials in 3 parts · about 4 minutes",exe:"30 trials in 3 stages · about 4 minutes",mot:"2 hands, 10 seconds each · about 1 minute",spa:"Example, then 8 questions · about 4 minutes",lan:"16 questions in 4 parts · about 5 minutes"};
+function resHTML(c,s,det,msg){const b=band(s);
+ return`<p class="mut">${CATS[c].n} result</p><h1>${s}<span class="mut" style="font-size:18px;font-weight:600"> / 100</span></h1><p><b>${b}.</b> ${BANDTXT[b]}</p>${det?`<p>${det}</p>`:""}${msg?`<p>${msg}</p>`:""}<p class="mut"><b>How it is scored:</b> ${SCORING[c]}</p><p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. They compare you with your own future scores, not with other people. This is not an IQ or clinical test.</p>`}
+const lin=(rt,f,s)=>Math.round(100-(Math.max(f,Math.min(s,rt))-f)/(s-f)*80);
+const med=a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[s.length>>1]:0};
+let AC=null;
+const beep=(f=880)=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.4,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.08);o.start(t);o.stop(t+.1)}catch(e){}};
+const ready=(title,body,btn,fn)=>{stepFn=()=>ready(title,body,btn,fn);stage(`<h2>${title}</h2>${body}<button class="btn" id="go">${btn}</button>`);$("#go").onclick=fn};
+
+/* memory: fixed 8 rounds */
+function exMem(cb){const L=[3,4,4,5,5,6,6,7],TOT=L.reduce((a,b)=>a+b,0);let r=0,hit=0,longest=0;
+ const rd=()=>{const n=L[r],pr=prog(r,L.length,`Round ${r+1} of ${L.length}. ${L.length-r-1} to go. This round: ${n} digits.`);
+  stepFn=rd;stage(pr+`<p>Round ${r+1}: ${n} digits will appear one at a time. Press Show when you are ready.</p><button class="btn" id="go">Show the digits</button>`);
+  $("#go").onclick=()=>show(n,pr)};
+ const show=(n,pr)=>{const d=Array.from({length:n},()=>rnd(10)).join("");stepFn=()=>show(n,pr);
+  stage(pr+`<p class="big" id="dg"></p><p class="mut" style="text-align:center">Remember the digits</p>`);
+  const el=$("#dg"),go=i=>{if(i>=d.length)return ask(d,pr);el.textContent=d[i];later(()=>{el.textContent="";later(()=>go(i+1),250)},650)};go(0)};
+ const ask=(d,pr)=>{stepFn=()=>ask(d,pr);stage(pr+`<p>Type the ${d.length} digits in order.</p><input id="in" class="inp" inputmode="numeric" autocomplete="off"><button class="btn" id="ok">Check</button>`);
+  $("#in").focus();
+  $("#ok").onclick=()=>{const v=$("#in").value.trim();let k=0;for(let i=0;i<d.length;i++)if(v[i]===d[i])k++;hit+=k;if(v===d)longest=Math.max(longest,d.length);r++;
+   if(r>=L.length)return cb(Math.round(hit/TOT*100),`${hit} of ${TOT} digits correct. Longest string fully correct: ${longest||"none"}.`);rd()}};
+ rd()}
+
+/* multiple choice with weights, no countdown */
+function mc(items,cb){let i=0,ok=0,W=0,G=0;const tot=items.reduce((a,x)=>a+x.w,0),top=Math.max(...items.map(x=>x.t||0)),pp={},hard=[0,0];
+ const q=()=>{stepFn=q;const it=items[i];
+  stage(prog(i,items.length,`Question ${i+1} of ${items.length}. ${i+1<items.length?(items.length-i-1)+" to go":"Last question"}.`)+(it.p?`<p class="tag">${it.p}</p>`:"")+`<p class="q">${it.q}</p>`+(it.g?`<div class="opts4">`:"")+it.o.map((o,j)=>`<button class="btn alt" data-j="${j}">${o}</button>`).join("")+(it.g?`</div>`:""));
+  document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{const good=+b.dataset.j===it.a;if(good){G+=it.w;ok++}
+   if(it.p){const k=it.p.split("· ").pop();pp[k]=pp[k]||[0,0];pp[k][1]++;if(good)pp[k][0]++}
+   if((it.t||0)===top){hard[1]++;if(good)hard[0]++}
+   i++;if(i<items.length)q();else{const pt=Object.keys(pp).length?" "+Object.entries(pp).map(([k,v])=>`${k} ${v[0]}/${v[1]}`).join(", ")+".":"";
+    cb(Math.round(G/tot*100),`${ok} of ${items.length} correct. Hardest questions: ${hard[0]} of ${hard[1]}.${pt}`)}})};
+ q()}
+const prep=(x,t,w,p,g)=>{const c=x.o[x.a],o=shuffle(x.o);return{q:x.q,o,a:o.indexOf(c),t,w,p,g}};
+const pickT=(bank,counts,W,p)=>counts.flatMap((n,t)=>shuffle(bank[t]).slice(0,n).map(x=>prep(x,t,W[t],p)));
+
+/* reasoning: progressive levels */
+function seqOf(t){const a=2+rnd(8),d=2+rnd(6),e=1+rnd(4);let s=[];
+ if(t==0)s=[0,1,2,3,4,5].map(k=>a+d*k);
+ else if(t==1){const r=2+rnd(2);s=[0,1,2,3,4,5].map(k=>a*r**k)}
+ else if(t==2){s=[a];for(let k=0;k<5;k++)s.push(s[k]+(k%2?e:d))}
+ else if(t==3)s=[0,1,2,3,4,5].map(k=>(a+k)**2);
+ else if(t==4){s=[a];for(let k=0;k<5;k++)s.push(s[k]+d+k*e)}
+ else if(t==5){s=[a,d];while(s.length<6)s.push(s[s.length-1]+s[s.length-2])}
+ else if(t==6){s=[a];for(let k=0;k<5;k++)s.push(s[k]*2+(k%2?-1:1)*e)}
+ else{const x=[a,a+d,a+2*d],y=[30+e,30+2*e,30+4*e];s=[x[0],y[0],x[1],y[1],x[2],y[2]]}
+ return s}
+function numItem(t){const s=seqOf(t),sh=t>=4?5:4,ans=s[sh],o=new Set([ans]);
+ while(o.size<4){const v=ans+(rnd(9)-4)*(1+rnd(3));if(v>0&&v!==ans)o.add(v)}
+ const opts=shuffle([...o]);return{q:`What comes next?<br><b>${s.slice(0,sh).join(", ")}, ?</b>`,o:opts,a:opts.indexOf(ans)}}
+function letItem(t){const L="ABCDEFGHIJKLMNOPQRSTUVWXYZ";let s;
+ if(t==0){const a=rnd(8),st=2+rnd(3);s=[0,1,2,3,4,5].map(k=>a+st*k)}
+ else{const a=rnd(10);s=[a,a+1,a+3,a+6,a+10,a+15]}
+ const sh=5,ans=L[s[sh]],o=new Set([ans]);while(o.size<4)o.add(L[Math.max(0,Math.min(25,s[sh]+rnd(7)-3))]);
+ const opts=shuffle([...o]);return{q:`What comes next?<br><b>${s.slice(0,sh).map(x=>L[x]).join(", ")}, ?</b>`,o:opts,a:opts.indexOf(ans)}}
+function exRea(cb){const LV=[0,1,2,3,4,5,6,7],W=[1,1,1.25,1.25,1.5,1.5,1.75,1.75];
+ const it=[numItem(0),numItem(1),numItem(2),numItem(3),numItem(4),numItem(5),letItem(0),Math.random()<.5?letItem(1):numItem(6+rnd(2))];
+ mc(it.map((x,i)=>({...x,t:Math.floor(i/2),w:W[i],p:"Level "+(Math.floor(i/2)+1)+" of 4"})),cb)}
+
+/* critical thinking: 4 tiers, harder as you go */
+const CB=[
+[{q:"All bloops are razzies. All razzies are lazzies. Which must be true?",o:["All bloops are lazzies","All lazzies are bloops","Some lazzies aren’t razzies"],a:0},
+{q:"No cats are dogs, and Rex is a dog. Rex is…",o:["Not a cat","A cat","Possibly a cat"],a:0},
+{q:"Which is the strongest evidence?",o:["A randomized controlled trial","A single testimonial","A popular opinion"],a:0},
+{q:"“Ignore her argument; she’s only a student.” This attacks…",o:["The person, not the argument","The evidence","The logic of the conclusion"],a:0},
+{q:"All birds have feathers. Penguins are birds. So…",o:["Penguins have feathers","Penguins can fly","Some birds lack feathers"],a:0}],
+[{q:"Ice cream sales and drownings both rise in summer. Best explanation?",o:["Hot weather drives both","Ice cream causes drowning","Drowning boosts ice cream demand"],a:0},
+{q:"“Everyone I know loves this app, so it’s the best one.” What’s the flaw?",o:["Small, biased sample","Too many facts","Circular wording"],a:0},
+{q:"“If we allow this, soon everything will be allowed.” This is a…",o:["Slippery slope argument","Valid deduction","Appeal to evidence"],a:0},
+{q:"Prices rose after the new mayor took office, so the mayor caused it. The flaw?",o:["Coming after is not the same as causing","Prices never rise","The mayor is new"],a:0},
+{q:"If it rains, the street is wet. The street is wet. What follows?",o:["It may or may not have rained","It rained","It didn’t rain"],a:0},
+{q:"A study of 10 people found a supplement works. What is the main limit?",o:["Too small to generalize","Too many people","The supplement is natural"],a:0}],
+[{q:"A drug cuts heart attack risk by 50%. In the trial, risk fell from 2 in 1000 to 1 in 1000. Most accurate summary?",o:["Absolute risk fell by 0.1 percentage points","Half of all patients were saved","Risk fell by 50 percentage points"],a:0},
+{q:"Crime fell the year after a city installed cameras. What would best show the cameras caused it?",o:["Crime change in similar cities without cameras","The cost of the cameras","The mayor’s opinion of them"],a:0},
+{q:"Readers of a fitness magazine report that 90% exercise weekly. What can you conclude about all adults?",o:["Nothing reliable, the sample leans toward fitness fans","90% of adults exercise","Magazines cause exercise"],a:0},
+{q:"A firm’s average salary is $90k but the median is $55k. Best explanation?",o:["A few very high salaries pull the average up","Most people earn $90k","The median is miscalculated"],a:0},
+{q:"Students who eat breakfast score higher. Which alternative explanation is most plausible?",o:["Families with more resources may supply both breakfast and study support","Breakfast makes the test easier","Scores cause breakfast"],a:0}],
+[{q:"If the alarm is armed, the door beeps. The door did not beep. What follows?",o:["The alarm is not armed","The door is broken","The alarm is armed but faulty"],a:0},
+{q:"A disease affects 1 in 1000 people. A test catches every case but also flags 1% of healthy people. You test positive. Roughly how likely is it you have the disease?",o:["About 9%","About 99%","About 50%"],a:0},
+{q:"A bat and ball cost $1.10 together. The bat costs $1.00 more than the ball. How much is the ball?",o:["5¢","10¢","15¢"],a:0},
+{q:"Tutoring “raised scores”: students who joined improved by 12 points. Which fact most weakens this?",o:["Students joined after a bad test, and low scores tend to rebound on their own","The tutors were friendly","The scores were measured in May"],a:0},
+{q:"All A are B. Some B are C. Which must be true?",o:["Neither “some A are C” nor “no A are C” is guaranteed","Some A are C","No A are C"],a:0},
+{q:"Five machines make five widgets in five minutes. How long do 100 machines take to make 100 widgets?",o:["5 minutes","100 minutes","20 minutes"],a:0}]];
+const exCri=cb=>mc(pickT(CB,[2,3,3,2],[1,1.25,1.5,2],null).map((x,i)=>({...x,p:["Level 1: basic logic","Level 2: spotting flawed arguments","Level 3: evidence and data","Level 4: hard reasoning"][x.t]})),cb);
+
+/* visual search: 3 phases, 4 rounds each */
+const PAIRS=[["O","Q"],["E","F"],["b","d"],["M","N"],["P","R"],["C","G"],["p","q"],["S","5"],["Z","2"],["h","n"]];
+const SHP=["▲","■","●","◆"],COL=[["lime","#c6ff3d"],["cyan","#35c8ff"],["orange","#ff9f1a"],["magenta","#ff3d9a"]],LET=["R","F","G","P","L","E"];
+function exOcc(cb){const ROWS=[4,5,6,7],TH=[[1500,5000],[2500,8000],[3500,10000]],NM=["Odd symbol","Shape and color","Mirror letter"],pts=[],ps=[[],[],[]],rts=[];let i=0;
+ const INTRO3=["<p>Phase 1 of 3: <b>odd symbol</b>. Every symbol is the same except one look-alike. Tap it.</p>","<p>Phase 2 of 3: <b>shape and color</b>. You are given a target, like a magenta square. Many other shapes and colors are mixed in, including the same shape in another color. Tap only the exact target.</p>","<p>Phase 3 of 3: <b>mirror letter</b>. All the letters are turned in random directions, but one is a mirror image. Tap the mirrored one.</p>"];
+ const round=()=>{const ph=Math.floor(i/4),rows=ROWS[i%4],N=rows*6,odd=rnd(N);let head="",cells=[];
+  if(ph==0){const pr=shuffle(PAIRS[rnd(PAIRS.length)]);cells=Array.from({length:N},(_,j)=>[j===odd,pr[j===odd?1:0],""]);head="Tap the symbol that is different."}
+  else if(ph==1){const ts=rnd(4),tc=rnd(4);cells=Array.from({length:N},(_,j)=>{if(j===odd)return[1,SHP[ts],COL[tc][1]];let s,c;do{s=rnd(4);c=rnd(4)}while(s===ts&&c===tc);return[0,SHP[s],COL[c][1]]});head=`Find: <b style="color:${COL[tc][1]};font-size:22px">${SHP[ts]}</b> the ${COL[tc][0]} shape.`}
+  else{const l=LET[rnd(LET.length)];cells=Array.from({length:N},(_,j)=>[j===odd,l,`transform:${j===odd?"scaleX(-1) ":""}rotate(${rnd(4)*90}deg)`]);head="Tap the mirrored letter."}
+  stepFn=round;
+  stage(prog(i,12,`Round ${i+1} of 12. ${NM[ph]}. ${head}`)+`<div class="grid g6">${cells.map(([o,t,s],j)=>`<button class="cell" data-o="${o?1:0}" aria-label="symbol" style="${ph==1?"color:"+s:s}"><span style="${ph==2?s:""}">${t}</span></button>`).join("")}</div>`);
+  const t0=performance.now();
+  document.querySelectorAll(".cell").forEach(b=>b.onclick=()=>{const rt=performance.now()-t0;document.querySelectorAll(".cell").forEach(x=>x.disabled=true);
+   const good=b.dataset.o==="1";if(good)rts.push(rt);const p=good?lin(rt,TH[ph][0],TH[ph][1]):0;pts.push(p);ps[ph].push(p);i++;
+   if(i<12)(i%4==0?later(next,150):cd(prog(i,12,`${i} of 12 done. Next grid in:`),next,2));else cb(Math.round(avg(pts)),`${pts.filter(x=>x>0).length} of 12 correct. Median find time ${(med(rts)/1000).toFixed(1)} s. ${NM.map((n,k)=>`${n} ${Math.round(avg(ps[k]))}`).join(", ")}.`)})};
+ const next=()=>{const ph=Math.floor(i/4);if(i%4==0)ready(NM[ph],INTRO3[ph]+`<p class="mut">Speed counts here, so each grid is timed from when it appears.</p>`,"Start phase",round);else round()};
+ next()}
+
+/* focus: Stroop, flanker, rule switch */
+const SC=[["RED","255,77,77"],["GREEN","61,220,132"],["BLUE","91,140,255"],["YELLOW","255,210,61"]];
+function exExe(cb){const ST=[{n:"Ink color",k:8,th:[600,1650]},{n:"Arrows",k:10,th:[450,1400]},{n:"Rule switch",k:12,th:[800,2200]}],TOT=30,res=[[],[],[]];let s=0,t=0,tot=0,lastRule=null;
+ const INT=["<p>Stage 1 of 3: <b>ink color</b>. A color word appears in colored ink. Tap the button for the <b>ink color</b>, not the word.</p>","<p>Stage 2 of 3: <b>arrows</b>. Five arrows appear. Tap the direction the <b>middle</b> arrow points, ignoring the ones around it.</p>","<p>Stage 3 of 3: <b>rule switch</b>. A cue says INK or WORD. On INK, tap the ink color. On WORD, tap what the word says. The cue changes from trial to trial.</p>"];
+ const intro=()=>ready(ST[s].n,INT[s]+`<p class="mut">${ST[s].k} quick trials. Speed and accuracy both count.</p>`,"Start stage",trial);
+ const trial=()=>{stepFn=trial;const w=rnd(4),c=Math.random()<.7?(w+1+rnd(3))%4:w,P=prog(tot,TOT,`Trial ${tot+1} of ${TOT}. Stage ${s+1}: ${ST[s].n}.`);let body,ans,btn;
+  if(s==0){body=`<p class="big" style="color:rgb(${SC[c][1]});font-size:60px;min-height:80px;margin:34px 0">${SC[w][0]}</p>`;ans=c;btn=SC.map(o=>o[0])}
+  else if(s==1){const d=rnd(2),cong=Math.random()<.5,A=["←","→"],f=cong?d:1-d;body=`<p class="big" style="font-size:48px;min-height:80px;margin:34px 0;letter-spacing:.1em">${A[f]+A[f]+A[d]+A[f]+A[f]}</p>`;ans=d;btn=["◀ Left","Right ▶"]}
+  else{let r=Math.random()<.5?1-(lastRule??0):(lastRule??rnd(2));lastRule=r;body=`<p class="tag" style="text-align:center">RULE: ${r?"WORD":"INK"}</p><p class="big" style="color:rgb(${SC[c][1]});font-size:60px;min-height:80px;margin:20px 0 34px">${SC[w][0]}</p>`;ans=r?w:c;btn=SC.map(o=>o[0])}
+  stage(P+body+`<div class="opts4">${btn.map((o,j)=>`<button class="btn alt" data-j="${j}">${o}</button>`).join("")}</div>`);
+  const t0=performance.now();
+  document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{const rt=performance.now()-t0,good=+b.dataset.j===ans;res[s].push(good?Math.max(30,lin(rt,ST[s].th[0],ST[s].th[1])):0);t++;tot++;
+   if(tot>=TOT){const all=res.flat(),ac=all.filter(x=>x>0).length;return cb(Math.round(avg(all)),`${ac} of ${TOT} correct. ${ST.map((x,k)=>`${x.n} ${Math.round(avg(res[k]))}`).join(", ")}.`)}
+   if(t>=ST[s].k){s++;t=0;return intro()}
+   stage(prog(tot,TOT,`${tot} of ${TOT} done.`)+`<p class="big" style="font-size:60px;min-height:80px;margin:34px 0">+</p>`);later(trial,500)})};
+ intro()}
+
+/* motor: dominant hand first, no flashing */
+function exMot(cb){const sc=[],tp=[];let order,hs;
+ const setup=()=>{order=S.hand==="left"?["LEFT","RIGHT"]:["RIGHT","LEFT"];hs=[`${order[0]} hand (dominant)`,`${order[1]} hand (non-dominant)`];trial(0)};
+ const ask=()=>{stepFn=null;stage(`<h2>Which hand do you write with?</h2><p>This sets which hand goes first. Your dominant hand goes first, then the other.</p><button class="btn" data-j="0">Right hand</button><button class="btn" data-j="1">Left hand</button>`);
+  document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{S.hand=+b.dataset.j?"left":"right";save();setup()})};
+ const trial=i=>{stepFn=()=>trial(i);
+  const prev=i?`<p class="mut">${hs[0]}: ${tp[0]} taps (${(tp[0]/10).toFixed(1)} per second).</p>`:"";
+  stage(prog(i,2,`Round ${i+1} of 2.`)+`<h2>${i+1}. Use your ${hs[i]}</h2>${prev}<p>${i?"Now the other hand.":"Your dominant hand goes first."} Tap the pad with one finger as fast as you can for 10 seconds. The timer starts at your first tap. Press Ready, then tap.</p><button class="btn" id="go">Ready</button><button class="btn alt sm" id="chg">Wrong hand? Change dominant hand</button>`);
+  $("#go").onclick=()=>pad(i);$("#chg").onclick=ask};
+ const pad=i=>{stepFn=()=>trial(i);
+  stage(prog(i,2,`${hs[i]}. Tap as fast as you can.`)+`<div id="pad" class="pad">Tap to start</div><div class="bar"><i id="tb" style="width:0%"></i></div><p class="mut" id="tl">10.0 s</p>`);
+  const p=$("#pad");let n=0,t0=0,done=0;
+  const tick=()=>{const el=(performance.now()-t0)/1000,left=10-el;
+   if(left<=0){done=1;p.onpointerdown=null;tp[i]=n;sc.push(Math.max(0,Math.min(100,(n-20)/40*100)));$("#tb").style.width="100%";
+    later(()=>{if(i+1<2)trial(i+1);else{const d=`${hs[0]}: ${tp[0]} taps (${(tp[0]/10).toFixed(1)}/s). ${hs[1]}: ${tp[1]} taps (${(tp[1]/10).toFixed(1)}/s). `+(tp[0]>tp[1]?"Your dominant hand was faster, which is typical.":tp[0]<tp[1]?"Your non-dominant hand was faster. That happens, and it is fine.":"Both hands matched.");cb(Math.round(avg(sc)),d)}},600);return}
+   $("#tl").textContent=`${left.toFixed(1)} s`;$("#tb").style.width=(el*10)+"%";later(tick,100)};
+  p.onpointerdown=()=>{if(done)return;if(!t0){t0=performance.now();tick()}n++;p.textContent=String(n)}};
+ S.hand?setup():ask()}
+
+/* spatial: tutorial, then turned vs flipped */
+const rot=g=>g[0].map((_,c)=>g.map(r=>r[c]).reverse()),flip=g=>g.map(r=>[...r].reverse()),eq=(a,b)=>a.every((r,i)=>r.every((v,j)=>v===b[i][j]));
+const mg=(g,l)=>{const n=g.length,sz=l?(n>=5?20:26):(n>=5?14:n==3?22:18);return`<span class="mg" style="--n:${n};--s:${sz}px">${g.map(r=>r.map(v=>`<i class="${v?"on":""}"></i>`).join("")).join("")}</span>`};
+function rotItem(n,k){let g,rs,fr,ok,tries=0;
+ do{g=Array.from({length:n},()=>Array(n).fill(0));let c=0;while(c<k){const r=rnd(n),q=rnd(n);if(!g[r][q]){g[r][q]=1;c++}}
+  rs=[g,rot(g),rot(rot(g)),rot(rot(rot(g)))];const f=flip(g);fr=[f,rot(f),rot(rot(f)),rot(rot(rot(f)))];
+  ok=rs.every((x,i)=>rs.every((y,j)=>i===j||!eq(x,y)))&&fr.every(m=>rs.every(x=>!eq(m,x)))&&fr.every((x,i)=>fr.every((y,j)=>i===j||!eq(x,y)))}while(!ok&&++tries<3000);
+ const good=rs[1+rnd(3)],opts=shuffle([good,...shuffle(fr).slice(0,3)]);
+ return{q:`Which one is the pattern turned around (rotated), not flipped?<br><span style="display:block;margin:10px 0">${mg(g,1)}</span>`,o:opts.map(o=>mg(o)),a:opts.indexOf(good),g:1}}
+const TUT=[[1,1,0],[0,1,0],[0,1,1]];
+function exSpa(cb){const go=()=>{const cfg=[[3,4],[3,4],[4,6],[4,6],[4,6],[5,8],[5,8],[5,8]],W=[1,1,1.25,1.25,1.25,2,2,2];
+  mc(cfg.map(([n,k],i)=>({...rotItem(n,k),t:n-3,w:W[i],p:`${n} by ${n} grid`})),cb)};
+ stepFn=null;stage(`<h2>Turned vs flipped</h2><p>Take the pattern below.</p><p style="text-align:center">${mg(TUT,1)}<br><small class="mut">ORIGINAL</small></p>
+ <p><b>TURNED (rotated)</b> means you spin it, like turning a card on a table. It is still the same pattern.</p><p style="text-align:center">${mg(rot(TUT),1)} ${mg(rot(rot(TUT)),1)}<br><small class="mut">Turned 90° and turned 180°: same pattern</small></p>
+ <p><b>FLIPPED (mirror)</b> means you reflect it, like looking in a mirror. No amount of turning makes it match the original.</p><p style="text-align:center">${mg(flip(TUT),1)}<br><small class="mut">Flipped: a different pattern</small></p>
+ <p>In each question you see one pattern and four choices. Pick the one that is the pattern <b>turned</b>. The wrong choices are flipped. There is no timer.</p><button class="btn" id="go">I understand, start</button>`);
+ $("#go").onclick=go}
+
+/* Wernicke: 4 parts */
+const VB=[[{q:"Closest in meaning to “candid”?",o:["Honest and direct","Secretive","Angry"],a:0},{q:"Closest in meaning to “frugal”?",o:["Careful with money","Wasteful","Famous"],a:0}],
+[{q:"Closest in meaning to “ambiguous”?",o:["Open to more than one meaning","Obvious","Dangerous"],a:0},{q:"Closest in meaning to “mitigate”?",o:["Make less severe","Make worse","Measure"],a:0}],
+[{q:"Closest in meaning to “obsequious”?",o:["Overly eager to please","Openly hostile","Easily confused"],a:0},{q:"Closest in meaning to “laconic”?",o:["Using very few words","Fond of long speeches","Easily angered"],a:0}],
+[{q:"Closest in meaning to “perfidious”?",o:["Treacherous","Generous","Confused"],a:0},{q:"Closest in meaning to “recalcitrant”?",o:["Stubbornly resistant to control","Eager to cooperate","Extremely tired"],a:0}]];
+const SN=[[{q:"Because the road was icy, he drove ___.",o:["slowly","loudly","happily"],a:0},{q:"The soup was too ___ to eat, so she waited for it to cool.",o:["hot","tasty","thin"],a:0}],
+[{q:"Her argument was so ___ that even her critics admitted it made sense.",o:["persuasive","vague","ornate"],a:0},{q:"The politician’s ___ answer avoided the question entirely.",o:["evasive","blunt","detailed"],a:0}],
+[{q:"Though the evidence seemed ___, further tests overturned the result.",o:["conclusive","trivial","hidden"],a:0},{q:"The new rule, far from ___ the problem, made it worse.",o:["alleviating","ignoring","creating"],a:0}],
+[{q:"The author’s prose was ___; every sentence said much in few words.",o:["pithy","florid","tedious"],a:0},{q:"The committee’s ___ approach, weighing every option at length, delayed the decision for months.",o:["deliberative","impulsive","careless"],a:0}]];
+const AN=[[{q:"Hot is to cold as up is to…",o:["Down","High","Top"],a:0},{q:"Finger is to hand as toe is to…",o:["Foot","Shoe","Nail"],a:0}],
+[{q:"Pilot is to airplane as captain is to…",o:["Ship","Ocean","Uniform"],a:0},{q:"Author is to book as composer is to…",o:["Music","Piano","Concert"],a:0}],
+[{q:"Whisper is to shout as breeze is to…",o:["Gale","Wind","Cloud"],a:0},{q:"Sculptor is to marble as weaver is to…",o:["Yarn","Loom","Cloth"],a:0}],
+[{q:"Lethargic is to energy as despondent is to…",o:["Hope","Sadness","Speed"],a:0},{q:"Eulogy is to praise as satire is to…",o:["Ridicule","Grief","Debate"],a:0}]];
+const RC=[{t:"Honeybees tell nestmates where food is using a “waggle dance.” The angle of the dance shows the direction of the food relative to the sun, and the length of the waggle shows the distance. Bees that watch the dance can then fly straight to the flowers.",
+ q:[{q:"What does the length of the waggle show?",o:["The distance to the food","The direction of the food","The type of flower"],a:0},{q:"A dancing bee makes a very short waggle. What can you infer?",o:["The food is probably close to the hive","The food is toward the sun","The bee is injured"],a:0}]},
+{t:"When a town replaced its streetlights with brighter LEDs, residents expected fewer accidents. Instead, night accidents rose slightly for six months, until drivers adjusted to the new glare. Engineers then angled the lights downward, and accidents fell below the old rate.",
+ q:[{q:"What happened right after the lights were replaced?",o:["Night accidents rose slightly","Accidents fell sharply","Nothing changed"],a:0},{q:"What does the passage suggest about brighter lighting?",o:["How it is aimed matters, not just how bright it is","Brighter is always safer","Drivers dislike LEDs"],a:0}]},
+{t:"Although often portrayed as a lone genius, the inventor spent most of his career among rival engineers. Many of his best ideas were adapted from their failed prototypes. Historians now argue his true talent was recognizing which discarded ideas were worth rescuing.",
+ q:[{q:"According to historians, what was his real talent?",o:["Recognizing which discarded ideas were worth rescuing","Working entirely alone","Building prototypes faster than others"],a:0},{q:"Which statement would the author most likely agree with?",o:["Credit for inventions can hide collaboration","Rivals never help each other","Failed ideas are worthless"],a:0}]},
+{t:"Researchers compared two groups of students. One studied for two hours and then slept normally. The other studied for three hours and stayed up late. The next day, the first group performed better, and the extra hour of study did not make up for the lost sleep.",
+ q:[{q:"Which group performed better the next day?",o:["The group that studied two hours and slept","The group that studied three hours","Both performed the same"],a:0},{q:"Which conclusion is best supported?",o:["Sleep after studying can matter more than extra study time","Studying never helps","Staying up late improves memory"],a:0}]}];
+function exLan(cb){const P=["Part 1 · Word meaning","Part 2 · Sentences","Part 3 · Analogies","Part 4 · Reading"],W=[1,1.25,1.5,1.75],it=[];
+ [VB,SN,AN].forEach((B,k)=>B.forEach((pair,t)=>it.push(prep(pair[rnd(2)],t,W[t],P[k]))));
+ shuffle(RC).slice(0,2).forEach(r=>r.q.forEach((x,j)=>{const m=prep(x,j?3:1,j?1.75:1.25,P[3]);m.q=`<span class="pass">${r.t}</span>${m.q}`;it.push(m)}));
+ const rd=it.filter(x=>x.p===P[3]);mc([...it.filter(x=>x.p!==P[3]),...rd],cb)}
+const EX={cri:exCri,exe:exExe,mot:exMot,rea:exRea,spa:exSpa,mem:exMem,lan:exLan,occ:exOcc,cbl:exCbl};
+
+/* cerebellum: sync, continuation, time sense */
+function exCbl(cb){const SY=[650,450],CO=[800,600,450],TS=[3,5,8],res=[[],[],[]],det=[];let i=0;
+ const INT=["<p>Part 1 of 3: <b>tap with the beat</b>. You will hear a beat, with a small dot that pulses. Tap the pad each time you hear it. Two rhythms, 10 beats each.</p>","<p>Part 2 of 3: <b>keep the beat</b>. You get 5 beats, then they stop. Keep tapping at the same speed for 8 taps. Three speeds.</p>","<p>Part 3 of 3: <b>time sense</b>. Tap Start, then tap Stop when you think the target time has passed. Do not count out loud or tap along. Three targets.</p>"];
+ const tot=SY.length+CO.length+TS.length,dot=`<div class="dot" id="dt"></div>`;
+ const pulse=()=>{const d=$("#dt");if(d){d.classList.add("hi");later(()=>d.classList.remove("hi"),90)}beep()};
+ const nextT=()=>{i++;if(i>=tot)return fin();const ph=i<2?0:i<5?1:2;if(i===2||i===5)intro(ph);else trial()};
+ const fin=()=>{const m=res.map(a=>Math.round(avg(a)));cb(Math.round(avg(m)),`Tap with the beat ${m[0]}, keep the beat ${m[1]}, time sense ${m[2]}. ${det.join(" ")}`)};
+ const intro=ph=>ready(["Tap with the beat","Keep the beat","Time sense"][ph],INT[ph]+(ph<2?`<p class="mut">Turn your sound on. An iPhone silent switch mutes it. The dot pulses as a backup.</p>`:""),"Start part",()=>{beep(440);trial()});
+ const trial=()=>{stepFn=trial;const ph=i<2?0:i<5?1:2,P=prog(i,tot,`Trial ${i+1} of ${tot}. ${["Tap with the beat","Keep the beat","Time sense"][ph]}.`);
+  if(ph==2)return ts(P,TS[i-5]);
+  const iv=ph==0?SY[i]:CO[i-2],nb=ph==0?10:5,need=ph==0?10:8;
+  stage(P+`<div id="pad" class="pad">${ph==0?"Get ready. Tap with each beat.":"Listen to the beat."}</div>`+dot);
+  const p=$("#pad"),B=[],T=[];let n=0,end=false,start=performance.now()+900;
+  const fire=()=>{if(n>=nb){if(ph==0)later(finish,iv*.8);else{p.textContent=`Keep the beat. Tap ${need} times.`;listen=true}return}n++;B.push(performance.now());pulse();if(ph==1)p.textContent=`Beat ${n} of ${nb}`;later(fire,Math.max(10,start+n*iv-performance.now()))};
+  let listen=ph==0;
+  p.onpointerdown=()=>{if(!listen||end)return;T.push(performance.now());if(ph==1){p.textContent=`Tap ${T.length} of ${need}`;if(T.length===need){end=true;finish()}}};
+  const finish=()=>{end=true;p.onpointerdown=null;let sc,d;
+   if(ph==0){const use=B.slice(2),er=use.map(b=>{let m=iv/2;T.forEach(t=>{m=Math.min(m,Math.abs(t-b))});return m}),e=avg(er);sc=Math.max(0,Math.min(100,100-e/2));d=`Beat ${i+1}: ${Math.round(e)} ms off on average.`}
+   else{const g=T.slice(1).map((t,k)=>t-T[k]),e=g.length?avg(g.map(x=>Math.abs(x-iv))):iv,m=g.length?avg(g):0;sc=Math.max(0,Math.min(100,100-e/2.5));d=`Target ${iv} ms, yours ${Math.round(m)} ms.`}
+   res[ph].push(sc);det.push(d);later(nextT,500)};
+  later(fire,900)};
+ const ts=(P,sec)=>{stage(P+`<p>Target: <b>${sec} seconds</b>. Tap Start, wait, then tap Stop when you think ${sec} seconds have passed. Do not count out loud or tap.</p><button class="btn" id="go">Start</button>`);
+  $("#go").onclick=()=>{const t0=performance.now();stage(P+`<p>Timing… tap Stop at ${sec} seconds.</p><button class="btn" id="go">Stop</button>`);
+   $("#go").onclick=()=>{const el=(performance.now()-t0)/1000,pe=Math.abs(el-sec)/sec*100;res[2].push(Math.max(0,100-pe*2.5));det.push(`Target ${sec} s, you stopped at ${el.toFixed(1)} s.`);
+    stage(P+`<p>You stopped at <b>${el.toFixed(1)} s</b>. Target was ${sec} s (${pe.toFixed(0)}% off).</p><button class="btn" id="ok">Continue</button>`);$("#ok").onclick=nextT}}};
+ intro(0)}
+
+function run(c,cb){curRun={c,cb};gen++;stepFn=null;curName=CATS[c].n;stage(`<h2>${CATS[c].n}</h2><p class="mut">${META[c]}</p><p>${INTRO[c]}</p><p class="mut">Scoring: ${SCORING[c]}</p><button class="btn" id="go">Start</button>`);
+ $("#go").onclick=()=>EX[c](cb)}
+
+function train(c){part="";run(c,(s,det)=>{stepFn=null;const prev=cur(c);S.hist.push({d:today(),c,s});save();
+ const msg=prev==null?"First score recorded.":s>prev?`Up ${s-prev} from your recent average.`:s<prev?`Down ${prev-s} from your recent average. Scores shift with sleep and mood.`:"Matches your recent average.";
+ stage(resHTML(c,s,det,msg)+`<button class="btn" id="fin">Save and continue</button>`);
+ $("#fin").onclick=close})}
+
+function fin(){S.base={...S.pre,d:today()};KEYS.forEach(k=>S.hist.push({d:today(),c:k,s:S.pre[k]}));S.pre={};delete S.note;save();
+ stage(`<h2>Baseline saved</h2>`+KEYS.map(k=>`<p><b>${CATS[k].n}:</b> ${S.base[k]} / 100, ${band(S.base[k])}</p>`).join("")+`<p class="mut">Bands: Strong 80 and up, Solid 60 to 79, Developing 40 to 59, Early under 40. These are your starting scores for you to beat, not a comparison with other people. Train daily and watch the trend.</p><button class="btn" id="fin">See my brain</button>`);
+ $("#fin").onclick=close}
+function afterPre(c,s,det){stepFn=null;S.pre[c]=s;save();
+ if(KEYS.every(k=>S.pre[k]!=null))return fin();
+ stage(resHTML(c,s,det,`${KEYS.filter(k=>S.pre[k]!=null).length} of ${KEYS.length} sections tested.`)+`<button class="btn" id="fin">Back to the brain</button>`);$("#fin").onclick=close}
+function preTest(c){part="";run(c,(s,d)=>afterPre(c,s,d))}
+function baseline(){const todo=KEYS.filter(k=>S.pre[k]==null),go=i=>{const c=todo[i];part=`Part ${KEYS.indexOf(c)+1} of ${KEYS.length}`;run(c,(s,det)=>{if(i+1<todo.length){stepFn=null;S.pre[c]=s;save();stage(resHTML(c,s,det,"")+`<button class="btn" id="fin">Next: ${CATS[todo[i+1]].n}</button>`);$("#fin").onclick=()=>go(i+1);return}afterPre(c,s,det)})};if(todo.length)go(0)}
+
+/* views */
+function spark(c){const v=S.hist.filter(x=>x.c===c).map(x=>x.s);
+ if(v.length<2)return`<p class="mut">Train at least twice to see a trend.</p>`;
+ const w=300,h=56,p=v.map((s,i)=>`${(i/(v.length-1)*w).toFixed(1)},${(h-s/100*h).toFixed(1)}`).join(" ");
+ return`<svg viewBox="0 0 ${w} ${h}" width="100%" height="56" role="img" aria-label="${CATS[c].n} scores over time"><polyline points="${p}" fill="none" style="stroke:${CATS[c].c}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>`}
+
+function vProg(){
+ if(!S.base)return`<h2>Progress</h2><p>Take the baseline test on the Brain tab to start tracking.</p>`;
+ const w=new Date(Date.now()-6*864e5).toLocaleDateString("en-CA"),days=new Set(S.hist.filter(x=>x.d>=w).map(x=>x.d)).size;
+ return`<h2>Progress</h2><p>You trained on ${days} of the last 7 days.</p>`+KEYS.map(c=>{const d=cur(c)-S.base[c];
+  return`<section class="blk"><h3 style="color:${CATS[c].c}">${CATS[c].n}</h3><p class="mut">Baseline ${S.base[c]}, now ${cur(c)} (${d>=0?"+":""}${d})</p>${spark(c)}</section>`}).join("")+
+ `<button class="btn alt" id="rebase">Retake baseline test</button>`}
+
+function vLog(){
+ const L=S.log[today()]||{},dates=Object.keys(S.log).sort().slice(-7),vals=k=>dates.map(d=>S.log[d][k]).filter(x=>x!=null&&!isNaN(x)),a=k=>{const v=vals(k);return v.length?+(v.reduce((x,y)=>x+y,0)/v.length).toFixed(1):null};
+ const sl=a("sl"),mv=a("mv"),sc=a("sc"),adv=[];
+ if(sl!=null)adv.push(sl<7?`Sleep averages ${sl} hours. Aim for 7 to 9; memory and focus suffer first.`:`Sleep averages ${sl} hours. Good range for memory and focus.`);
+ if(mv!=null)adv.push(mv<30?`Activity averages ${mv} minutes a day. A 20 to 30 minute walk is a strong place to start.`:`Activity averages ${mv} minutes a day. Keep it up.`);
+ if(sc!=null)adv.push(sc>5?`Screen time averages ${sc} hours. Try replacing one hour with reading, a walk, or a training session.`:`Screen time averages ${sc} hours.`);
+ return`<h2>Daily log</h2><label for="sl">Sleep last night (hours)</label><input id="sl" class="f" type="number" step="0.5" inputmode="decimal" value="${L.sl??""}">
+ <label for="mv">Active minutes (walk, workout)</label><input id="mv" class="f" type="number" inputmode="numeric" value="${L.mv??""}">
+ <label for="sc">Screen time today (hours, all devices)</label><input id="sc" class="f" type="number" step="0.5" inputmode="decimal" value="${L.sc??""}">
+ <p class="mut" style="margin-top:8px">Find your total in Settings, Screen Time. Automatic tracking needs a native app with Apple’s Screen Time access.</p>
+ <button class="btn" id="savelog">Save today’s log</button>
+ <h2 style="margin-top:26px">What your week says</h2>${adv.length?"<ul>"+adv.map(x=>`<li>${x}</li>`).join("")+"</ul>":`<p class="mut">Log a few days to see patterns.</p>`}
+ <h3>Habits that help your brain</h3><ul><li>Walk 20 to 30 minutes, ideally daily</li><li>Aerobic exercise three times a week</li><li>Sleep 7 to 9 hours on a steady schedule</li><li>Learn something hard: a language, instrument, or skill</li><li>Spend time with people, and read something longer than a post</li></ul>`}
+
+/* realistic 3D brain */
+let raf=0,selC=null;
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const EL=[[0,-.16,.3,.84,.6,.42,"c"],[0,-.16,-.3,.84,.6,.42,"c"],[-.1,.24,.44,.42,.22,.21,"t"],[-.1,.24,-.44,.42,.22,.21,"t"],[.5,.4,.2,.27,.19,.2,"s"],[.5,.4,-.2,.27,.19,.2,"s"],[.18,.58,0,.09,.3,.09,"b"]];
+const evE=(x,y,z,e)=>((x-e[0])/e[3])**2+((y-e[1])/e[4])**2+((z-e[2])/e[5])**2;
+const foldF=(x,y,z)=>{const a=Math.sin(13*x+4*y+2.6*z)*Math.cos(10*y-6*z+3.4*x)+.6*Math.sin(18*z+8*x)*Math.sin(15*y-4*x)+.4*Math.sin(25*x+9*y)*Math.cos(21*z+7*y);return Math.max(0,Math.min(1,1-Math.abs(a)*1.25))};
+const SURF=(()=>{const r=rng(11),g=()=>Math.sqrt(-2*Math.log(r()+1e-9))*Math.cos(6.2832*r()),P=[],DENS=1800;
+ EL.forEach((e,i)=>{const[cx,cy,cz,rx,ry,rz,ty]=e,C=[];let ws=0,wm=0;
+  for(let k=0;k<30000;k++){let ux=g(),uy=g(),uz=g();const l=Math.hypot(ux,uy,uz);ux/=l;uy/=l;uz/=l;const w=Math.hypot(ry*rz*ux,rx*rz*uy,rx*ry*uz);C.push([ux,uy,uz,w]);ws+=w;if(w>wm)wm=w}
+  const want=Math.max(50,Math.round(ws/30000*4*Math.PI*DENS));let got=0;
+  for(const[ux,uy,uz,w]of C){if(got>=want)break;if(r()>w/wm)continue;
+   const f=foldF(cx+ux*rx,cy+uy*ry,cz+uz*rz),s=1+(ty=="s"||ty=="b"?.03:.05)*(f-.5)*2,x=cx+ux*rx*s,y=cy+uy*ry*s,z=cz+uz*rz*s;
+   if(EL.some((o,j)=>j!==i&&evE(x,y,z,o)<=1))continue;
+   const nx=(x-cx)/rx**2,ny=(y-cy)/ry**2,nz=(z-cz)/rz**2,nl=Math.hypot(nx,ny,nz);let rg=null,sl=0;
+   if(ty=="t")rg=x>-.05?"lan":"mem";else if(ty=="s")rg="cbl";else if(ty=="c"){const w=.04*Math.sin(7*y+3*z),b1=-.05-.3*(y+.3)+w,b2=.46-.15*(y+.3)+w;rg=x<b1?(x<b1-.5?"cri":x<b1-.2?"exe":"mot"):x>b2?"occ":(y<-.5&&x>b1+.12?"spa":"rea");sl=Math.abs(x-b1)<.025||Math.abs(x-b2)<.02?1:0}
+   P.push({x,y,z,nx:nx/nl,ny:ny/nl,nz:nz/nl,f,rg,sl});got++}});
+ return P})();
+const ANC=[{k:"cri",n:"prefrontal",p:[-.86,-.3,.34]},{k:"exe",n:"frontal",p:[-.5,-.58,.4]},{k:"mot",n:"motor",p:[-.15,-.72,.3]},{k:"rea",n:"parietal",p:[.12,-.2,.6]},{k:"spa",n:"spatial",p:[.32,-.66,.35]},{k:"mem",n:"temporal",p:[-.2,.3,.66]},{k:"lan",n:"wernicke's",p:[.2,.22,.64]},{k:"occ",n:"occipital",p:[.84,-.06,.3]},{k:"cbl",n:"cerebellum",p:[.52,.68,.05]}];
+const SLUG={cri:"critical",exe:"focus",mot:"tapping",rea:"reasoning",spa:"spatial",mem:"memory",lan:"language",occ:"visual",cbl:"timing"};
+const weakest=()=>[...KEYS].sort((a,b)=>(cur(a)??0)-(cur(b)??0))[0];
+const RI={cri:0,exe:1,mot:2,rea:3,spa:4,mem:5,lan:6,occ:7,cbl:8,b:9},RN=["cri","exe","mot","rea","spa","mem","lan","occ","cbl","b"];
+const RGB={cri:[198,255,61],exe:[47,230,180],mot:[255,90,90],rea:[255,159,26],spa:[255,233,77],mem:[53,200,255],lan:[122,124,255],occ:[255,61,154],cbl:[210,123,255],b:[210,216,208]};
+const scoreOf=k=>S.base?cur(k):S.pre[k];
+const OO=(()=>{const r=rng(9);return SURF.map(()=>r())})();
+function brain(cv,onSel,bR,bS){const ctx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+ let W,H,yaw=-.6,pitch=.15,zoom=1,spin=!RM,drag=0,pd=0,pv=[];const ptr=new Map(),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),L=[-.4,-.5,-.77],ln=Math.hypot(...L);L.forEach((v,i)=>L[i]=v/ln);
+ const size=()=>{const d=devicePixelRatio||1;W=cv.clientWidth;H=W*.8;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)};
+ const anchors=()=>{const sc=Math.cos(yaw),ss=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch),m=W*.4*zoom;return ANC.map(({k,n,p})=>{const[a,b,c]=p,R1=-a*ss+c*sc,z2=b*sp+R1*cp,q=3.4/(3.4+z2);return{k,n,z:z2,x:W/2+(a*sc+c*ss)*q*m,y:H/2+(b*cp-R1*sp+.04)*q*m}})};
+ const pick=e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let b=null,bd=30;anchors().forEach(o=>{const d=Math.hypot(o.x-x,o.y-y);if(d<bd){bd=d;b=o.k}});if(!b){bd=16;for(let i=0;i<pv.length;i+=3){const d=Math.hypot(pv[i]-x,pv[i+1]-y);if(d<bd){bd=d;b=pv[i+2]}}}onSel(b||"all")};
+ const frame=()=>{if(!cv.isConnected)return;if(spin&&!ptr.size)yaw+=.003;
+  const sc=Math.cos(yaw),ss=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch),m=W*.4*zoom,u=W/480,now=performance.now(),wk=S.base?weakest():null,sel=selC,scan=Math.sin(now/2200)*.7-.05,B=new Map(),back=[],sz=1.25*u;
+  pv=[];for(let i=0;i<SURF.length;i++){const p=SURF[i],nz1=-p.nx*ss+p.nz*sc,nz=p.ny*sp+nz1*cp,z1=-p.x*ss+p.z*sc,z2=p.y*sp+z1*cp,k=3.4/(3.4+z2),X=W/2+(p.x*sc+p.z*ss)*k*m,Y=H/2+(p.y*cp-z1*sp+.04)*k*m;
+   if(nz>.12){if(i&1)continue;back.push(X,Y,k);continue}
+   const nx=p.nx*sc+p.nz*ss,ny=p.ny*cp-nz1*sp,d=Math.max(0,nx*L[0]+ny*L[1]+nz*L[2]),rg=p.rg||"b",lit=rg!=="b"&&scoreOf(rg)!=null&&OO[i]<.15+.85*scoreOf(rg)/100,
+    lv=Math.min(5,Math.floor((.2+.8*p.f)*(.3+.7*d)*6*(p.sl?.4:1))),key=Math.abs(p.y-scan)<.035?999:(RI[rg]*2+(lit?1:0))*6+lv;
+   let a=B.get(key);if(!a){a=[];B.set(key,a)}a.push(X,Y,k);if(rg!=="b")pv.push(X,Y,rg)}
+  ctx.clearRect(0,0,W,H);
+  ctx.globalAlpha=.16;ctx.fillStyle="rgb(150,160,150)";ctx.beginPath();for(let i=0;i<back.length;i+=3){const s=sz*.8*back[i+2];ctx.rect(back[i],back[i+1],s,s)}ctx.fill();
+  [...B.keys()].sort((a,b)=>a-b).forEach(key=>{let col,al=1;
+   if(key==999){col=RGB.cri}else{const t=key/6|0,lv=key%6,rk=RN[t>>1],lit=t&1,f=.3+.7*lv/5;col=(lit?RGB[rk]:RGB.b).map(v=>v*f|0);
+    if(!lit)col=col.map(v=>v*.85|0);al=sel&&rk!==sel?.22:1;if(lit&&rk===wk&&!sel)al=.75+.25*Math.sin(now/300)}
+   ctx.globalAlpha=al;ctx.fillStyle=`rgb(${col})`;ctx.beginPath();const a=B.get(key);for(let i=0;i<a.length;i+=3){const s=sz*a[i+2]*(key==999?1.35:1);ctx.rect(a[i],a[i+1],s,s)}ctx.fill()});
+  ctx.font="800 10.5px 'JetBrains Mono',ui-monospace,monospace";ctx.textAlign="left";ctx.textBaseline="middle";
+  anchors().forEach(o=>{const k=o.k,t=o.n,w=ctx.measureText(t).width+12,x=o.x-w/2,y=o.y-8;
+   ctx.globalAlpha=cl(.95-o.z*.7,.3,1)*(sel&&sel!==k?.45:1);ctx.fillStyle=`rgb(${RGB[k]})`;ctx.fillRect(x,y,w,16);ctx.fillStyle="#06080a";ctx.fillText(t,x+6,y+8.5);
+   if(sel===k){ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.strokeRect(x-2,y-2,w+4,20)}});
+  ctx.globalAlpha=1;raf=requestAnimationFrame(frame)};
+ cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY]);drag=0;if(ptr.size==2){const[a,b]=[...ptr.values()];pd=Math.hypot(a[0]-b[0],a[1]-b[1])}};
+ cv.onpointermove=e=>{if(!ptr.has(e.pointerId))return;
+  const o=ptr.get(e.pointerId),dx=e.clientX-o[0],dy=e.clientY-o[1];ptr.set(e.pointerId,[e.clientX,e.clientY]);
+  if(ptr.size==2){const[a,b]=[...ptr.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);zoom=cl(zoom*d/pd,.6,2.5);pd=d;drag=99}
+  else{yaw+=dx*.008;pitch=cl(pitch+dy*.008,-1.3,1.3);drag+=Math.abs(dx)+Math.abs(dy)}};
+ cv.onpointerup=cv.onpointercancel=e=>{if(ptr.size==1&&drag<6)pick(e);ptr.delete(e.pointerId)};
+ cv.onwheel=e=>{e.preventDefault();zoom=cl(zoom*(e.deltaY<0?1.08:.92),.6,2.5)};
+ bR.onclick=()=>{yaw=-.6;pitch=.15;zoom=1};
+ bS.textContent=spin?"Stop spin":"Start spin";bS.onclick=()=>{spin=!spin;bS.textContent=spin?"Stop spin":"Start spin"};
+ window.onresize=size;size();raf=requestAnimationFrame(frame)}
+const SH={cri:"prefrontal",exe:"frontal",mot:"motor",rea:"parietal",spa:"spatial",mem:"temporal",lan:"wernicke",occ:"occipital",cbl:"cerebellum"};
+const ANAT={cri:"Prefrontal cortex",exe:"Frontal lobe",mot:"Motor cortex",rea:"Parietal lobe",spa:"Superior parietal cortex",mem:"Temporal lobe",lan:"Wernicke's area",occ:"Occipital lobe",cbl:"Cerebellum"};
+const DOES={cri:"Judgment, planning, and weighing arguments and evidence. It is the brain's decision-maker and keeps long-term goals in view.",
+exe:"The executive control part of the frontal lobe. It directs attention, holds back automatic responses, and switches between tasks, which is exactly what the color-word test pushes on.",
+mot:"Sends the commands for voluntary movement, with each part of the strip controlling a different part of the body. Hands and fingers get a large share, so fast, precise tapping depends on it.",
+rea:"Combines touch, vision, and body position and handles numbers and quantities. It supports reasoning about patterns and relationships.",
+spa:"Builds your sense of space: where things are, how they are oriented, and how they would look if turned. It helps with navigation, maps, and mentally rotating objects.",
+mem:"Forms and recalls memories through the hippocampus, processes sound, and recognizes faces and objects.",
+lan:"Understands spoken and written language by linking words to their meanings. It sits where the temporal lobe meets the parietal lobe. It is usually strongest on the left side, though this model shows both sides.",
+occ:"Processes what you see: shapes, edges, color, and motion. It is the brain's visual processing center and passes what the eyes pick up to the rest of the brain.",
+cbl:"Coordinates movement, balance, and timing. It fine-tunes actions, helps you keep a rhythm and respond smoothly, and supports learning physical skills."};
+const TESTED={cri:"Critical thinking (logic and evidence questions)",exe:"Focus (color-word test)",mot:"Finger tapping speed",rea:"Reasoning (number and letter patterns)",spa:"Mental rotation (turn the pattern)",mem:"Memory (digit recall)",lan:"Vocabulary (meanings and analogies)",occ:"Visual search (spot the odd symbol)",cbl:"Timing (keep a rhythm)"};
+function chips(){const w=selC;return`<button class="chip${w==null?" on":""}" data-r="all" style="--c:#c6ff3d"><i></i>entire brain ${overall()}</button>`+KEYS.map(k=>`<button class="chip${w===k?" on":""}" data-r="${k}" style="--c:${CATS[k].c}"><i></i>${SH[k]} ${cur(k)}</button>`).join("")}
+function panelAll(){if(!S.base)return`<p class="mut">Tap a region of the brain.</p>`;
+ const o=overall(),bo=avg(KEYS.map(k=>S.base[k])),dl=o-bo,order=[...KEYS].sort((a,b)=>cur(b)-cur(a)),w=order[order.length-1];
+ return`<h3 style="color:var(--acc)">Entire brain</h3><p class="mut">Overall score ${o} / 100, ${band(o)}. ${dl>=0?"Up "+dl:"Down "+(-dl)} from baseline (${bo}). This is the average of all ${KEYS.length} regions.</p><p><b>Strongest:</b> ${ANAT[order[0]]} (${cur(order[0])}). <b>Needs the most work:</b> ${ANAT[w]} (${cur(w)}).</p><p class="mut">Tap a region on the brain, a chip, or a row below to see just that part. Tap empty space on the brain to come back here.</p><button class="btn" data-t="${w}">Train ${CATS[w].n}</button>`}
+function panel(k){if(k==null||!CATS[k])return panelAll();const h=`<h3 style="color:${CATS[k].c}">${ANAT[k]}</h3>`,does=`<p><b>What it does</b><br>${DOES[k]}</p>`;
+ if(!S.base){const d=S.pre[k];return h+`<p class="mut">${d!=null?`Score ${d}. `:"Not tested yet. "}CortX tests it with ${TESTED[k]}.</p>`+does+`<button class="btn" data-pre="${k}">${d!=null?"Retake":"Test"} ${CATS[k].n} only</button><button class="btn alt" data-clr="1">Back to the entire brain</button>`}
+ const c=cur(k),d=c-S.base[k],t=TIPS[k];
+ return h+`<p class="mut">Tested by ${TESTED[k]}. Score ${c}, ${d>=0?"up "+d:"down "+(-d)} from baseline.${k===weakest()?" Weakest region right now.":""}</p>`+does+`<p class="mut">Training tip: ${t[new Date().getDate()%t.length]}</p><button class="btn" data-t="${k}">${doneToday(k)?"Train again":"Train"} ${CATS[k].n}</button>`}
+function bindPanel(){document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>selectC(b.dataset.r));
+ document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>train(b.dataset.t));
+ document.querySelectorAll("[data-pre]").forEach(b=>b.onclick=()=>preTest(b.dataset.pre));
+ document.querySelectorAll("[data-clr]").forEach(b=>b.onclick=()=>selectC("all"))}
+const bindSel=bindPanel;
+function selectC(k){selC=(k==="all"||!CATS[k])?null:k;const ch=$("#ch");if(ch)ch.innerHTML=chips();const pn=$("#pn");pn.innerHTML=panel(selC);
+ document.querySelectorAll(".ov").forEach(o=>o.classList.toggle("on",selC==null));
+ const bb=$("#base");if(bb)bb.hidden=selC!=null;bindPanel();if(selC)pn.scrollIntoView({block:"nearest"})}
+function summary(){const o=overall(),bo=avg(KEYS.map(k=>S.base[k])),dl=o-bo,order=[...KEYS].sort((a,b)=>cur(b)-cur(a)),w=new Date(Date.now()-6*864e5).toLocaleDateString("en-CA"),dd=new Set(S.hist.filter(x=>x.d>=w).map(x=>x.d)).size;
+ const row=k=>{const c=cur(k),b0=S.base[k],d=c-b0;return`<button class="srow" data-r="${k}" style="--c:${CATS[k].c}"><span class="sn"><b>${ANAT[k]}</b><small>${CATS[k].n}</small></span><span class="sb" role="img" aria-label="${ANAT[k]} score ${c}, baseline ${b0}"><i style="width:${c}%"></i><u style="left:${b0}%"></u></span><span class="sv">${c}<small>${d>=0?"+":""}${d}</small></span></button>`};
+ return`<h2 style="margin-top:26px">Brain summary</h2><button class="ov${selC==null?" on":""}" data-r="all" style="display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);cursor:pointer"><div class="ovh"><span>Overall brain progress</span><b>${o}</b></div><div class="obar"><i style="width:${o}%"></i></div><p class="mut" style="margin-top:8px">Baseline ${bo}, now ${o} (${dl>=0?"+":""}${dl}). ${S.hist.length} sessions, trained on ${dd} of the last 7 days.</p><p class="mut">Tap to show the entire brain in the visual.</p></button>${KEYS.map(row).join("")}<p class="mut" style="margin-top:10px">Strongest: ${ANAT[order[0]]}. Needs the most work: ${ANAT[order[order.length-1]]}. The white tick on each bar marks your baseline. Brain regions work together as networks, and each task here mainly leans on one region, so treat this mapping as a simplified guide.</p>`}
+function vBrain(){const cv=`<div class="cortex"><span class="ctag">cortex /cortx · scan</span><canvas id="bc" role="img" aria-label="Rotatable 3D brain with frontal, parietal, temporal, occipital lobes and cerebellum. Each is a region you are tested on."></canvas></div><div style="display:flex;gap:8px;margin:8px 0 12px"><button class="btn alt sm" id="bz">Reset view</button><button class="btn alt sm" id="bs">Stop spin</button></div>`;
+ if(!S.base){const n=KEYS.filter(k=>S.pre[k]!=null).length;return`<h1>Your brain</h1>${S.note?`<p class="mut">CortX now tests more brain regions, so your baseline needs a retake.</p>`:""}<p>${KEYS.length} brain regions, each with its own test. Take the full baseline (about 12 minutes), or tap a region to test just that one.</p>${cv}<div id="pn" class="blk">${selC?panel(selC):`<p class="mut">Tap a region of the brain.</p>`}</div><button class="btn" id="base"${selC?" hidden":""}>${n?`Continue baseline (${n} of ${KEYS.length} done)`:"Start baseline test"}</button>`}
+ const lg=S.hist.slice(-4).reverse().map(h=>`&gt; <em>${h.d}</em> ${SLUG[h.c]} <b>${h.s}</b>`).join("<br>");
+ return`<h2>Your brain</h2><p class="mut">Drag to rotate, pinch or scroll to zoom, tap a lobe to see what it does. More colored dots mean a higher score, and the weakest region pulses.</p>${cv}<div id="ch">${chips()}</div><div id="pn" class="blk">${panel(selC)}</div>${summary()}<div class="log"><b>session.log</b><br>${lg}</div>`}
+
+function render(){cancelAnimationFrame(raf);
+ $("#nav").innerHTML=[["brain","Brain"],["prog","Progress"],["log","Log"]].map(([k,n])=>`<button class="tab${tab==k?" on":""}" data-tab="${k}">${n}</button>`).join("");
+ document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
+ const m=$("#main");m.innerHTML=tab=="prog"?vProg():tab=="log"?vLog():vBrain();m.scrollTop=0;
+ const b1=$("#base");if(b1)b1.onclick=()=>baseline();
+ const bc=$("#bc");if(bc){brain(bc,selectC,$("#bz"),$("#bs"));bindPanel()}
+ const b2=$("#rebase");if(b2)b2.onclick=()=>{S.pre={};baseline()};
+ const sv=$("#savelog");if(sv)sv.onclick=()=>{const g=i=>{const v=parseFloat($(i).value);return isNaN(v)?null:v};
+  S.log[today()]={sl:g("#sl"),mv:g("#mv"),sc:g("#sc")};save();render()}}
+document.addEventListener("keydown",e=>{
+ if(e.repeat||e.target.tagName==="BUTTON")return;
+ const st=$("#stage");
+ if(!st.hidden){
+  const p=$("#pad");
+  if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new Event("pointerdown"));return}
+  if(e.key==="Enter"){const b=$("#ok")||$("#go")||$("#fin")||$("#rz");if(b){e.preventDefault();b.click()}}
+  else if(/^[1-4]$/.test(e.key)){const b=document.querySelector(`[data-j="${+e.key-1}"]`);if(b)b.click()}
+ }else if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("f")){const b=$("#savelog");if(b)b.click()}
+});
+render();
+</script>
+</body></html>

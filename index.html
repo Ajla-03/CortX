@@ -104,6 +104,8 @@ details.lsec{border:1px solid var(--line);margin:0 0 8px;background:var(--card)}
 .phab{border:1px solid var(--line);padding:10px 12px;margin:0 0 12px;background:var(--card)}.phab p{font-size:14px;margin:0}.phl{list-style:none;padding:0;margin:0}.phl li{display:grid;grid-template-columns:18px 1fr;gap:6px;padding:5px 0;font-size:13.5px;margin:0}.phl li>i{font-style:normal;font-weight:800;text-align:center}.phl li.ok>i{color:var(--exe)}.phl li.no>i{color:var(--rea)}.phl li.na{color:var(--mut)}.phl small{display:block;color:var(--mut);font-size:12px}
 .fds{display:flex;flex-wrap:wrap;gap:6px}.fd{font:inherit;font-size:12.5px;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;touch-action:manipulation}.fd.bf{border-color:var(--exe)}.fd:active{background:var(--line)}.fd b{color:var(--acc);font-weight:800}.fd b:empty{display:none}
 .fl{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;border:1px solid var(--line);padding:2px 2px 2px 8px;background:var(--bg)}.fl button{font:inherit;background:none;border:0;border-left:1px solid var(--line);color:var(--ink);width:30px;height:30px;cursor:pointer}
+#tip{position:fixed;z-index:20;max-width:280px;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.45;padding:9px 11px;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.5)}#tip b{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.bfn{font-size:12.5px;margin:8px 0 0;padding:8px 10px;border-left:3px solid var(--exe);background:var(--bg)}.bfn b{color:var(--ink)}
 .pl-list li small.rg{display:block;font-size:10.5px;opacity:.8}
 </style></head>
 <body>
@@ -487,6 +489,14 @@ const FOODS=[["Brain foods",[["fish","Salmon, sardines or trout",{brain:1}],["gr
 ["Treats and fast food",[["sweets","Sweets or dessert",{sugar:1}],["snack","Chips or packaged snack",{upf:1}],["fast","Fast-food meal",{upf:1}],["ready","Packaged ready meal",{upf:1}]]]];
 const FD=Object.fromEntries(FOODS.flatMap(g=>g[1]).map(f=>[f[0],f]));
 const BFWHY=[["Oily fish","Salmon, sardines and trout are rich in omega-3 fats (DHA), a main building block of brain cell membranes. Eating fish weekly is linked with slower memory decline."],["Leafy greens","Spinach, kale and salad greens carry folate, vitamin K and lutein. In the MIND diet research, about a serving a day was linked with slower cognitive aging."],["Berries","Blueberries and strawberries are high in flavonoids. Large long-term studies link regular berries with slower memory decline."],["Nuts","Nuts give vitamin E and healthy fats. Walnuts also have a plant form of omega-3."],["Beans and lentils","Fiber, protein and B vitamins, with slow, steady energy instead of a spike and crash."],["Olive oil","The main fat in the Mediterranean and MIND diets, used in place of butter."],["Whole grains","Oats, brown rice and whole-grain bread release energy slowly, which helps steady focus."]];
+const BFID=["fish","greens","berries","nuts","beans","olive","grains"];
+const bfWhy=id=>{const i=BFID.indexOf(id);return i<0?null:BFWHY[i]};
+let tipEl=null;
+function showTip(b){const w=bfWhy(b.dataset.fd);if(!w)return;tipEl=tipEl||document.body.appendChild(Object.assign(document.createElement("div"),{id:"tip",role:"tooltip"}));
+ tipEl.innerHTML=`<b>Why it's brain food</b>${w[1]}`;tipEl.hidden=false;b.setAttribute("aria-describedby","tip");
+ const r=b.getBoundingClientRect(),tw=tipEl.offsetWidth,th=tipEl.offsetHeight,vw=document.documentElement.clientWidth;
+ tipEl.style.left=Math.max(8,Math.min(vw-tw-8,r.left+r.width/2-tw/2))+"px";tipEl.style.top=(r.top-th-8<8?r.bottom+8:r.top-th-8)+"px"}
+function hideTip(){if(tipEl)tipEl.hidden=true}
 const SQ=["Very poor","Poor","Okay","Good","Great"];
 let ld=null;
 const LE=()=>S.log[ld]||{};
@@ -593,7 +603,7 @@ function vLog(){ld=ld||today();const e=LE(),c=e.cat||{},d=e.d||{},x=e.ex||{},sm=
  </div></details>
  <details class="lsec"><summary>Diet <span id="sm-diet">${sm.diet}</span></summary><div class="in">
   <p class="mut" style="margin:0 0 8px">Tap what you ate or drank. Each tap adds one serving. Brain foods are listed first.${ld===today()?" Tapping a caffeine drink also sets your last caffeine time to now.":""}</p>
-  ${FOODS.map(([g,L])=>`<h4>${g}</h4><div class="fds">${L.map(([id,n])=>`<button class="fd${g==="Brain foods"?" bf":""}" data-fd="${id}">${n}<b id="fc-${id}">${(e.foods||{})[id]||""}</b></button>`).join("")}</div>`).join("")}
+  ${FOODS.map(([g,L])=>`<h4>${g}</h4><div class="fds">${L.map(([id,n])=>`<button class="fd${g==="Brain foods"?" bf":""}" data-fd="${id}">${n}<b id="fc-${id}">${(e.foods||{})[id]||""}</b></button>`).join("")}</div>${g==="Brain foods"?`<p class="mut bfn" id="bfnote" aria-live="polite">Hover over a brain food to see why it's on the list. On a phone, the reason appears here when you tap one.</p>`:""}`).join("")}
   <div id="flist">${flist()}</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${!has(e.d)&&S.log[dshift(ld,-1)]&&has(S.log[dshift(ld,-1)].d)?`<button class="btn alt sm" id="fcopy">Copy ${ld===today()?"yesterday's":"the day before's"} food</button>`:""}</div>
   <details class="help" style="margin-top:12px"><summary>What counts as brain food, and why</summary><ul>${BFWHY.map(([n,t])=>`<li><b>${n}:</b> ${t}</li>`).join("")}</ul><p class="mut">These come from the MIND diet, which blends the Mediterranean and DASH diets and was built around foods linked with brain health. The links come from long-term observational studies, so they show patterns rather than guarantees.</p></details>
@@ -619,7 +629,10 @@ function setF(path,v){const e=S.log[ld]||(S.log[ld]={}),[a,b]=path.split(".");
  if(!Object.keys(e).length)delete S.log[ld];save();refreshLog()}
 function refreshLog(){$("#rep").innerHTML=repHTML();$("#wk").innerHTML=weekHTML();const sm=sums();Object.keys(sm).forEach(k=>{const el=$("#sm-"+k);if(el)el.textContent=sm[k]});const r=$("#recon");if(r)r.textContent=recon()}
 function bindLog(){
- document.querySelectorAll("[data-fd]").forEach(b=>b.onclick=()=>addFood(b.dataset.fd,1));updDiet();
+ let lastPT="mouse";
+ document.querySelectorAll("[data-fd]").forEach(b=>{b.onpointerdown=ev=>{lastPT=ev.pointerType};b.onclick=()=>{addFood(b.dataset.fd,1);const w=bfWhy(b.dataset.fd);if(w){const n=$("#bfnote");if(n)n.innerHTML=`<b>${w[0]}:</b> ${w[1]}`;if(lastPT!=="mouse")hideTip()}};
+  if(bfWhy(b.dataset.fd)){b.onpointerenter=ev=>{if(ev.pointerType==="mouse")showTip(b)};b.onpointerleave=hideTip;b.onfocus=()=>{if(b.matches(":focus-visible"))showTip(b)};b.onblur=hideTip}});
+ $("#main").onscroll=hideTip;updDiet();
  const fc=$("#fcopy");if(fc)fc.onclick=()=>{const y=S.log[dshift(ld,-1)],e=S.log[ld]||(S.log[ld]={});e.d={...y.d};if(y.foods)e.foods={...y.foods};else delete e.foods;save();render();const dt=[...document.querySelectorAll("details.lsec")].find(x=>x.querySelector("#sm-diet"));if(dt)dt.open=true};
  document.querySelectorAll("[data-f]").forEach(i=>i.oninput=()=>{const v=i.value;setF(i.dataset.f,i.type==="time"?(v||null):(v===""||isNaN(+v)?null:Math.max(0,+v)))});
  document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{const f=b.dataset.st,[a,k]=f.split("."),cur=+((LE()[a]||{})[k]||0),v=Math.max(0,cur+ +b.dataset.dl);setF(f,v||null);$("#o-"+a+"-"+k).textContent=v});
@@ -742,7 +755,7 @@ function vBrain(){const cv=`<div class="cortex"><span class="ctag">cortex /cortx
  const lg=S.hist.slice(-4).reverse().map(h=>`&gt; <em>${h.d}</em> ${SLUG[h.c]} <b>${h.s}</b>`).join("<br>");
  return`<h2>Your brain</h2><p class="mut">Drag to rotate, pinch or scroll to zoom, tap a lobe to see what it does. More colored dots mean a higher score, and the weakest region pulses.</p>${cv}<div id="ch">${chips()}</div><div id="pn" class="blk">${panel(selC)}</div>${summary()}<div class="log"><b>session.log</b><br>${lg}</div>`}
 
-function render(){cancelAnimationFrame(raf);
+function render(){cancelAnimationFrame(raf);hideTip();
  $("#nav").innerHTML=[["brain","Brain"],["log","Daily"],["prog","Progress"]].map(([k,n])=>`<button class="tab${tab==k?" on":""}" data-tab="${k}">${n}</button>`).join("");
  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
  const m=$("#main");m.innerHTML=tab=="prog"?vProg():tab=="log"?vLog():vBrain();m.scrollTop=0;
